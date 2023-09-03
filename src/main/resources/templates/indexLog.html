@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- StyleSheet -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    	<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+
+    <title>Sign Up | Login Form</title>
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <div class="user login">
+          <div class="img-box">
+            <img th:src="@{/images/login.png}" alt="" />
+          </div>
+          <div class="form-box">
+            <div class="top">
+              <p>
+                Not a member?
+                <span data-id="#ff0066">Register now</span>
+              </p>
+            </div>
+            <form th:action="@{/admin/login/signin}" method="post" class="form" id="form-2">
+              <div class="form-control">
+                <h2>Hello Again!</h2>
+                <p>Welcome back you've been missed.</p>
+                <input type="text" name="username" id="username" placeholder="VD: email@domain.com" class="form-control" required />
+                <div>
+                  <input type="password" name="password" id="password" placeholder="Enter password" class="form-control1" required />
+                  <div class="icon form-icon">
+                    <!-- <img src="./images/eye.svg" alt="" /> -->
+                  </div>
+                </div>
+                <span>Recovery Password</span>
+                <input type="Submit" value="Login" />
+              </div>
+              <div class="form-control">
+                <p>Or continue with</p>
+                <div class="icons">
+                  <div class="icon">
+                    <img th:src="@{/images/search.svg}" alt="" />
+                  </div>
+                  <div class="icon">
+                    <img th:src="@{/images/apple.svg}" alt="" />
+                  </div>
+                  <div class="icon">
+                    <img th:src="@{/images/facebook.svg}" alt="" />
+                  </div>
+                  <div class="icon">
+                    <img th:src="@{/images/github.svg}" alt="" />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Register -->
+        <div class="user signup">
+          <div class="form-box">
+            <div class="top">
+              <p>
+                Already a member?
+                <span data-id="#1a1aff">Login now</span>
+              </p>
+            </div>
+            <form action="">
+              <div class="form-control">
+                <h2>Welcome Codevo!</h2>
+                <p>It's good to have you.</p>
+                <input type="email" placeholder="Enter Email" />
+                <div>
+                  <input type="password" placeholder="Password" />
+                  <div class="icon form-icon">
+                    <img th:src="@{/images/eye.svg}" alt="" />
+                  </div>
+                </div>
+                <div>
+                  <input type="password" placeholder="Confirm Password" />
+                  <div class="icon form-icon">
+                    <img th:src="@{/images/eye.svg}" alt="" />
+                  </div>
+                </div>
+                <input type="Submit" value="Register" />
+              </div>
+              <div class="form-control">
+                <p>Or continue with</p>
+                <div class="icons">
+                  <div class="icon">
+                    <img th:src="@{/images/search.svg}" alt="" />
+                  </div>
+                  <div class="icon">
+                    <img th:src="@{/images/apple.svg}" alt="" />
+                  </div>
+                  <div class="icon">
+                    <img th:src="@{/images/facebook.svg}" alt="" />
+                  </div>
+                  <div class="icon">
+                    <img th:src="@{/images/github.svg}" alt="" />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="img-box">
+            <img th:src="@{/images/signin.png}" alt="" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- IndexJs -->
+    <script th:src="@{/js/index.js}"></script>
+  </body>
+</html>

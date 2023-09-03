@@ -1,0 +1,625 @@
+<!-- 
+    File trang nhập thông tin hồ sơ
+    Ngày code: 19/06/2023
+    Người code: Ngô Phong
+    Sử dụng bootstrap, html, css
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Đăng ký nhập học trực tuyến - VKU</title>
+	<link rel="shortcut icon" href="/assets/images/index/iconlogo.png">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link type="text/css" rel="stylesheet" href="/assets/css/student/style.css">
+	<link href="/styleindex.css" rel="stylesheet" type="text/css">
+	<style type="text/css">
+		#alert3 {
+			color: red;
+			flex-direction: column;
+			right: 20%;
+			top: -10px;
+			z-index: 9999;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="w-100">
+		<!-- header -->
+		<div>
+			<nav class="navbar navbar-expand-lg navbar-light bg-warning p-0">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="container-fluid w-75">
+					<div class="collapse navbar-collapse mx-5 w-50" id="navbarNav">
+						<ul class="navbar-nav d-flex justify-content-between w-100">
+							<li class="nav-item bg-white py-1"><a class="nav-link text-dark fw-bolder fs-5"
+									aria-current="page" href="#">Đăng ký nhập học trực tuyến</a></li>
+							<li class="nav-item py-1"><a class="nav-link pointer" href="/admission/logout"><i
+										class="fa-solid fa-right-from-bracket fa-2xl text-dark"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<!-- end header -->
+		<!-- body -->
+		<div class="container mt-5 ">
+			<!-- step -->
+			<div class="row w-100 d-flex m-auto position-relative">
+
+				<div class="line"></div>
+				<div class="col-3 col-md-3 text-center mb-3 mb-md-0">
+
+					<button class="step-btn rounded-pill bg-light mt-4 mt-md-3 mt-lg-2 pr-4 py-2 border-1"
+						data-step="1">Bước 1</button>
+					<p>1. Xác nhận và Khai thông tin</p>
+				</div>
+				<div class="col-3 col-md-3 text-center mb-3 mb-md-0">
+					<button class="step-btn rounded-pill bg-light mt-4 mt-md-3 mt-lg-2 pr-4 py-2 border-1"
+						th:disabled="${unlocked<2}" data-step="2">Bước 2</button>
+					<p>2. Khai thông tin hồ sơ</p>
+				</div>
+				<div class="col-3 col-md-3 text-center mb-3 mb-md-0">
+
+
+					<button class="step-btn rounded-pill bg-warning mt-4 mt-md-3 mt-lg-2 pr-4 py-2 border-0"
+						th:disabled="${unlocked<3}" data-step="3">Bước 3</button>
+					<p>3. Nộp tiền</p>
+				</div>
+				<div class="col-3 col-md-3 text-center mb-3 mb-md-0">
+
+					<button class="step-btn rounded-pill bg-light mt-4 mt-md-3 mt-lg-2 pr-4 py-2 border-1"
+						th:disabled="${unlocked<4}" data-step="4">Bước 4</button>
+					<p>4. Xác nhận</p>
+				</div>
+			</div>
+			<!-- end step -->
+			<!-- info -->
+			<div class="">
+				<form id="form" action="/createTuitionStudent" method="post" th:object="${studentTuition}"
+					enctype='multipart/form-data' onsubmit="return submitCheck()">
+					<div class="">
+						<div class="border-start border-4 py-1 border-warning bg-grey">
+							<h4 class="text-uppercase fw-bolder mx-3">3.1 Thông tin nộp
+								học phí</h4>
+						</div>
+						<div class="d-flex justify-content-around flex-wrap mt-4 ">
+							<div class="col-md-5 col-12">
+								<p>Tổng số tiền nhập học tạm nộp:</p>
+								<p>
+									Sinh viên: <b class="text-danger text-uppercase"><span
+											th:text="${student.fullName}"></span></b> <br> Ngày sinh: <b
+										class="text-danger text-uppercase"><span th:text=${student.birthday}></span></b>
+									<br> Mã ngành: <b class="text-danger text-uppercase"><span
+											th:text="${student.majors.majorsID}"></span></b> <br> Tên
+									ngành: <b class="text-danger text-uppercase"><span
+											th:text="${student.majors.majorsName}"></span></b>
+								</p>
+								<div style="position: relative">
+									<div id="alert1" class="d-none">
+										<div class="bar bar1 left">
+											Vui lòng tích chọn các khoản đã nộp <b class="text-danger">!</b>
+										</div>
+									</div>
+									<div class="mt-1" th:each="tuition : ${tuitionFeeList}">
+										<div th:if="${tuition.status} == true">
+											<input disabled
+												th:classappend="${#strings.contains(tuition.name, 'Bảo hiểm thân thể')} ? 'bhtt' : ''"
+												class="form-check-input check mx-2" type="checkbox" name="tuitionFeeId"
+												th:value="${tuition.id}"> <span th:text="${tuition.name}"
+												class="mx-2"></span> <b class="price-s"></b> <span class="price d-none"
+												th:text="${tuition.tuition}"></span>
+										</div>
+									</div>
+									<div class="mt-2">
+										<label class="label"> <input th:disabled="${studentTuition.status}"
+												onclick="check(this)" id="checkAll" class="label__checkbox"
+												type="checkbox" /> <span class="label__text"> <span
+													class="label__check">
+													<i class="fa fa-check icon"></i>
+												</span>
+											</span>
+										</label> <label class="fw-bold fs-5">Nộp tất cả các khoản</label>
+									</div>
+									<div class="mt-2">
+										<label class="label"> <input th:disabled="${studentTuition.status}"
+												onclick="check(this)" id="checkAllNotBhtt" class="label__checkbox"
+												type="checkbox" />
+											<span class="label__text"> <span class="label__check">
+													<i class="fa fa-check icon"></i>
+												</span>
+											</span>
+										</label> <label class="fw-bold fs-5">Nộp tất cả các khoản trừ Bảo hiểm thân
+											thể</label>
+									</div>
+								</div>
+
+								<p class="mt-2">
+									<span class="fs-5">Tổng các khoản thu (đồng): <b class="text-danger fs-5"
+											id="totalShow"></b></span>
+								</p>
+
+
+								<input th:field="*{id}" hidden>
+								<input id="total" th:field="*{total}" hidden>
+								<input id="tuitionFeeIdsString" th:field="*{tuitionFeeList}" hidden>
+								<input th:field="*{proofOfTuitionPay}" hidden>
+								<input th:field="*{nameCashier}" hidden>
+								<input th:field="*{status}" hidden>
+								<input th:field="*{tuitionDay}" hidden>
+								<p>
+									<b>Lưu ý:</b> <br> + Những thí sinh được hưởng chính sách
+									hỗ trợ tài chính theo đề án tuyển sinh của nhà trường vẫn nộp
+									đầy đủ các khoản thu nhập học như trên. Sau khi hoàn thành thủ
+									tục nhập học trực tiếp và có đầy đủ hồ sơ, Nhà trường sẽ làm
+									thủ tục hoàn trả cho các em. <br> + Phụ huynh và thí sinh
+									theo dõi trang Web và các kênh thông báo của Nhà trường để nắm
+									thông tin khi các khoản hoàn trả được thực hiện.
+								</p>
+							</div>
+							<div class="col-md-5 col-12">
+								<h5 class="text-uppercase fw-bolder">Hướng dẫn nộp tiền</h5>
+								<div>
+									<p>
+										Tên tài khoản: <b class="fw-bolder">Trường đại học CNTT và
+											truyền thông Việt - Hàn</b>
+									</p>
+									<p>
+										Số tài khoản: <b class="fw-bolder">2015201003628</b>
+									</p>
+									<p>
+										Tên ngân hàng: <b class="fw-bolder">Ngân hàng Nông nghiệp
+											và Phát triển Nông thôn Việt Nam – Chi nhánh Tân Chính – Nam
+											Đà Nẵng</b>
+									</p>
+									<p>
+										Lưu ý: Nếu sử dụng hình thức Internet banking/Mobile banking
+										cần chú ý: <br> I. Quét theo mã VietQR Trường ĐH CNTTTT
+										Việt Hàn như hình: <br>
+									<div class="text-center">
+										<img class="w-75" src="/assets/images/index/qr.png" alt="">
+									</div>
+									II. Với phương thức chuyển nhanh 24/7: cần nhập đúng số tài
+									khoản <br> III. Với phương thức chuyển thường: ngoài nhập
+									đúng số tài khoản cần nhập đầy đủ tên viết tắt của trường: <i>TRUONG
+										ĐH CNTT VÀ TT VIET HAN</i> <br> Nội dung nộp tiền hoặc chuyển
+									tiền theo cú pháp sau: <b>AAAA,XXXX,YYYY</b> <br> Trong
+									đó: <br> - <b>AAAA</b>: Số Chứng minh thư hoặc số căn cước
+									công dân đăng ký thi THPTQG năm 2023 <br> - <b>XXXX</b>:
+									Họ và tên <br> - <b>YYYY</b>: Nhập học 2023 <br> Ví
+									dụ: 0123456789, Nguyễn Văn A, Nhập học 2023 <br> Lưu ý:
+									Nộp đúng số tiền kể cả phần lẻ, không làm tròn. Ví dụ: Tổng số
+									tiền 6.852.905 thì chuyển đúng 6.852.905 (không làm tròn)
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="position: relative">
+						<div class="border-start border-4 py-1 border-warning bg-grey">
+							<h4 class="text-uppercase fw-bolder mx-3">3.2 Minh chứng nộp
+								tiền</h4>
+						</div>
+						<div class="text-center mt-2 ">
+							<div class="container-upload">
+								<b class="fs-5">Ảnh minh chứng nộp tiền <br /> <label
+										th:classappend="${studentTuition.status} ? 'd-none' : ''"
+										class="fs-5 fst-italic btn btn-success" role="button" for="minhchung">Tải ảnh
+										mới</label></b>
+
+							</div>
+							<input class="d-none" type="file" name="file" id="minhchung" th:value="*{proofOfTuitionPay}"
+								onchange="chooseFile(this); updateFileValue(this)">
+							<div class="mt-2 img-container">
+								<img class="proof" style="max-width: 350px;"
+									th:src="@{/uploads/} + *{proofOfTuitionPay}" alt="">
+
+
+								<div id="alert3" class="d-none">
+									<div class="bar bar1 left">
+										Vui lòng upload ảnh minh chứng <b class="text-danger">!</b>
+									</div>
+
+								</div>
+							</div>
+							<!-- 	
+							<div id="alert3" class="color">
+									Vui lòng upload ảnh minh chứng <b class="">!</b>
+								</div>
+						</div>  -->
+						</div>
+						<div class="text-center">
+							<button class="btn btn-warning px-4 py-3 fs-5 mt-4" type="submit">Hoàn
+								thành bước 3</button>
+						</div>
+				</form>
+			</div>
+			<!-- end info -->
+			<!-- Modal -->
+			<div th:if="${studentTuition.status}" class="modal fade" id="alertModal" data-bs-backdrop="static"
+				data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body text-center">
+							Hệ thống xác nhận bạn đã hoàn tất nộp học phí!
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success m-auto" data-bs-dismiss="modal">OK</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end body -->
+	<!-- footer -->
+	<div class="bg-warning border-top border-3 border-danger footer">
+		<div class="w-75 m-auto d-flex">
+			<div class="col-md-1 m-auto d-none d-xl-block">
+				<img class="" src="/assets/images/logo_icon.png" alt="">
+			</div>
+			<div class="col mx-5 col-12">
+				<span class="fw-bolder">Bản quyền &copy; Trường Đại học Công
+					nghệ Thông tin & Truyền Thông Việt - Hàn, Đại học Đà Nẵng</span> <br>
+				<span> <i class="fa-solid fa-house"></i> Địa chỉ: 470 Trần
+					Đại Nghĩa, quận Ngũ Hành Sơn, Thành phố Đà Nẵng
+				</span>
+				<div class="d-block d-lg-flex">
+					<div class="col-auto">
+						<i class="fa-solid fa-phone"></i> Điện thoại: 0236.6.552.688
+					</div>
+					<div class="col-auto mx-5 mb-3">
+						<i class="fa-solid fa-envelope"></i> Email: tuyensinh@vku.udn.vn
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end footer-->
+	<style>
+		.label__checkbox {
+			display: none;
+		}
+
+		.label__check {
+			display: inline-block;
+			border-radius: 50%;
+			border: 5px solid rgba(0, 0, 0, 0.1);
+			background: white;
+			vertical-align: middle;
+			margin-right: 10px;
+			width: 2em;
+			height: 2em;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: border 0.3s ease;
+		}
+
+		.icon {
+			opacity: 0.2;
+			font-size: "calc(1rem + 1vw)";
+			color: transparent;
+			transition: opacity 0.3s 0.1s ease;
+			-webkit-text-stroke: 3px rgba(0, 0, 0, 0.5);
+		}
+
+		.label__check:hover {
+			border: 5px solid rgba(0, 0, 0, 0.2);
+		}
+
+		.label__checkbox:checked+.label__text .label__check {
+			animation: check 0.5s cubic-bezier(0.895, 0.03, 0.685, 0.22) forwards;
+		}
+
+		.label__checkbox:checked+.label__text .label__check .icon {
+			opacity: 1;
+			transform: scale(0);
+			color: white;
+			-webkit-text-stroke: 0;
+			animation: icon 0.3s cubic-bezier(1, 0.008, 0.565, 1.65) 0.1s 1 forwards;
+		}
+
+		.center {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		@keyframes icon {
+			from {
+				opacity: 0;
+				transform: scale(0.3);
+			}
+
+			to {
+				opacity: 1;
+				transform: scale(1);
+			}
+		}
+
+		@keyframes check {
+			0% {
+				width: 1.5em;
+				height: 1.5em;
+				border-width: 5px;
+			}
+
+			10% {
+				width: 1.5em;
+				height: 1.5em;
+				opacity: 0.1;
+				background: rgba(0, 0, 0, 0.2);
+				border-width: 15px;
+			}
+
+			12% {
+				width: 1.5em;
+				height: 1.5em;
+				opacity: 0.4;
+				background: rgba(0, 0, 0, 0.1);
+				border-width: 0;
+			}
+
+			50% {
+				width: 2em;
+				height: 2em;
+				background: #00d478;
+				border: 0;
+				opacity: 0.6;
+			}
+
+			100% {
+				width: 2em;
+				height: 2em;
+				background: #00d478;
+				border: 0;
+				opacity: 1;
+			}
+		}
+	</style>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+	<script>
+		var selectedDocumentItems = [];
+		$("input:checkbox[name=tuitionFeeId]:checked").each(function () {
+			selectedDocumentItems.push($(this).val());
+		});
+		var documentItemsString = selectedDocumentItems.join(",");
+		//console.log(documentItemsString);
+
+		// Lấy các giá trị từ các trường input và lưu vào đối tượng Student
+		var tuition = {
+
+			tuitionFeeIds: document.getElementById('tuitionFeeIdsString').value
+		};
+
+		// Lấy danh sách các id của documents từ chuỗi tuitionFeeIds của Student
+		var tuitionFeeIds = tuition.tuitionFeeIds.split(',');
+		//console.log(tuitionFeeIds)
+		// Lặp qua từng ô checkbox và kiểm tra xem có nằm trong danh sách id hay không
+		var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+		var hasBhtt;
+		for (var i = 0; i < checkboxes.length; i++) {
+			var checkbox = checkboxes[i];
+			//console.log(checkbox.value)
+			if (tuitionFeeIds.includes(checkbox.value)) {
+				checkbox.checked = true;
+				if (checkbox.classList.contains('bhtt')) {
+					hasBhtt = true;
+				}
+			}
+		}
+
+		if (hasBhtt == true) {
+			document.getElementById('checkAll').checked = true
+		}
+		else if (hasBhtt == false) {
+			document.getElementById('checkAllNotBhtt').checked = true
+		}
+
+		$(document).ready(function () {
+			$('#alertModal').modal('show');
+		});
+	</script>
+	<script>
+		var listId = ""
+		var checked = false
+		var uploaded = false
+		var sum = 0
+		const VND = new Intl.NumberFormat('vi-VN', {
+			style: 'currency',
+			currency: 'VND'
+		})
+		var checks = document.getElementsByClassName('check')
+		var prices = document.getElementsByClassName('price')
+		var priceshows = document.getElementsByClassName('price-s')
+		var total = document.getElementById('totalShow')
+		for (var i = 0; i < checks.length; i++) {
+			priceshows[i].innerHTML = VND.format(parseInt(prices[i].innerText))
+			if (checks[i].checked) {
+				checked = true;
+				sum += parseInt(prices[i].innerText)
+				listId = listId + "," + checks[i].value
+			}
+		}
+		listId = listId.substring(1)
+		document.getElementById("tuitionFeeIdsString").value = listId
+		total.innerHTML = VND.format(sum)
+		document.getElementById("total").value = sum
+
+		function check(checkbox) {
+			sum = 0;
+			listId = ""
+			if (checkbox.id == "checkAll") {
+				if (!checkbox.checked) {
+					checked = false;
+					for (var i = 0; i < checks.length; i++) {
+						checks[i].checked = false;
+						listId = ""
+						sum = 0
+					}
+				}
+				else {
+					document.getElementById('checkAllNotBhtt').checked = false
+					checked = true;
+					for (var i = 0; i < checks.length; i++) {
+						checks[i].checked = true
+						sum += parseInt(prices[i].innerText)
+						listId = listId + "," + checks[i].value
+					}
+				}
+			}
+			else {
+				if (!checkbox.checked) {
+					checked = false;
+					for (var i = 0; i < checks.length; i++) {
+						checks[i].checked = false;
+						listId = ""
+						sum = 0
+					}
+				}
+				else {
+					document.getElementById('checkAll').checked = false
+					checked = true;
+					for (var i = 0; i < checks.length; i++) {
+						if (!checks[i].classList.contains('bhtt')) {
+							checks[i].checked = true
+							sum += parseInt(prices[i].innerText)
+							listId = listId + "," + checks[i].value
+						}
+						else {
+							checks[i].checked = false;
+						}
+					}
+				}
+			}
+			listId = listId.substring(1)
+			document.getElementById("tuitionFeeIdsString").value = listId
+			total.innerHTML = VND.format(sum)
+			document.getElementById("total").value = sum
+		}
+
+		function chooseFile(fileInput) {
+			if (fileInput.files && fileInput.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					var proofImage = document.getElementsByClassName('proof')[0];
+					var alert3 = document.getElementById('alert3');
+
+					if (proofImage) {
+						uploaded = true; // Đánh dấu rằng ảnh đã được tải lên thành công
+						alert3.style.display = 'none'; // Ẩn thông báo
+						proofImage.src = e.target.result;
+					} else {
+						var newImage = document.createElement('img');
+						newImage.className = 'proof';
+						newImage.src = e.target.result;
+						var container = document.getElementById('imageContainer');
+						container.appendChild(newImage);
+					}
+
+					// Save the image source to localStorage
+					localStorage.setItem('savedImage', e.target.result);
+				};
+
+				reader.readAsDataURL(fileInput.files[0]);
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', function () {
+			//var savedImageSrc = localStorage.getItem('savedImage');
+			var proofImage = document.getElementsByClassName('proof')[0];
+			var alert3 = document.getElementById('alert3');
+
+
+			if (!proofImage) {
+				alert3.style.display = 'block'; // Hiển thị thông báo
+			}
+		});
+
+
+
+		function updateFileValue(input) {
+			const fileName = input.files[0].name;
+			input.setAttribute('value', fileName);
+		}
+		function submitCheck() {
+
+			//alert($('.proof').attr('src'))
+			if ($('.proof').attr('src').includes('.')) {
+				uploaded = true;
+			}
+			var label = document.querySelector('label[for="minhchung"]');
+			// Kiểm tra xem container có lớp CSS 'd-none' hay không
+			if (label.classList.contains('d-none')) {
+				// Nếu có, đặt biến upload thành true
+				uploaded = true;
+			}
+			
+			if (checked == true && uploaded == true) {
+				return true;
+			}
+			else if (checked == false && uploaded == false) {
+				//window.location.href = window.location.href.replace('page3', 'page4');
+
+				return true;
+			}
+			else if (checked == true && uploaded == false) {
+				alert3 = document.getElementById('alert3').classList.remove('d-none')
+				return false
+			}
+			else if (checked == false && uploaded == true) {
+				alert1 = document.getElementById('alert1').classList.remove('d-none')
+				return false
+			}
+			//alert("upload: " + uploaded)
+		}
+	</script>
+
+	<script>
+		$(document).ready(function () {
+			// Bắt sự kiện click vào tất cả các button có class là "step-btn"
+			$('.step-btn').click(function () {
+				// Lấy giá trị của thuộc tính "data-step" của button được click
+				var stepValue = $(this).data('step');
+				// Gửi giá trị qua AJAX
+				$.ajax({
+					url: '/admission',
+					type: 'POST',
+					data: JSON.stringify({'page': stepValue}),
+					contentType: 'application/json; charset=utf-8',
+					success: function (data) {
+						// Xử lý kết quả trả về nếu cần thiết
+						if (data == "OK") {
+							window.location.href = "/"
+						}
+					}
+				});
+			});
+		});
+	</script>
+</body>
+
+</html>

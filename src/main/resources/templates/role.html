@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="utf-8" />
+    <title>Website Tuyển Sinh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+        
+</head>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>Website Tuyển Sinh</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" />
+		<meta content="Coderthemes" name="author" />
+		<!-- App favicon -->
+
+		<!-- third party css -->
+		<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+		<!-- third party css end -->
+		<!-- App css -->
+		<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+
+		<!------------------------------ news ---------------------------------->
+		<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+		<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+	</head>
+
+	<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+		data-rightbar-onstart="true">
+		<!-- Begin page -->
+
+		<div class="wrapper">
+			<!-- ========== Left Sidebar Start ========== -->
+			<div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+			<!-- Left Sidebar End -->
+
+			<!-- ============================================================== -->
+			<!-- Start Page Content here -->
+			<!-- ============================================================== -->
+			<div class="content-page">
+				<div class="content">
+					<!-- Topbar Start -->
+					<div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+				</div>
+				<!-- end Topbar -->
+				<!-- Start Content-->
+				<!-- <div th:include="fragments/container-fluid-tinhthanh :: container-fluid" class="container-fluid" ></div> -->
+
+				<!-- start page title -->
+			
+				<!-- end page title -->
+				<!-- ------------------------------start content------------------------------ -->
+				 <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <form class="d-flex">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-light" id="dash-daterange">
+                                            <span class="input-group-text bg-success border-success text-white">
+                                                <i class="mdi mdi-calendar-range font-13"></i>
+                                            </span>
+                                        </div>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-2">
+                                            <i class="mdi mdi-autorenew"></i>
+                                        </a>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-1">
+                                            <i class="mdi mdi-filter-variant"></i>
+                                        </a>
+                                    </form>
+                                </div>
+                                <h4 class="page-title">ADMIN quản lý quyền</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+                    <!-- ------------------------------start content------------------------------ -->
+                    <!-- Start Content-->
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row mb-2" style="display: block;position: relative;">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="search-container">
+                                                <form style=" overflow: hidden; max-width: 320px;">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control dropdown-toggle" placeholder="Search..." id="top-search1" style="padding-left: 40px!important;">
+                                                        <span class="mdi mdi-magnify search-icon" style="position: absolute; z-index: 4; font-size: 20px; line-height: 38px; left: 10px; top: 0;"></span>
+                                                        <button class="input-group-text btn-primary" type="submit">Search</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row d-flex flex-row bd-highlight mb-2">
+                                                <div class="col">
+                                                    <button class="btn btn-success">Thêm người dùng</button>
+                                                </div>
+                                                <div class="col">
+                                                    <button class="btn btn-primary">Chỉnh sửa vai trò</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                <table class="table table-bordered table-striped table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Access</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Ngày tạo</th>
+                                            <th scope="col">Sửa đổi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>John Doe</td>
+                                            <td id="access-1">12 days</td>
+                                            <td>
+                                                <select class="custom-select role-select form-select" fdprocessedid="xl4wd">
+                                                    <option selected="">Administrator</option>
+                                                    <option>Khách</option>
+                                                    <option>Công tác sinh viên</option>
+                                                    <option>Thời vụ</option>
+                                                    <option>Đào tạo</option>
+                                                </select>
+                                            </td>
+                                            <td>2023-06-23</td>
+                                            <td><button class="btn btn-danger" fdprocessedid="w5w17">Update</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jane Smith</td>
+                                            <td id="access-2">1 week</td>
+                                            <td>
+                                                <select class="custom-select role-select form-select" fdprocessedid="tez81j" style="border-radius: 4px;">
+                                                    <option>Administrator</option>
+                                                    <option selected="">Khách</option>
+                                                    <option>Công tác sinh viên</option>
+                                                    <option>Thời vụ</option>
+                                                    <option>Đào tạo</option>
+                                                </select>
+                                            </td>
+                                            <td>2023-06-22</td>
+                                            <td>
+                                                <button class="btn btn-danger" fdprocessedid="w5w17">Update</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- content -->
+
+
+
+
+
+                <!-- end table -->
+
+
+
+                <div class="small_box_bottom"></div>
+            </div>
+           
+
+					<!-- end table -->
+
+
+
+					<div class="small_box_bottom"></div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="card widget-flat">
+						</div> <!-- end card-->
+					</div> <!-- end col-->
+				</div>
+			</div>
+			<!-- container -->
+
+		</div>
+		<!-- content -->
+
+        <!-- Footer Start -->
+      	<div th:include="fragments/footer :: footer" class="footer" ></div>
+        <!-- end Footer -->
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+    <!-- END wrapper -->
+    <!-- Right Sidebar -->
+     <div th:include="bar/endbar :: end-bar" class="end-bar" ></div>
+    <!-- /End-bar -->
+  <button id="go-to-top" onclick="scrollToTop()" class="button1 btn-success"  style="display: none;position: fixed; right: 20px;bottom: 20px;padding-left: 10px;
+    margin-right: 60px; margin-top:200px;">
+      Go to Top
+    </button>
+    <!-- bundle -->
+    <script th:src="@{/assets/js/vendor.min.js}"></script>
+    <script th:src="@{/assets/js/app.min.js}"></script>
+    <script th:src="@{/assets/js/scrool.js}"></script>
+
+    <!-- third party js -->
+    <script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+    <script th:src="@{/assets/js/clock.js}"></script>
+    <!-- end demo js-->
+</body>
+
+</html>

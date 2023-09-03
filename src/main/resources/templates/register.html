@@ -1,0 +1,42 @@
+<!-- src/main/resources/templates/register.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pickup Registration</title>
+    <!-- Link CSS và Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2>Pickup Registration Form</h2>
+        <form action="/register" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pickupDate">Pickup Date:</label>
+                <input type="date" class="form-control" id="pickupDate" name="pickupDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pickupTime">Pickup Time:</label>
+                <input type="time" class="form-control" id="pickupTime" name="pickupTime" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Website Tuyển Sinh</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" />
+	<meta content="Coderthemes" name="author" />
+	<!-- App favicon -->
+
+	<!-- third party css -->
+	<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+	<!-- third party css end -->
+	<!-- App css -->
+	<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+	<!------------------------------ news ---------------------------------->
+	<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+	<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+				<!-- Start Content-->
+				<div class="container-fluid">
+					<!-- start page title -->
+					<div class="row">
+						<div class="col-12">
+							<div class="page-title-box">
+								<div class="page-title-right">
+									<form class="d-flex">
+										<div class="input-group">
+											<input type="text" class="form-control form-control-light"
+												id="dash-daterange"> <span
+												class="input-group-text bg-success border-success text-white">
+												<i class="mdi mdi-calendar-range font-13"></i>
+											</span>
+										</div>
+										<a href="javascript: void(0);" class="btn btn-success ms-2">
+											<i class="mdi mdi-autorenew"></i>
+										</a> <a href="javascript: void(0);" class="btn btn-success ms-1">
+											<i class="mdi mdi-filter-variant"></i>
+										</a>
+									</form>
+								</div>
+								<h4 class="page-title">Danh sách giấy tờ sinh viên đã nộp</h4>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex" style="margin-left: -24px;">
+						<button style="width: fit-content;" class="btn btn-success mx-3">
+							<a class="text-white" th:href="@{/admin/index/excelctsv}">Xuất
+								file danh sách CTSV</a> 
+						</button>
+						<button style="width: fit-content" class="btn btn-success mx-1" id="exportButton">Xuất file danh
+							sách theo phương thức</button>
+						<script>
+							document.getElementById('exportButton').addEventListener('click', function () {
+								var selectedMethodId = parseInt(document.getElementById('methodId').value, 10);
+								var url = '/admin/index/excel/' + selectedMethodId;
+								window.location.href = url;
+							});
+						</script>
+					</div>
+					<div style="width: fit-content;margin-top: 25px;" class="d-flex">
+							<input class="form-control border-end-0" style="width: 225px;" placeholder="Nhập từ khóa cần tìm kiếm" type="text"
+								name="" id="keyword"> <input type="submit" class="btn btn-success" value="Tìm kiếm">
+					</div>
+					<br>
+					<!-- end page title -->
+					<!-- ------------------------------start content------------------------------ -->
+					<div class="d-flex align-items-center">
+						<select class="form-select" name="" id="khoaId">
+							<option th:each="khoa : ${khoas}" th:value="${khoa.id}" th:text="${khoa.khoa}"
+								th:selected="${khoa.status} == 1"></option>
+						</select> <select class=" form-select" name="" id="majorId">
+							<option th:each="major : ${majors}" th:value="${major.id}"
+								th:text="${major.MajorsName} + ' - ' + ${major.MajorsID}"></option>
+						</select> <select class="form-select" name="" id="methodId">
+
+							<option th:each="method : ${methods}" th:value="${method.id}"
+								th:text="${method.ten_phuong_thuc}" th:selected="${methods.get(0).id == method.id}">
+							</option>
+						</select>
+					</div>
+					<br> <input type="hidden" id="StringDocumentItemIds" th:value="${StringDocumentItemIds}" />
+					<div class="container1">
+						<!-- Alert -->
+						<div th:if="${message != null && message.status == 'success'}" id="message"
+							class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #0BCE97">
+							<span th:text="${message.message}"></span>
+						</div>
+						<div th:if="${message != null && message.status == 'fail'}" id="message"
+							class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #FF0000">
+							<span th:text="${message.message}"></span>
+						</div>
+						<!-- End alert -->
+						<div id="navbar" class="row"></div>
+						<div class="row">
+							<div class="col-sm-12 text-center" id="showData2">
+								<div class="alert alert-success">
+									- Có <span class="text-danger" th:text="${#lists.size(students)}"></span> thí sinh
+									viên thuộc
+									ngành <span class="text-danger" th:text="${majors.get(0).MajorsName}"></span>
+								</div>
+
+								<!-- ------------------------------table-------------------------- -->
+								<div class="table-responsive">
+									<table class="table table-responsive table-bordered table-striped">
+										<tr id="tbl-first-row">
+											<td width="0%">#</td>
+											<td width="20%">Họ tên</td>
+											<td th:each="docItem : ${documentItems}" th:text="${docItem.documentType}">
+											</td>
+											<td>Chỉnh sửa</td>
+										</tr>
+										<tr th:each="student,index : ${students}">
+											<td th:text="${index.index +1}"></td>
+											<td><span th:text="${student.fullName}"></span><br>
+												<span th:text="${student.email}"></span><br> Mã Ngành:
+												<span th:text="${student.majors.majorsID}"></span><br>
+												CMND/CCCD: <span th:text="${student.numberCIC}"></span><br>
+												Ngày sinh: <span th:text="${student.birthday}"></span>
+											</td>
+											<th:block th:each="docItem : ${documentItems}">
+												<td><i th:if="${student != null and student.documentItems != null}">
+														<th:block
+															th:if="${#strings.contains(student.documentItems, docItem.id.toString())}">
+															<i style="color: #0BCE97;"
+																class="fa-solid fa-circle-check fa-2xl"></i>
+														</th:block>
+														<th:block
+															th:if="${not #strings.contains(student.documentItems, docItem.id.toString())}">
+															<i style="color: red;"
+																class="fa-solid fa-circle-xmark fa-2xl"></i>
+														</th:block>
+													</i> <i th:if="${student == null or student.documentItems == null}"
+														style="color: red;" class="fa-solid fa-circle-xmark fa-2xl"></i>
+												</td>
+											</th:block>
+											<td><a th:href="@{managingStudentDocument/edit/{id}(id=${student.id})}"><i
+														style="color: #0BCE97;"
+														class="fa-solid fa-pen-to-square fa-2xl"></i></a></td>
+										</tr>
+									</table>
+								</div>
+								<!-- ------------------------------end table------------------------- -->
+								<div class="pagination-container">
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+											<li class="page-item"><a class="page-link" href="#">1</a></li>
+											<li class="page-item"><a class="page-link" href="#">2</a></li>
+											<li class="page-item"><a class="page-link" href="#">3</a></li>
+											<li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+										</ul>
+									</nav>
+								</div>
+								<br>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end table -->
+				<div class="small_box_bottom"></div>
+			</div>
+
+		</div>
+		<!-- container -->
+
+		<!-- content -->
+	</div>
+	<!-- end wrapper -->
+
+	<br>
+	<br>
+	<br>
+
+	<!-- Footer Start -->
+	<div th:include="fragments/footer :: footer" class="footer"></div>
+	<!-- end Footer -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Page content -->
+	<!-- ============================================================== -->
+	</div>
+	<!-- END wrapper -->
+	<!-- Right Sidebar -->
+	<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+	<!-- /End-bar -->
+
+	<!-- bundle -->
+	<script th:src="@{/assets/js/vendor.min.js}"></script>
+	<script th:src="@{/assets/js/app.min.js}"></script>
+
+	<!-- third party js -->
+	<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+	<!-- third party js ends -->
+
+	<!-- demo app -->
+	<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+	<script th:src="@{/assets/js/clock.js}"></script>
+	<!-- end demo js-->
+
+
+	<script>
+		var majorName = $('#majorId option:selected').text();
+		if (majorName === '') {
+			majorName = $('#majorId option:first').text();
+		}
+		$(document).ready(function () {
+
+			//alert(majorName)
+			$('#majorId, #khoaId, #methodId, #keyword').on('change', function () {
+				var khoaId = $('#khoaId').val();
+				var majorsId = $('#majorId').val();
+				var methodId = $('#methodId').val();
+				var keyword = $('#keyword').val();
+				searchDataFromAPI(khoaId, majorsId, methodId, keyword);
+			});
+		});
+		$("#majorId").change(function () {
+			majorName = $('#majorId option:selected').text();
+
+		});
+
+		//var majorName = $('#majorId').text().selected
+
+		//window.addEventListener('load', function () {
+		// Thực hiện các hành động sau khi toàn bộ giao diện và tài nguyên đã tải xong
+		//searchDataFromAPI(khoaId, majorsId, methodId, keyword);
+		//});
+		function searchDataFromAPI(khoaId, majorsId, methodId, keyword) {
+			const BASE_URL = "[[${T(com.NhapHocVKUFullStack.Utils.Utils).BASE_URL}]]";
+
+			var StringDocumentItemIds = $('#StringDocumentItemIds').val();
+			var listDocument = new Array();
+
+			async function loadDocuments() {
+				console.log(khoaId + "-" + majorsId + " - " + methodId);
+				let urlDocument = BASE_URL + "/admin/api/document/search?";
+
+				if (khoaId !== "" && majorsId !== "" && methodId !== "") {
+					// Thêm các tham số vào URL
+					urlDocument += "idKhoa=" + khoaId + "&idNganh=" + majorsId + "&idPttt=" + methodId;
+				} else if (khoaId !== "" && majorsId !== "") {
+					// Thêm các tham số vào URL
+					urlDocument += "idKhoa=" + khoaId + "&idNganh=" + majorsId;
+				} else if (khoaId !== "" && methodId !== "") {
+					// Thêm các tham số vào URL
+					urlDocument += "idKhoa=" + khoaId + "&idPttt=" + methodId;
+				} else if (methodId !== "" && majorsId !== "") {
+					// Thêm các tham số vào URL
+					urlDocument += "idPttt=" + methodId + "&idNganh=" + majorsId;
+				} else if (khoaId !== "" && majorsId === "" && methodId === "") {
+					// Thêm các tham số vào URL
+					urlDocument += "idKhoa=" + khoaId;
+				} else if (khoaId === "" && majorsId !== "" && methodId === "") {
+					// Thêm các tham số vào URL
+					urlDocument += "&idNganh=" + majorsId;
+				} else if (khoaId === "" && majorsId === "" && methodId !== "") {
+					// Thêm các tham số vào URL
+					urlDocument += "&idPttt=" + methodId;
+				}
+				//
+				try {
+					console.log(urlDocument)
+					const response = await $.ajax({
+						type: 'GET',
+
+						url: urlDocument,
+					});
+					response.forEach(function (_document, index) {
+						var document = {
+							id: _document.id,
+							name: _document.documentType
+						};
+						listDocument.push(document);
+					});
+
+				} catch (error) {
+					console.log('Error:', error);
+				}
+			}
+			async function loadStudents() {
+				await loadDocuments();
+				//await loadDocuments();
+				//let apiURL = 'http://localhost:2222/api/admin/list';
+
+				let apiURL = BASE_URL + '/api/admin/currentAdmissionStudents';
+
+				if (khoaId != '' || majorsId != '' || methodId != '' || keyword != '') {
+					//apiURL = 'http://localhost:2222/api/admin/list/search?keyWord=' + keyword + '&idMethod=' + methodId + '&idKhoa=' + khoaId + '&idMajor=' + majorsId;
+					apiURL = BASE_URL + '/api/admin/list/search?keyWord=' + keyword + '&idMethod=' + methodId + '&idKhoa=' + khoaId + '&idMajor=' + majorsId;
+				}
+
+				try {
+					console.log('apiURL:', apiURL);
+
+					const response = await $.ajax({
+						type: 'GET',
+						url: apiURL,
+					});
+
+					var showData = $('#showData2');
+					showData.empty(); // Xóa nội dung hiện tại trong #showData
+
+					var summaryRow = '<div class="alert alert-success">' +
+						'- Có <span class="text-danger">' + response.length + '</span> thí sinh thuộc ngành <span class="text-danger"> ' + majorName +
+						'<span> </div>';
+
+					var tableHTML = '<div class="table-responsive">' +
+						'<table class="table table-bordered table-striped">' +
+						'<tr id="tbl-first-row">' +
+						'<td width="0%">#</td>' +
+						'<td width="20%">Fullname</td>' +
+						'<!-- Thêm các cột từ documentItems -->';
+
+					listDocument.forEach(function (docItem) {
+						tableHTML += '<td width="">' + docItem.name + '</td>';
+					});
+
+					tableHTML += '<td>Chỉnh sửa</td>' +
+						'</tr>';
+
+					response.forEach(function (student, index) {
+						var tableRow = '<tr>' +
+							'<td>' + (index + 1) + '</td>' +
+							'<td>' +
+							'<span>' + student.fullName + '</span><br>' +
+							'<span> Mã ngành:' + student.majors.majorsID + '</span><br>' +
+
+							'<span>' + student.email + '</span><br>' +
+							'Phone: <span>' + student.phoneNumber + '</span>' +
+							'</td>';
+
+						listDocument.forEach(function (docItemId) {
+							var foundDocItem = false;
+							if (student.documentItems && student.documentItems !== "") { // Kiểm tra id của docItem phải khác rỗng
+								student.documentItems.split(",").forEach(function (docItemIdStudent) {
+									if (docItemIdStudent == docItemId.id) {
+										foundDocItem = true;
+										return false; // Thoát khỏi vòng lặp nếu tìm thấy docItem
+									}
+								});
+
+								if (foundDocItem) {
+									tableRow += '<td><i style="color: #0BCE97;" class="fa-solid fa-circle-check fa-2xl"></i></td>';
+								} else {
+									tableRow += '<td><i style="color: red;" class="fa-solid fa-circle-xmark fa-2xl"></i></td>';
+								}
+							} else {
+								tableRow += '<td><i style="color: red;" class="fa-solid fa-circle-xmark fa-2xl"></i></td>';
+							}
+						});
+
+						tableRow += '<td><a href="/admin/managingStudentDocument/edit/' + student.id + '"><i style="color: #0BCE97;" class="fa-solid fa-pen-to-square fa-2xl"></i></a></td>' +
+							'</tr>';
+
+						tableHTML += tableRow;
+					});
+
+					tableHTML += '</table></div>'; // Kết thúc đoạn mã HTML cho bảng
+
+					showData.append(summaryRow); // Thêm phần tổng kết vào #showData
+					showData.append(tableHTML); // Thêm đoạn mã HTML cho bảng vào #showData
+				} catch (error) {
+					console.log('Error:', error);
+				}
+			}
+
+			loadStudents();
+
+		}
+	</script>
+	<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 5000);
+	</script>
+</body>
+
+</html>

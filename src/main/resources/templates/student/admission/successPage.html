@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Đăng ký nhập học trực tuyến - VKU</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="shortcut icon" href="/assets/images/index/iconlogo.png">
+
+	<link type="text/css" rel="stylesheet" href="/assets/css/student/style.css">
+	<link href="/styleindex.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+	<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 5000);
+	</script>
+	<!-- Alert  
+	<div th:if="${message != null }" class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+		style="background-color: #0BCE97">
+		<span th:text="${message.message}"></span>
+	</div>
+
+	End alert -->
+	<div class="w-100">
+		<th:block th:if="${documentItems == null}">
+
+			<div>
+				<nav class="navbar navbar-expand-lg navbar-light bg-warning p-0">
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+						aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="container-fluid w-75">
+						<div class="collapse navbar-collapse mx-5 w-50" id="navbarNav">
+							<ul class="navbar-nav d-flex justify-content-between w-100">
+								<li class="nav-item bg-white py-1"><a class="nav-link text-dark fw-bolder fs-5"
+										aria-current="page" href="#">Đăng ký nhập học trực tuyến</a></li>
+								<li class="nav-item py-1"><a class="nav-link pointer" href="/admission/logout"><i
+											class="fa-solid fa-right-from-bracket fa-2xl text-dark"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</th:block>
+		<div class="container my-5">
+			<div th:if="${message != null }" id="message" class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+				style="background-color: #ff5600">
+				<span th:text="${message.message}"></span>
+			</div>
+
+			<div class="row justify-content-center">
+				<div class="col-md-8">
+					<div class="card">
+						<div class="card-header bg-success text-white">
+							<h2 class="text-center">Đăng ký nhập học thành công</h2>
+						</div>
+						<div class="card-body">
+							<p class="font-weight-bold">Chào [[${student.fullName}]],</p>
+							<p>Bạn đã hoàn thành thủ tục nhập học thành công. Thời gian hoàn thành thủ tục nhập học
+								online: [[${student.updateTime}]]</p>
+
+							<div class="row">
+								<div class="col-md-6">
+									<h3 class="font-weight-bold">Thông tin bản thân:</h3>
+									<ul class="list-unstyled">
+										<li>Họ và tên: [[${student.fullName}]]</li>
+										<li>Ngày sinh: [[${student.birthday}]]</li>
+										<li>Giới tính: [[${student.gender == 'male'} ? 'Nam' : 'Nữ']]</li>
+										<li>Nơi sinh: [[${student.birthplace}]]</li>
+										<li>Quê quán: [[${student.homeTown}]]</li>
+										<li>Dân tộc: [[${student.ethnic}]]</li>
+										<li>Tôn giáo: [[${student.religion}]]</li>
+										<li>Số CMND/CCCD: [[${student.numberCIC}]]</li>
+										<li>Ngày cấp: [[${student.dateIssuanceCIC}]]</li>
+										<li>Nơi cấp: [[${student.placeIssuanceCIC}]]</li>
+										<li>Điện thoại: [[${student.phoneNumber}]]</li>
+									</ul>
+								</div>
+								<div class="col-md-6">
+									<h3 class="font-weight-bold">Thông tin thêm:</h3>
+									<ul class="list-unstyled">
+										<li>Điện thoại gia đình: [[${student.phoneNbHome}]]</li>
+										<li th:if="${student.treatmentPolicy != null}">Diện chính sách:
+											[[${student.treatmentPolicy}]]</li>
+										<li>Cư trú (Thành phố/ Tỉnh) : [[${student.cuTruTinh}]]</li>
+										<li>Cư trú (Quận/ Huyện): [[${student.cuTruQuanHuyen}]]</li>
+										<li>Cư trú (Xã/ Phường): [[${student.cuTruXaPhuong}]]</li>
+										<li>Cư trú (Tổ/ Thôn): [[${student.cuTruToThon}]]</li>
+										<li th:if="${student.codeBHYT != null}">Mã số BHYT: [[${student.codeBHYT}]]
+										</li>
+									</ul>
+								</div>
+
+							</div>
+
+							<div class="row">
+								<div class="col-md-6">
+									<h3 class="font-weight-bold">Thông tin hồ sơ:</h3>
+									<ul class="list-unstyled">
+										<li>Phương thức trúng tuyển: [[${student.method.ten_phuong_thuc}]]</li>
+										<li>Mã ngành: [[${student.majors.majorsID}]]</li>
+										<li>Tên ngành: [[${student.majors.majorsName}]]</li>
+										<li>Tên khóa: [[${student.khoa.khoa}]]</li>
+										<li>Chương trình học: [[${student.curriculum.name}]]</li>
+									</ul>
+								</div>
+								<div class="col-md-6 ">
+									<h3 class="font-weight-bold">Thông tin bổ sung:</h3>
+									<ul class="list-unstyled">
+										<li>Trường THPT lớp 10: [[${student.school10}]]</li>
+										<li>Trường THPT lớp 11: [[${student.school11}]]</li>
+										<li>Trường THPT tốt nghiệp: <span
+												th:text="${student.highSchool +' - ' + student.provinceSchool}"></span>
+										</li>
+										<li>Mã trường: [[${student.idHighSchool}]]</li>
+									</ul>
+								</div>
+							</div>
+							<div class="row ">
+								<div class="col-md-9 col-md-8">
+									<h3 class="font-weight-bold">Thông tin học phí:</h3>
+
+									<th:block th:if="${studentTuition != null and studentTuition.total != ''}">
+										<ul class="list-group" th:each="tuitionFee,index: ${tuitionFeeList}">
+											<li class="list-group-item"
+												th:if="${#strings.contains(studentTuition.tuitionFeeList, tuitionFee.id.toString())}">
+
+												<span th:text="${index.index +1 + '. ' + tuitionFee.name }"></span> <b>
+													<span class="price" th:text="${tuitionFee.tuition}"></span></b>
+
+											</li>
+										</ul>
+										<ul>
+											<td colspan="3">Tổng tiền đã nộp: <b><span id="totalShow"
+														th:text="${studentTuition.total}" class="fw-bold"></span></b>
+											</td>
+										</ul>
+									</th:block>
+									<th:block th:unless="${studentTuition != null }">
+										<h5>Chưa nộp học phí </h5>
+									</th:block>
+
+								</div>
+							</div>
+							<div class="row " th:if="${documentItems != null}">
+								<div class="col-md-9 col-md-8">
+									<h3 class="font-weight-bold">Những giấy tờ cần nộp khi nhập hoc trực tiếp</h3>
+
+
+									<th:block th:each="docItem, index : ${documentItems}">
+
+										<th:block
+											th:if="${docItem.note != '' && docItem.note != 'Không' && docItem.note != 'Ko'}">
+
+											<span th:text="${ index.index+1 +'. ' + docItem.documentType }"></span>
+											<span class="fst-italic"
+												th:text="${' - 0' + docItem.soLuong + ' (' + docItem.note + ')'}"></span><br>
+										</th:block>
+										<span
+											th:unless="${docItem.note != '' && docItem.note != 'Không' && docItem.note != 'Ko' }"
+											th:text="${ index.index+1 +'. ' +docItem.documentType + ' - 0' + docItem.soLuong}"></span><br>
+									</th:block>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="fw-bolder">
+									<h4> Các thông tin hỗ trợ: </h4>
+								</div>
+								<div>
+
+									Mọi thắc mắc liên quan đến việc nhập học thí sinh liên hệ qua các kênh thông tin của
+									Nhà
+									trường:
+									<a href="https://vku.udn.vn/">https://vku.udn.vn/</a><br>
+									<a
+										href="https://www.facebook.com/vku.udn.vn">https://www.facebook.com/vku.udn.vn</a><br>
+									<a
+										href="https://www.facebook.com/ctsv.vku.udn.vn">https://www.facebook.com/ctsv.vku.udn.vn</a><br>
+									<a href="https://kytucxa.vku.udn.vn">https://kytucxa.vku.udn.vn</a><br>
+									<a href="https://www.facebook.com/KTXVKU">https://www.facebook.com/KTXVKU</a><br>
+
+
+									Hoặc các số điện thoại sau:
+								</div>
+								<div>
+									1. Phòng Công tác sinh viên: 0236 3667 129; <br>
+									2. Bộ phận tuyển sinh: 0236 2678 234 - 02366552688; <br>
+									3. Phòng Đào tạo: 02363667113; <br>
+									4. Phòng Kế hoạch – Tài chính: 0236 3667 114.
+								</div>
+							</div>
+
+							<p class="font-weight-bold">Cảm ơn bạn đã đăng ký nhập học tại trường chúng tôi.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function calculate() {
+			const VND = new Intl.NumberFormat('vi-VN', {
+				style: 'currency',
+				currency: 'VND'
+			})
+			prices = document.getElementsByClassName('price')
+			total = document.getElementById('totalShow')
+			//priceshows = document.getElementsByClassName('price-s')
+
+			for (var i = 0; i < prices.length; i++) {
+				prices[i].innerHTML = VND.format(parseInt(prices[i].innerText))
+
+			}
+
+			total.innerHTML = VND.format(total.innerText)
+			//document.getElementById("total").value = sum
+		}
+		calculate();
+	</script>
+</body>
+
+</html>

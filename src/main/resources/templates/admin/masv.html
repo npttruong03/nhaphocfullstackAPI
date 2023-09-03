@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<title>Website Tuyển Sinh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" />
+<meta content="Coderthemes" name="author" />
+<!-- App favicon -->
+
+<!-- third party css -->
+<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}"
+	rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css"
+	id="app-style" />
+
+<!------------------------------ news ---------------------------------->
+<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<!-- Add this script block after the other scripts -->
+<!-- ... (các đoạn mã trước đó) ... -->
+<style type="text/css">
+#frm {
+	 border: 1px solid #ccc;
+	  text-align: center;
+}
+.content1 {
+	text-align: right;
+	margin-top: -170px;
+}
+.custom-form-container {
+    width: calc(100% + 80px);
+    margin-left: -40px;
+    padding: 30px 40px; /* Increase padding for 30px top and bottom, 40px left and right */
+  }
+
+  /* Adjust the form height */
+  #form {
+    height: calc(100% + 30px); /* Increase the height by 30px */
+  }
+  .form-text {
+  margin-top: 10px;
+    margin-right: -150px;
+  }
+  #form input[type="text"]{
+    width: 100%;
+  }
+   
+.form-long{
+	width: 100%;	
+}
+.search-container1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Form styles */
+#search-form1 {
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  padding: 10px;
+  margin: 10px;
+}
+
+/* Option styles */
+.form-select1 {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  margin-right: 10px;
+}
+
+/* Input styles */
+.text1,
+.text2 {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  margin-right: 5px;
+}
+
+
+
+@media (max-width: 768px) {
+  .form-select1,
+  .text1,
+  .text2 {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+.form-container1 {
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+/* Form styles */
+.search-form1 {
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* Option styles */
+.form-select1,
+.form-control1 {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .search-form {
+    max-width: 100%;
+  }
+}
+</style>
+<script>
+$(document).ready(function() {
+    function updateTable() {
+        var idNganh = $("#majorsId").val();
+
+        // Check if both idNganh and numberClass are provided before making the API call
+        if (idNganh) {
+           //var apiUrl = "http://localhost:2222/api/admin/idStudent?idNganh=" + idNganh;
+			var apiUrl = "http://222.255.130.100:7070/vku/api/admin/idStudent?idNganh=" + idNganh;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function(data) {
+                    // Assuming 'data' is an array of arrays representing the rows of the table
+                    var tableBody = $("#studentTableBody");
+                    tableBody.empty(); // Clear existing table rows
+                    data.forEach(function(row) {
+                        var newRow = "<tr>";
+                            newRow += "<td>" + row + "</td>";
+
+                        newRow += "</tr>";
+                        tableBody.append(newRow); // Add the new row to the table
+                    });
+
+                },
+                error: function(err) {
+                    console.error('Error fetching data:', err);
+                }
+            });
+        }
+    }
+
+    // Call the updateTable function when the input values change
+    $("#majorsId").on("change", function() {
+        updateTable();
+    });
+
+    // Call the updateTable function on page load to populate the table with initial data
+    updateTable();
+});
+
+$(document).ready(function() {
+    function Find() {
+        var className = $("#className").val();
+        var idStudent = $("#idStudent").val();
+
+        // Check if both idNganh and numberClass are provided before making the API call
+        if (className && idStudent) {
+          // var apiUrl = "http://localhost:2222/api/admin/findIdAndClass?className="+className+"&idStudent="+idStudent;
+			var apiUrl = "http://222.255.130.100:7070/vku/api/admin/display?idNganh=" + idNganh + "&numberClass=" + numberClass;
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function(data) {
+                    // Assuming 'data' is an array of arrays representing the rows of the table
+                    var tableBody = $("#studentTableBody");
+                    tableBody.empty(); // Clear existing table rows
+
+                    var headerRow = $("#headerRow");
+                    headerRow.empty(); // Clear existing header columns
+                    
+                        headerRow.append("<th> Tên sinh viên"+ "</th>");
+                        headerRow.append("<th> Lớp"+ "</th>");
+                        headerRow.append("<th> Mã Sinh Vien"+ "</th>");
+
+                
+
+                    data.forEach(function(row) {
+                        var newRow = "<tr>";
+                        
+                      
+                            newRow += "<td>" + row.fullName + "</td>";
+                            newRow += "<td>" + row.className + "</td>";
+                            newRow += "<td>" + row.idStudent + "</td>";
+                          
+                            
+                        
+                        newRow += "</tr>";
+                        tableBody.append(newRow); // Add the new row to the table
+                    });
+
+                },
+                error: function(err) {
+                    console.error('Error fetching data:', err);
+                }
+            });
+        }
+        else if (className || idStudent) {
+            if(className){
+            	//var apiUrl = "http://localhost:2222/api/admin/findIdOrClass?keyword="+className;
+            	var apiUrl = "http://222.255.130.100:7070/vku/api/admin/findIdOrClass?keyword="+className;
+            }else if(idStudent){
+            	//var apiUrl = "http://localhost:2222/api/admin/findIdOrClass?keyword="+idStudent;
+            	var apiUrl = "http://222.255.130.100:7070/vku/api/admin/findIdOrClass?keyword="+idStudent;
+
+            }
+            
+ 			//var apiUrl = "http://222.255.130.100:7070/vku/api/admin/display?idNganh=" + idNganh + "&numberClass=" + numberClass;
+             $.ajax({
+                 url: apiUrl,
+                 method: 'GET',
+                 success: function(data) {
+                     // Assuming 'data' is an array of arrays representing the rows of the table
+                     var tableBody = $("#studentTableBody");
+                     tableBody.empty(); // Clear existing table rows
+
+                     var headerRow = $("#headerRow");
+                     headerRow.empty(); // Clear existing header columns
+                     
+                         headerRow.append("<th> Tên sinh viên"+ "</th>");
+                         headerRow.append("<th> Lớp"+ "</th>");
+                         headerRow.append("<th> Mã Sinh Vien"+ "</th>");
+
+                 
+
+                     data.forEach(function(row) {
+                         var newRow = "<tr>";
+                         
+                       
+                             newRow += "<td>" + row.fullName + "</td>";
+                             newRow += "<td>" + row.className + "</td>";
+                             newRow += "<td>" + row.idStudent + "</td>";
+                           
+                             
+                         
+                         newRow += "</tr>";
+                         tableBody.append(newRow); // Add the new row to the table
+                     });
+
+                 },
+                 error: function(err) {
+                     console.error('Error fetching data:', err);
+                 }
+             });
+         }
+    }
+
+    // Call the updateTable function when the input values change
+    $("#className, #idStudent").on("change", function() {
+    	Find();
+    });
+
+    Find();
+});
+</script>
+
+
+
+</head>
+
+<body class="loading" data-layout-color="light"
+	data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft"
+			class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<!-- Topbar Start -->
+				<div th:include="fragments/fragmentheader :: header"
+					class="navbar-custom"></div>
+			</div>
+			<!-- end Topbar -->
+			<!-- Start Content-->
+
+
+			<!-- start page title -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="page-title-right">
+							<form class="d-flex">
+								<div class="input-group">
+									<input type="text" class="form-control form-control-light"
+										id="dash-daterange" fdprocessedid="9a29hh"> <span
+										class="input-group-text bg-success border-success text-white">
+										<i class="mdi mdi-calendar-range font-13"></i>
+									</span>
+								</div>
+								<a href="javascript: void(0);" class="btn btn-success1 ms-2">
+									<i class="mdi mdi-autorenew"></i>
+								</a> <a href="javascript: void(0);" class="btn btn-success1 ms-1">
+									<i class="mdi mdi-filter-variant"></i>
+								</a>
+							</form>
+						</div>
+
+						<h4 class="page-title">Danh sách Thí sinh trong lớp</h4>
+						<div class="row">
+
+							<div class="col-md-12">
+								<div class="search-container1">
+									<form id="search-form1"
+										style="overflow: visible; max-width: 440px; padding-left: 40px;"
+										method="post" th:action="@{/admin/maSV}">
+										<div class="input-group" style="width: 80%!important;">
+											<select class=" form-select1 text" name="majorsId" id="majorsId">
+												<option value="">Ngành</option>
+												<option th:each="major : ${majors}" th:value="${major.id}"
+													th:text="${major.majorsName}"></option>
+											</select>
+										</div>
+										<div class="col-md-4">
+											<div class="row d-flex flex-row bd-highlight mb-2">
+												<div class="col">
+													<input class="btn btn-success1" type="submit"
+														value="Tạo mã sinh viên">
+												</div>
+
+											</div>
+										</div>
+
+									</form>
+									<form id="search-form"
+										style="overflow: visible; max-width: 1020px; padding-left: 40px;"
+										method="get" action="">
+										<span>Nhập tìm kiếm mã sinh viên</span>
+										<div class="input-group" style="width: 645px;border-radius: 0.25rem;">
+											<input class="text1 form-control" type="text" name="className" id="className" placeholder="Nhập lớp">
+										</div>
+										<div class="input-group ">
+											<input class="form-control text2" type="text" name="idStudent"
+												id="idStudent" placeholder="Nhập Mã sinh viên">
+										</div>
+										<div class="col-md-4">
+											<div class="row d-flex flex-row bd-highlight mb-2"></div>
+										</div>
+
+									</form>
+								</div>
+							</div>
+
+						</div>
+						<!-- end page title -->
+						<!-- ------------------------------start content------------------------------ -->
+						<div class="content">
+							<div class="container1">
+								<!-- Alert -->
+								<div th:if="${message != null && message.status == 'success'}"
+									class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+									style="background-color:	 #0BCE97">
+									<span th:text="${message.message}"></span>
+								</div>
+								<div th:if="${message != null && message.status == 'fail'}"
+									class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+									style="background-color: #FF0000">
+									<span th:text="${message.message}"></span>
+								</div>
+								<!-- End alert -->
+								<div class="row mt-3">
+									<div class="col-sm-12 text-center">
+
+										<!-- ------------------------------table-------------------------- -->
+										<!-- ------------------------------table-------------------------- -->
+										<!-- ------------------------------table-------------------------- -->
+										<table class="table table-bordered table-hover">
+											<thead>
+												<tr id="headerRow">
+													<!-- Header columns will be dynamically generated based on numberClass -->
+												</tr>
+											</thead>
+											<tbody id="studentTableBody">
+											</tbody>
+											<tfoot>
+												<tr id="countRow">
+													<!-- Column counts will be dynamically generated -->
+												</tr>
+											</tfoot>
+										</table>
+										<!-- ------------------------------end table------------------------- -->
+
+										<!-- ------------------------------end table------------------------- -->
+
+										<!-- ------------------------------end table------------------------- -->
+
+										<br>
+
+									</div>
+								</div>
+							</div>
+
+
+							<!-- end table -->
+
+
+
+							<div class="small_box_bottom"></div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="card widget-flat"></div>
+								<!-- end card-->
+							</div>
+							<!-- end col-->
+						</div>
+					</div>
+					<!-- container -->
+
+				</div>
+				<!-- content -->
+
+				<!-- Footer Start -->
+				<div th:include="fragments/footer :: footer" class="footer"></div>
+				<!-- end Footer -->
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Page content -->
+			<!-- ============================================================== -->
+		</div>
+		<!-- END wrapper -->
+		<!-- Right Sidebar -->
+		<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+		<!-- /End-bar -->
+
+		<!-- bundle -->
+		<script th:src="@{/assets/js/vendor.min.js}"></script>
+		<script th:src="@{/assets/js/app.min.js}"></script>
+
+		<!-- third party js -->
+		<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+		<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+		<script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+		<!-- third party js ends -->
+
+		<!-- demo app -->
+		<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+		<script th:href="@{/assets/js/clock.js}"></script>
+		<!-- end demo js-->
+</body>
+
+</html>

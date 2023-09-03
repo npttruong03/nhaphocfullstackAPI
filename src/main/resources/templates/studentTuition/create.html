@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<title>Website Tuyển Sinh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" />
+<meta content="Coderthemes" name="author" />
+<!-- App favicon -->
+  <style>
+        
+        /* Thay đổi cỡ chữ cho các phần tử có class 'price-s' */
+        .price-s {
+            font-size: 15px; /* Cỡ chữ 24px */
+        }
+    </style>
+<!-- third party css -->
+<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}"
+	rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{/assets/css/app.min.css}" rel="stylesheet"
+	type="text/css" id="app-style" />
+
+<!------------------------------ news ---------------------------------->
+<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+<script
+	src="https://ajax.googleapis.com/aja	x/libs/jquery/3.6.4/jquery.min.js"></script>
+<!-- Cập nhật phần tử input hidden và sự kiện submit -->
+<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 5000);
+	</script>
+</head>
+<body class="loading" data-layout-color="light"
+	data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft"
+			class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<!-- Topbar Start -->
+				<div th:include="fragments/fragmentheader :: header"
+					class="navbar-custom"></div>
+			</div>
+			<!-- end Topbar -->
+			<!-- Start Content-->
+			<div th:if="${message != null && message.status == 'success'}"
+				class="m-auto w-50 px-4 py-2 rounded-3 text-white" id="message"
+				style="background-color: #0BCE97">
+				<span th:text="${message.message}"></span>
+			</div>
+			<div th:if="${message != null && message.status == 'fail'}"
+				class="m-auto w-50 px-4 py-2 rounded-3 text-white" id="message"
+				style="background-color: #FF0000">
+				<span th:text="${message.message}"></span>
+			</div>
+			<div class="container  container-sm"
+				style="max-width: 1000px; margin-left: 30px; margin-right: 100px; margin-top: 10px;">
+				<form id="form" class="mt-6 py-4 border form-text"
+					th:action="@{/admin/studentTuition/create}" method="post"
+					th:object="${stFee}" enctype="multipart/form-data">
+					<div class="row setup-content" id="step-1">
+						<div class="col-md-6">
+							<!-- THONG TIN BAN THAN -->
+							<h3 class="sict col-12">
+								<strong>Nộp Học Phí Thí sinh: </strong><span
+									th:text="${st.fullName}" style="color: #008000"> </span> <input
+									type="hidden" th:field="*{idStudent.id}"
+									th:value="${stFee.idStudent.id}">
+							</h3>
+							<h3>
+								<span>Mã ngành: <b th:text="${st.majors.majorsID}"></b></span>
+							</h3>
+							<h3>
+								<span>Tên ngành: <b th:text="${st.majors.majorsName}"></b>
+							</h3>
+							</span>
+
+							<div class="form-check">
+								<!-- KHÔNG Bao gồm BHTT -->
+								<div th:each="hp : ${fees}">
+									<input class="check form-check-input" type="checkbox"
+										th:value="${hp.id}" tuition-value="${hp.tuition}"
+										onchange="calculate()"> <label
+										class="form-check-label fs-4" th:text="${hp.name}"></label> <b
+										class="price-s" th:text=" ${hp.tuition}"></b> <span class="price d-none"
+										th:text=" ${hp.tuition}"></span>
+										
+								</div>
+
+								<input type="hidden" id="selectedIds"
+									th:field="*{tuitionFeeList}">
+							</div>
+							<script>$(document).ready(function() {
+								        $('input[type="checkbox"]').change(function() {
+								            var selectedIds = $('input[type="checkbox"]:checked').map(function() {
+								                return $(this).val();
+								            }).get().filter(function(value) {
+								                return !isNaN(value);
+								            }).join(',');
+
+								            $('#selectedIds').val(selectedIds);
+								            console.log(selectedIds);
+								        });
+									});
+									</script>
+							<br /> <span style="font-size: 20px"> Ngày thu: </span><input
+								type="text" class="form-control" name="tuitionDay"
+								th:value="${daycreate}"> </span><br />
+
+							<h3>Người thu học phí</h3>
+							<input type="radio" th:field="*{nameCashier}"
+								value="Ngô Thị Sơn Lâm"> Ngô Thị Sơn Lâm <br> <input
+								type="radio" th:field="*{nameCashier}" value="Ngô Minh Thành">
+							Ngô Minh Thành <br> <input type="radio"
+								th:field="*{nameCashier}" value="Bank" checked> Bank <br>
+
+
+							<hr />
+							<input type="radio" th:field="*{phuongThucThanhToan}"
+								value="Tiền mặt"> Tiền mặt <br> <input type="radio"
+								th:field="*{phuongThucThanhToan}" value="Chuyển khoản">
+							Chuyển khoản <br>
+
+
+							<h3>
+								Tổng tiền cần thanh toán: <span id="total-s"></span> <input
+									type="hidden" id="total" name="total" th:field="*{total}">
+
+							</h3>
+							<label class="form-label mt-2" for="statuss">Trạng thái</label> <select
+								class="form-select" th:field="*{status}" name="" id="statuss"
+								required>
+								<option th:value="1" th:text="Hiện"></option>
+							</select> <br /> <br /> <input class="btn btn-success" type="submit"
+								style="margin-left: 30px; margin-right: 100px;"
+								value="Lưu và chuyển sang xem dữ liệu" />
+
+						</div>
+
+						<div class="col-md-6">
+							<label for="URL" class="form-label">Minh chứng:</label> <input
+								type="file" class="form-control" id="URL" name="file"
+								onchange="chooseFile(this)" /> <input type="text"
+								class="form-control" hidden th:field="*{proofOfTuitionPay}" />
+							<img width='100%'
+								style="padding: 10px -70px !important; padding-top: 20px;"
+								class="proof" />
+						</div>
+				</form>
+			</div>
+		</div>
+
+
+
+		<!-- CMND -->
+	</div>
+
+	</div>
+
+
+
+
+	</div>
+	<!-- content -->
+
+	<!-- Footer Start -->
+	<div th:include="fragments/footer :: footer" class="footer"></div>
+	<!-- end Footer -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Page content -->
+	<!-- ============================================================== -->
+	</div>
+	<!-- END wrapper -->
+	<!-- Right Sidebar -->
+	<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+	<!-- /End-bar -->
+
+	<!-- bundle -->
+	<script th:src="@{/assets/js/vendor.min.js}"></script>
+	<script th:src="@{/assets/js/app.min.js}"></script>
+
+	<!-- third party js -->
+	<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+	<script
+		th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+	<!-- third party js ends -->
+
+	<!-- demo app -->
+	<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+	<script th:src="@{/assets/js/clock.js}"></script>
+	<!-- end demo js-->
+	<script>
+								
+						        function chooseFile(fileInput) {
+						            if (fileInput.files && fileInput.files[0]) {
+						              var reader = new FileReader();
+						              reader.onload = function (e) {
+						                document.getElementsByClassName('proof')[0].src = e.target.result
+						              }
+						
+						              reader.readAsDataURL(fileInput.files[0])
+						            }
+						          }
+
+						        function calculate() {
+					
+						            const VND = new  Intl.NumberFormat('vi-VN', {
+						              style: 'currency',
+						              currency: 'VND'
+						            })
+						            checks = document.getElementsByClassName('check')
+						            prices = document.getElementsByClassName('price')
+						            priceshows = document.getElementsByClassName('price-s')
+						            totalshow = document.getElementById('total-s')
+						            sum = 0
+						            for (var i = 0; i < checks.length; i++)
+						            {
+						              priceshows[i].innerText = VND.format(parseInt(prices[i].innerText))
+						              if (checks[i].checked)
+						              {
+						                sum += parseInt(prices[i].innerText)
+						              }
+						            }
+						            
+						            totalshow.innerHTML = VND.format(sum) 
+						            document.getElementById('total').value = sum
+						          }
+						          calculate();
+								
+						
+						  </script>
+</body>
+
+</html>
+

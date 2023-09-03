@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+	<meta charset="utf-8" />
+	<title>Website Tuyển Sinh</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" />
+	<meta content="Coderthemes" name="author" />
+	<!-- App favicon -->
+
+	<!-- third party css -->
+	<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+	<!-- third party css end -->
+	<!-- App css -->
+	<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+	<link rel="shortcut icon" href="/assets/images/index/iconlogo.png">
+	<!------------------------------ news ---------------------------------->
+	<link rel="shortcut icon" th:src="@{/assets/images/index/iconlogo.png}">
+	<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper ml-5">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft" class="col-lg-2 leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<!-- Topbar Start -->
+				<div th:include="fragments/fragmentheader :: header" class=" navbar-custom"></div>
+			</div>
+			<!-- end Topbar -->
+			<!-- Start Content-->
+			<!-- <div th:include="fragments/container-fluid-tinhthanh :: container-fluid" class="container-fluid" ></div> -->
+
+			<!-- start page title -->
+
+			<!-- end page title -->
+			<!-- ------------------------------start content------------------------------ -->
+			<div class="container-fluid">
+
+				<!-- start page title -->
+				<div class="row justify-content-center">
+					<div class="col-12">
+						<div class="page-title-box">
+							<div class="page-title-right">
+								<form class="d-flex">
+									<div class="input-group">
+										<input type="text" class="form-control form-control-light" id="dash-daterange">
+										<span class="input-group-text bg-success border-success text-white">
+											<i class="mdi mdi-calendar-range font-13"></i>
+										</span>
+
+									</div>
+									<a href="javascript: void(0);" class="btn btn-success ms-2" id="refreshButton"> <i
+											class="mdi mdi-autorenew"></i>
+									</a>
+									<script>
+										// Định nghĩa hàm để làm mới trang web khi nút F5 được nhấp
+										function refreshPage() {
+											location.reload(true); // Reload trang và bỏ qua bộ nhớ cache (nếu có)
+										}
+
+										// Gán sự kiện click vào nút F5
+										document.getElementById('refreshButton').addEventListener('click', refreshPage);
+									</script>
+									<a href="javascript: void(0);" class="btn btn-success ms-1">
+										<i class="mdi mdi-filter-variant"></i>
+									</a>
+								</form>
+							</div>
+							<h3 class="page-title">Danh sách hồ sơ sinh viên</h3>
+						</div>
+					</div>
+				</div>
+				<div class="d-flex">
+					<input th:if="${session.roles.contains('ROLE_ADMIN') || session.roles.contains('ROLE_DAOTAO')}"
+						onchange="selectedImportFile(this)" type="file" id="excel" name="file" accept=".xls, .xlsx"
+						class="d-none"> <label role="button" for="excel" class="btn btn-success button-sm"
+						th:if="${session.roles.contains('ROLE_ADMIN') || session.roles.contains('ROLE_DAOTAO')}">Nhập
+						file danh sách</label>
+					<button th:if="${session.roles.contains('ROLE_ADMIN') || session.roles.contains('ROLE_DAOTAO')}"
+						class="btn btn-success mx-5 button-sm2">
+						<a class="text-white" th:href="@{/admin/index/exceldaotao}">Xuất file danh sách</a>
+					</button>
+				</div>
+				</br>
+				<div id="success" class="mt-2 m-auto w-50 px-4 py-2 rounded-3 text-white d-none"
+					style="background-color: #0BCE97">
+					<span>Nhập mới dữ liệu sinh viên thành công</span>
+				</div>
+				<div id="fail" class="mt-2 m-auto w-50 px-4 py-2 rounded-3 text-white d-none"
+					style="background-color: #FF0000">
+					<span>Nhập mới dữ liệu sinh viên thất bại</span>
+				</div>
+				</br>
+				<div style="width: fit-content" class="d-flex" action="">
+					<input class="form-control border-end-0" placeholder="Nhập từ khóa cần tìm kiếm" type="text" name=""
+						id="keyword"> <input type="submit" class="btn btn-success" value="Tìm kiếm">
+				</div>
+				<br>
+				<!-- end page title -->
+				<!-- ------------------------------start content------------------------------ -->
+				<div class="d-flex align-items-center">
+					<select class="form-select" name="" id="khoaId">
+						<option th:value="null" th:text="&Xi;+ 'Tất cả các khóa'">
+						</option>
+						<option th:each="khoa : ${khoas}" th:value="${khoa.id}" th:text="${khoa.khoa}"></option>
+					</select> <select class=" form-select" name="" id="majorId">
+						<option th:value="null" th:text="&Xi;+'Tất cả các ngành'">
+						</option>
+						<option th:each="major : ${majors}" th:value="${major.id}"
+							th:text="${major.MajorsName} + ' - ' + ${major.MajorsID}"></option>
+					</select> <select class="form-select" name="" id="methodId">
+						<option th:value="null" th:text="&Xi;+'Tất cả các phương thức'">
+						</option>
+						<option th:each="method : ${methods}" th:value="${method.id}"
+							th:text="${method.ten_phuong_thuc}"></option>
+					</select>
+				</div>
+				<br> <input type="hidden" id="StringDocumentItemIds" th:value="${StringDocumentItemIds}" />
+
+				<div class="content">
+					<div class="container1">
+						<!-- Modal -->
+						<div class="modal fade" id="imageModal" tabindex="-1" role="dialog"
+							aria-labelledby="imageModalLabel" aria-hidden="true">
+							<div role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="imageModalLabel">Ảnh minh
+											chứng nhập học bộ</h5>
+										<button type="button" class="close" data-dismiss="modal" onclick="closeModal()"
+											aria-label="Đóng">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div class="container-fluid">
+											<div class="row justify-content-center align-items-center">
+												<div class="col-lg-8">
+													<img src="" alt="Ảnh nhập học" id="modalImage" class="img-fluid">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Modal -->
+						<div id="navbar" class="row"></div>
+
+						<div class="row">
+							<div class="col-sm-12 text-center" id="showData">
+								<div class="alert alert-success">
+									Truy vấn có <span style="color: red;" th:text="${#lists.size(students)}"></span> thí
+									sinh <br>
+									- Có <span style="color: red;" id="soluongnop"
+										th:text="${countingadmissions}"></span> đã làm thủ tục online -
+									Có <span style="color: red;" id="soluongnop" th:text="${notSubmittedCount}"></span>
+									chưa xác nhận học phí - Có <span style="color: red;"
+										th:text="${submittedCount}"></span> đã xác nhận
+									nộp học phí - Có <span style="color: red;" th:text="${countrecords}"></span> đã
+									nộp hồ sơ - Có <span style="color: red;" th:text="${countnumberadmissions}"></span>
+									đã xác nhận hệ thống BỘ
+								</div>
+								<!-- ------------------------------table-------------------------- -->
+								<div class="table-responsive">
+									<table class="table table-responsive table-bordered table-striped">
+										<tr id="tbl-first-row">
+											<td width="1%">#</td>
+											<td width="15%">Fullname</td>
+											<td width="4%">Buổi đăng ký</td>
+											<td width="15%">Đã nhập học online</td>
+											<td width="15%">
+												<center>
+													Bước 1.<br> Minh chứng nhập học
+												</center>
+											</td>
+											<td width="15%">
+												<center>
+													Bước 2.<br> Nộp học phí
+												</center>
+											</td>
+											<td width="15%">
+												<center>
+													Bước 3.<br> Nộp hồ sơ
+												</center>
+											</td>
+											<td width="15%">
+												<center>
+													Bước 4.<br> Xác nhận nhập học
+												</center>
+											</td>
+											<td width="15%">
+												<center>Ghi chú</center>
+											</td>
+											<td width="5%">Edit</td>
+										</tr>
+
+									</table>
+								</div>
+								<!-- ------------------------------end table------------------------- -->
+								<!--	<div class="pagination-container">
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+											<li class="page-item"><a class="page-link" href="#">1</a></li>
+											<li class="page-item"><a class="page-link" href="#">2</a></li>
+											<li class="page-item"><a class="page-link" href="#">3</a></li>
+											<li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+										</ul>
+									</nav>
+								</div>
+								<br> -->
+
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+				<!-- end table -->
+				<div class="small_box_bottom"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="card widget-flat"></div>
+					<!-- end card-->
+				</div>
+				<!-- end col-->
+			</div>
+		</div>
+		<!-- container -->
+		<div class="modal fade" id="loadMe" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div role="document">
+				<div class="modal-content">
+					<div class="modal-body text-center">
+						<div class="spinner-border text-success" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+						<div class="loader-txt">
+							<p>Dữ liệu đang được xử lý! <br>Vui lòng không thao tác đến khi hoàn tất quá trình.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- content -->
+
+	<!-- Footer Start -->
+	<div th:include="fragments/footer :: footer" class="footer"></div>
+	<!-- end Footer -->
+
+	<!-- ============================================================== -->
+	<!-- End Page content -->
+	<!-- ============================================================== -->
+	<!-- END wrapper -->
+	<!-- Right Sidebar -->
+	<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+	<!-- /End-bar -->
+	<button id="go-to-top" onclick="scrollToTop()" class="button1 btn-success"
+		style="display: none; position: fixed; right: 20px; bottom: 20px; padding-left: 10px; margin-right: 60px; margin-top: 200px;">
+		Go to Top</button>
+	<!-- bundle -->
+	<script th:src="@{/assets/js/vendor.min.js}"></script>
+	<script th:src="@{/assets/js/app.min.js}"></script>
+	<script th:src="@{/assets/js/scrool.js}"></script>
+
+	<!-- third party js -->
+	<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+	<!-- third party js ends -->
+
+	<!-- demo app -->
+	<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+	<script th:src="@{/assets/js/clock.js}"></script>
+	<!-- end demo js-->
+	<script>
+
+		$(document).ready(function () {
+			$('#majorId, #khoaId, #methodId, #keyword').on('change', function () {
+				var khoaId = $('#khoaId').val();
+				var majorsId = $('#majorId').val();
+				var methodId = $('#methodId').val();
+				var keyword = $('#keyword').val();
+
+				const startTime = performance.now();
+
+				searchDataFromAPI(khoaId, majorsId, methodId, keyword);
+				const endTime = performance.now();
+
+				const executionTime = endTime - startTime;
+				console.log(`Execution time of this: ${executionTime} milliseconds`);
+
+			});
+		});
+
+
+		function searchDataFromAPI(khoaId, majorsId, methodId, keyword) {
+			var StringDocumentItemIds;
+			//var submittedCount = 0;
+			//var notSubmittedCount = 0;
+			const BASE_URL = "[[${T(com.NhapHocVKUFullStack.Utils.Utils).BASE_URL}]]";
+
+			async function loadStudent() {
+
+				//await loadDocuments();
+				if (khoaId != '' || majorsId != '' || methodId != '' || keyword != '') {
+					var apiURL = BASE_URL + '/api/admin/list/search?keyWord=' + keyword + '&idMethod=' + methodId + '&idKhoa=' + khoaId + '&idMajor=' + majorsId;
+				} else {
+					var apiURL = BASE_URL + '/api/admin/list/search';
+				}
+				$.ajax({
+					type: 'GET',
+					url: apiURL,
+					success: function (response) {
+						//console.log(apiURL);
+						var searchResults = $('#showData');
+						// Xóa nội dung hiện tại trong tbody
+						searchResults.empty();
+						var submittedCount = 0;
+						var notSubmittedCount = 0;
+						var countingAdmissions = 0;
+						var countNumberAdmissions = 0;
+						var countRecords = 0; // Uncommented this line
+						for (var i = 0; i < response.length; i++) {
+							if (response[i].proofOfAdmission !== null && response[i].school10 !== null) {
+								countingAdmissions++;
+							}
+							if (response[i].proofOfAdmission !== null && response[i].proofOfAdmission.match(/\.(jpg|jpeg|png|bmp)$/)) {
+								countNumberAdmissions++;
+							}
+							if (response[i].documentItems != null && response[i].documentItems.length > 1) {
+								countRecords++;
+							}
+						}
+						var tableHTML = '<div class="table-responsive">' +
+							'<table class="table table-bordered table-striped">' +
+							'<tr id="tbl-first-row">' +
+							'<td width="1%">#</td>' +
+							'<td width="15%">Fullname</td>' +
+							'<td width="4%">Buổi đăng ký</td>' +
+							'<td width="15%">Đã nhập học online</td>' +
+							'<td width="15%">' +
+							'<center>Bước 1.<br> Minh chứng nhập học</center>' +
+							'</td>' +
+							'<td width="15%">' +
+							'<center>Bước 2.<br> Nộp học phí</center>' +
+							'</td>' +
+							'<td width="15%">' +
+							'<center>Bước 3.<br> Nộp hồ sơ</center>' +
+							'</td>' +
+							'<td width="15%">' +
+							'<center>Bước 4.<br> Xác nhận nhập học</center>' +
+							'</td>' +
+							'<td width="10%">' +
+							'<center>Ghi chú</center>' +
+							'</td>' +
+							'<td width="5%">Edit</td>' +
+							'</tr>';
+						response.forEach(function (result, index) {
+							var tuition = "Chưa nộp hp <br />";
+							var tuitionLink = '<a href="/admin/studentTuition/create/' + result.id + '">Nộp học phí</a>';
+							// Lấy thông tin tuition từ studentTuitionService bằng AJAX
+							$.ajax({
+								type: 'GET',
+								url: '/admin/studentTuition/findStudentTuitionByStudentId/' + result.id,
+								async: false,
+								success: function (tuitionResponse) {
+									if (tuitionResponse.total > 0) {
+										//console.log(tuitionResponse.total);
+										if (tuitionResponse.status) {
+											//console.log("status: " + tuitionResponse.status)
+											submittedCount++;
+											//console.log("not " + submittedCount )
+											tuition = "Đã nộp HP " + tuitionResponse.total + '<br />';
+											tuitionLink = '<a href="/admin/studentTuition/detail/' + tuitionResponse.id + '">Xem</a>';
+										} else if (!tuitionResponse.status) {
+											tuition = "Đã nộp HP Online <br/> Chưa xác nhận <br/>" + tuitionResponse.total + '<br />';
+											tuitionLink = '<a href="/admin/studentTuition/edit/' + tuitionResponse.id + '">Xem</a>';
+											notSubmittedCount++;
+											//console.log("not " + notSubmittedCount )
+										}
+										//if (tuitionResponse.total > 0) {
+										//}
+										//console.log(submittedCount);
+									} else {
+									}
+
+								},
+
+								error: function (xhr, status, error) {
+
+									console.log(xhr.responseText);
+								}
+							});
+
+							var tableRow = '<tr>' +
+								'<td>' + (index + 1) + '</td>' +
+								'<td> <span class="text-danger">' + result.fullName + '</span> <br />' +
+								'Email: ' + result.email + '<br />' +
+								'<span class="text-danger">Mã Ngành: ' + result.majors.majorsID + '</span> <br />' +
+								'<span class="text-danger">CMND/CCCD: ' + result.numberCIC + '</span><br />' +
+								'Ngày sinh: ' + result.birthday + '</td>' +
+								'<td>' + result.registerSession + '</td>' +
+								'<td>' + (result.proofOfAdmission !== null && result.school10 !== null ? 'Đã nhập trong trực tuyến</td>' : 'Chưa nhập trong trực tuyến </td>') +
+								'<td>' + (result.proofOfAdmission !== null && result.proofOfAdmission.match(/.(jpg|jpeg|png|bmp)$/i) ? '<span>Đã nhập học bộ</span><br /><span><a href="/uploads/' + result.proofOfAdmission + '" onclick="showImageModal(event)">Xem</a></span>' : 'Chưa nhập học bộ') + '</td>' +
+								'<td>' + tuition + tuitionLink + '</td>' +
+
+								//'<td>Đã nộp HP Nộp học phí 6852905' + '<a href= "/admin/studentTuition/create/' + result.id + '" >Xem</a></td>' +
+								'<td>' +
+								(result.documentItems != null && result.documentItems.length >= 1 ?
+									'Đã nộp' : 'Chưa nộp') +
+								'</br><a href="/admin/managingStudentDocument/edit/' + result.id + '">Nộp hồ sơ CTSV</a>' +
+								'</td>' +
+								'<td><a href="/admin/index/StudentConfirmation/' + result.id + '">Xác nhận sinh viên</a> </td>' +
+								'<td>' + ((result.method != null) ? (result.method.ma_phuong_thuc + '-' + result.method.ten_phuong_thuc) : 'Chưa rõ') +
+								'<td><i style="color: #0BCE97; " class="fa-solid fa-pen-to-square fa-2xl"></i></td>' +
+								'</tr>';
+							//console.log(result.documentItems + ' - ')
+							tableHTML += tableRow;
+						});
+						var summaryRow = '<div class="alert alert-success">Truy vấn có <span style="color: red;">' + response.length + '</span> thí sinh <br>' +
+							'- Có <span style="color: red;">' + countingAdmissions + '</span> đã làm thủ tục online' + '- Có <span style="color: red;">' + submittedCount + '</span> đã xác nhận nộp học phí -' +
+							' Có <span style="color: red;">' + notSubmittedCount + '</span> đã nộp học phí chưa xác nhận -' +
+							' Có <span style="color: red;">' + countRecords + '</span> đã nộp hồ sơ - Có <span style="color: red;">' + countNumberAdmissions + '</span> đã xác nhận hệ thống BỘ' +
+							'</div>';
+						//console.log(submittedCount);
+						tableHTML += '</table></div>'; // Kết thúc đoạn mã HTML cho bảng
+
+						searchResults.append(summaryRow); // Thêm phần tổng kết vào #showData
+						searchResults.append(tableHTML); // Thêm đoạn mã HTML cho bảng vào #showData
+					},
+
+					error: function (xhr, status, error) {
+						console.log('Error:', error);
+					}
+				});
+
+			}
+			loadStudent();
+		}
+
+		function selectedImportFile(excel) {
+			if (excel.files && excel.files[0]) {
+				const formData = new FormData();
+				formData.append('file', excel.files[0]);
+				$('#loadMe').modal('show');
+				fetch('/admin/index/importExcel', {
+					method: 'POST',
+					body: formData
+				})
+					.then(response => {
+						$('#loadMe').modal('hide');
+						if (response.ok) {
+							success = document.getElementById("success");
+							success.classList.remove('d-none');
+							setTimeout(() => {
+								window.location.href = "/admin/index";
+							}, 4000);
+						}
+						else {
+							response.text().then(errorMessage => {
+								fail = document.getElementById("fail");
+								fail.classList.remove('d-none');
+							});
+
+						}
+					})
+					.then(message => {
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
+		}
+
+
+	</script>
+	<!-- Hiển thị minh chứng nhập học bằng modal -->
+	<script>
+		function showImageModal(event) {
+			event.preventDefault(); // Ngăn chặn hành vi mặc định khi click vào liên kết
+			var imageUrl = event.target.getAttribute("href");
+
+			// Gán đường dẫn ảnh cho thuộc tính src của thẻ img trong modal
+			var modalImage = document.getElementById("modalImage");
+			modalImage.src = imageUrl;
+
+			// Hiển thị modal
+			$('#imageModal').modal('show');
+		}
+		function closeModal() {
+			// Đoạn mã để đóng modal theo cách của thư viện bạn
+			$('#imageModal').modal('hide');
+		}
+
+	</script>
+	<script>
+		success = document.getElementById("success");
+		success.classList.add('d-none');
+		fail = document.getElementById("fail");
+		fail.classList.add('d-none');
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			success = document.getElementById("success");
+			success.classList.add('d-none');
+			fail = document.getElementById("fail");
+			fail.classList.add('d-none');
+		}, 5000);
+	</script>
+</body>
+
+</html>

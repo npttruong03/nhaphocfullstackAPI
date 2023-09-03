@@ -1,0 +1,60 @@
+.row1 {
+	color: #374f8a;
+}
+
+.row1 span {
+	font-weight: bold;
+}
+
+#top-search {
+	color: blue;
+}
+
+.admin:hover {
+	color: rgb(19, 140, 23);
+}
+
+.alert {
+	font-weight: bold;
+}
+
+#menuleft {
+	background-color: #2A3F54;
+}
+
+#menuleft a:hover {
+	color: #b8a3e4;
+}
+
+.logo-lg {
+	background-color: #2A3F54;
+}
+
+.logo-sm {
+	background-color: #2A3F54;
+}
+
+#tbl-first-row {
+	font-weight: bold;
+}
+
+.nav-link:hover span {
+	color: #09cf97;
+}
+
+.pagination-container {
+	display: flex;
+	justify-content: center;
+}
+
+/* -------------------------------------indexQuyen-------------------- */
+.button1:hover {
+	background-color: #ffbd38;
+	box-shadow: 0px 15px 20px rgba(15, 252, 46, 0.4);
+	color: #fff;
+	transform: translateY(-7px)
+}
+
+#timer {
+	color: red;
+}

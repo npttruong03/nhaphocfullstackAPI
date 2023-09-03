@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<title>Website Tuyển Sinh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" />
+<meta content="Coderthemes" name="author" />
+<!-- App favicon -->
+
+<!-- third party css -->
+<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}"
+	rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css"
+	id="app-style" />
+
+<!------------------------------ news ---------------------------------->
+<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+</head>
+
+<body class="loading" data-layout-color="light"
+	data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft"
+			class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<!-- Topbar Start -->
+				<div th:include="fragments/fragmentheader :: header"
+					class="navbar-custom"></div>
+			</div>
+			<!-- end Topbar -->
+			<!-- Start Content-->
+
+
+			<!-- start page title -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="page-title-right">
+							<form class="d-flex">
+								<div class="input-group">
+									<input type="text" class="form-control form-control-light"
+										id="dash-daterange" fdprocessedid="9a29hh"> <span
+										class="input-group-text bg-success border-success text-white">
+										<i class="mdi mdi-calendar-range font-13"></i>
+									</span>
+								</div>
+								<a href="javascript: void(0);" class="btn btn-success ms-2">
+									<i class="mdi mdi-autorenew"></i>
+								</a> <a href="javascript: void(0);" class="btn btn-success ms-1">
+									<i class="mdi mdi-filter-variant"></i>
+								</a>
+							</form>
+						</div>
+
+						<h4 class="page-title ml-h4">Chi tiết Thí sinh Học Phí</h4>
+						 <div class="row">
+								
+                                   <!--     <div class="col-md-8">
+                                            <div class="search-container">
+                                               <form style="overflow: visible; max-width: 440px; padding-left: 40px;" method="get" action="">
+									    <div class="input-group">
+									        <input type="text" class="form-control dropdown-toggle" placeholder="Search..." id="top-search1" style="padding-left: 40px!important;" name="keyword" onkeydown="searchOnEnter(event)">
+									        <span class="mdi mdi-magnify search-icon" style="position: absolute; z-index: 4; font-size: 20px; line-height: 38px; left: 10px; top: 0;"></span>
+									        <button class="input-group-text btn-primary" type="submit">Search</button>
+									    </div>
+									</form>
+                                               
+                                                </form>
+                                            </div> 
+                                        </div> -->
+                                        <div class="container">
+									    <div class="row">
+									        <div class="col-md-12">
+									            <div class="row d-flex flex-row ml-2 ml-h4 bd-highlight">
+									                <div class="col-md-auto mb-2 mb-md-0 ml-2">
+									                    <a th:href="@{/admin/studentTuition/edit/{id} (id=${stFee.id})}">
+									                        <button class="btn btn-success">Cập nhật học phí đã nộp</button>
+									                    </a>
+									                </div>
+									                <div class="col-md-auto ml-auto">
+									                    <a th:href="@{/admin/studentTuition/print/{id} (id=${stFee.id})}">
+									                        <button class="btn btn-success">In hóa đơn</button>
+									                    </a>
+									                </div>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+                                    </div>
+							
+						<!-- end page title -->
+						<!-- ------------------------------start content------------------------------ -->
+								<div class="container justify-content-center center" >
+							<form id="frm" role="form" action="" method="post" >
+								<div class="row setup-content" id="step-1">
+									<div class="row">
+										<div class="col-md-12 line ">
+											<!-- THONG TIN BAN THAN -->
+											<h3 class="sict">
+												Nộp Học Phí Thí sinh: <span style="color: #008000" th:text="${stFee.idStudent.fullName}">
+													</span>
+											</h3>
+											<div th:if="${not #lists.isEmpty(fees)}">
+											<span>Mã ngành: <b  th:text="${stFee.idStudent.majors.majorsID}"></b></span><br>
+											<span>Tên ngành: <b th:text="${stFee.idStudent.majors.majorsName}"></b></span><br>
+											</div>
+											<div th:if="${#lists.isEmpty(fees)}">
+											    <!-- Show error message here -->
+											    <h3>Không có thông tin học phí cho thí sinh này.</h3>
+											    <!-- You can customize the error message as needed -->
+											</div>
+											<div class="row" >
+												<div class="form-group col-md-6">
+													<div class="col-md-12 col-sm-12 show-data"
+														 >
+
+														<!-- KHÔNG Bao gồm BHTT -->
+														<div class="checkbox checkbox-primary" 
+															style="margin: 0px 0px !important;">
+															
+															<div style="text-align: left;" th:if="${fees}!=null" th:each="fee: ${fees}">
+															 <b th:text="${fee.name}"></b>:<b class="price"
+																	style="color: red" th:text="${fee.tuition}"> </b>
+															</div>
+													</div>
+
+													
+															</div>
+												
+															<div class="radio radio-primary"
+																style="margin: 0px 0px !important"></div>
+															<div class="radio radio-primary"
+																style="margin: 0px 0px !important"></div>
+															<h3>Người thu <span style="color: #008000;" th:text="${stFee.nameCashier}"></span></h3>
+															
+															 <b>Phương thức nộp</b> <b th:text="${stFee.phuongThucThanhToan}"></b><br><br>
+															 <b>Ngày thu</b> <b th:text="${stFee.tuitionDay}"></b>
+															<div class="radio radio-primary"
+																style="margin: 0px 0px !important"></div>
+														</div>
+													</div>
+													<br />
+												 <br />
+												</div>
+												<div class="col-md-12 content1">
+													<label class="label-print">Minh
+														chứng nhập học</label> 
+														<img width='40%' class="img-show"
+													
+														th:src="@{/uploads/}+${stFee.proofOfTuitionPay}"/>
+												</div>
+											</div>
+
+										</div>
+
+									</div>
+									
+
+									<center>
+								</div>
+								<!-- ------------------------------end table------------------------- -->
+
+								<br>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- end table -->
+
+
+
+				<div class="small_box_bottom"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="card widget-flat"></div>
+					<!-- end card-->
+				</div>
+				<!-- end col-->
+			</div>
+		</div>
+		<!-- container -->
+
+	</div>
+				<!-- content -->
+
+				<!-- Footer Start -->
+				<div th:include="fragments/footer :: footer" class="footer"></div>
+				<!-- end Footer -->
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Page content -->
+			<!-- ============================================================== -->
+		</div>
+		<!-- END wrapper -->
+		<!-- Right Sidebar -->
+		<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+		<!-- /End-bar -->
+				<script >
+    const VND = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var priceElements = document.querySelectorAll('.price');
+        
+        priceElements.forEach(function(element) {
+            var priceValue = element.textContent;
+            var formattedPrice = VND.format(priceValue);
+            element.textContent = formattedPrice;
+        });
+    });
+</script>
+		<!-- bundle -->
+		<script th:src="@{/assets/js/vendor.min.js}"></script>
+		<script th:src="@{/assets/js/app.min.js}"></script>
+
+		<!-- third party js -->
+		<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+		<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+		<script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+		<!-- third party js ends -->
+
+		<!-- demo app -->
+		<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+		<script th:src="@{/assets/js/clock.js}"></script>
+		<!-- end demo js-->
+</body>
+
+</html>

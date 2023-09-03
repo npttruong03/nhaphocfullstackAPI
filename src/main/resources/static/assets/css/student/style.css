@@ -1,0 +1,166 @@
+*{
+    font-size: 15px;
+}
+body{
+    width: 100%;
+}
+.form-login{
+    box-shadow: 0 0 10px #ffc107;
+}
+.form-login button{
+    margin-bottom: 20px;
+}
+#cccd{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+
+
+.slide img {
+    height: 330px;
+    object-fit: cover;
+}
+
+.bg-grey{
+    background-color: #F1F1F1;
+}
+
+.footer {
+    margin-top: 100px;
+}
+
+.footer img {
+    height: 60px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+/* Track */
+::-webkit-scrollbar-track {
+background: #cce5e7; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #ffc107;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #ffc107;
+}
+
+.line { 
+    background-color: rgb(196, 193, 193);
+    height: 1px;
+    content: "";
+    display: block;
+    width: 100%;
+    position: absolute;
+    z-index: -2;
+    top: 25%
+}
+
+.text-blue {
+    color: blue;
+}
+
+.text-green {
+    color: green
+}
+
+.outline-none {
+    outline: none;
+}
+
+
+.proof {
+    max-width: 1000px;
+    max-height: 1000px;
+    object-fit: cover;
+}
+ #capt {
+        position: relative;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    #capt::before {
+        content: attr(value);
+        display: block;
+        font-size: 2.5em;
+        line-height: 1;
+        transform: translateY(-50%);
+        position: absolute;
+        top: 50%;
+    }
+    
+    
+#alert2 {
+ 	position: absolute;
+ 	width: max-content;
+ 	height: 5%;
+	padding: 5px;
+	display: flex;
+	flex-direction: column;
+	right: 20%;
+	top: -10px;
+	z-index: 9999;
+ }
+ 
+#alert1 {
+ 	position: absolute;
+ 	width: max-content;
+ 	height: 5%;
+	padding: 5px;
+	display: flex;
+	flex-direction: column;
+	left: 0%;
+	top: -60px;
+	z-index: 9999;
+ }
+ 
+ .bar {
+ 	width: 100%;
+ 	padding: 10px;
+ 	margin-bottom: 30px;
+ 	background: #FFFF66	;
+ 	border-radius: 5px;
+ }
+ 
+ .bar p {
+ 	font-size: 13px;
+ 	z-index: 99;
+ }
+ 
+ .left {
+ 	position: relative;
+ 	align-self: flex-start;
+ }
+ 
+ .left:after{
+ 	position: absolute;
+ 	content: '';
+ 	width: 40px;
+ 	height: 40px;
+ 	bottom: -30px;
+ 	left: 0px;
+ 	clip-path: polygon(50% 0%, 0% 63%, 0 0);
+ 	background: #FFFF66;
+ 	border-radius: 5px;
+ }
+ 
+ .container-upload {
+ 	position: relative;
+ 	width: max-content;
+ 	margin: auto;
+ }
+ 
+ .pointer {
+ 	cursor: pointer;
+ }
+ 

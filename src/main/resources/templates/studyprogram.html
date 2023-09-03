@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="utf-8" />
+    <title>Website Tuyển Sinh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+        
+</head>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>Website Tuyển Sinh</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" />
+		<meta content="Coderthemes" name="author" />
+		<!-- App favicon -->
+
+		<!-- third party css -->
+		<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+		<!-- third party css end -->
+		<!-- App css -->
+		<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+
+		<!------------------------------ news ---------------------------------->
+		<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+		<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+	</head>
+
+	<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+		data-rightbar-onstart="true">
+		<!-- Begin page -->
+
+		<div class="wrapper">
+			<!-- ========== Left Sidebar Start ========== -->
+			<div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+			<!-- Left Sidebar End -->
+
+			<!-- ============================================================== -->
+			<!-- Start Page Content here -->
+			<!-- ============================================================== -->
+			<div class="content-page">
+				<div class="content">
+					<!-- Topbar Start -->
+					<div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+				</div>
+				<!-- end Topbar -->
+				<!-- Start Content-->
+				<!-- <div th:include="fragments/container-fluid-tinhthanh :: container-fluid" class="container-fluid" ></div> -->
+
+				<!-- start page title -->
+			
+				<!-- end page title -->
+				<!-- ------------------------------start content------------------------------ -->
+				<div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <form class="d-flex">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-light" id="dash-daterange">
+                                            <span class="input-group-text bg-success border-success text-white">
+                                                <i class="mdi mdi-calendar-range font-13"></i>
+                                            </span>
+                                        </div>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-2">
+                                            <i class="mdi mdi-autorenew"></i>
+                                        </a>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-1">
+                                            <i class="mdi mdi-filter-variant"></i>
+                                        </a>
+                                    </form>
+                                </div>
+                                <h4 class="page-title">List học phí</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+            <!-- ------------------------------start content------------------------------ -->
+            <div class="d-flex align-items-center">
+                <select class="form-select me-2">
+                    <option value="">Ξ Tất cả các hình thức</option>
+                    <option value="">Xét điểm THPT</option>
+                    <option value="">Xét học bạ</option>
+                    <option value="">Đánh Giá năng lực</option>
+                    <option value="">Tuyển sinh riêng</option>
+                    <option value="">Tuyển thẳng</option>
+                </select>
+                <select class="form-select">
+                    <option value="">Ξ Tất cả các ngành</option>
+                    <option value="">Công nghệ thông tin (kỹ sư)</option>
+                    <option value="">Công nghệ thông tin (cử nhân)
+                    </option><option value="">Công nghệ thông tin (Hợp tác doanh nghiệp)</option>
+                    <option value="">Chuyên ngành Thiết kế Mỹ thuật số (kỹ sư)</option>
+                    <option value="">Chuyên ngành Khoa học dữ liệu và Trí tuệ nhân tạo (kỹ sư)</option>
+                    <option value="">Chuyên ngành Mạng và An toàn thông tin (kỹ sư)</option>
+                    <option value="">Công nghệ kỹ thuật máy tính (kỹ sư)</option>
+                    <option value="">Công nghệ kỹ thuật máy tính (cử nhân)</option>
+                    <option value="">Quản trị kinh doanh</option>
+                    <option value="">Chuyên ngành Marketing kỹ thuật số</option>
+                    <option value="">Chuyên ngành Quản trị tài chính số</option>
+                    <option value="">Chuyên ngành Quản trị Logistics và chuỗi cung ứng số</option>
+                    <option value="">Chuyên ngành Quản trị dịch vụ du lịch và lữ hành số</option>
+                    <option value="">Chuyên ngành Quản trị dự án Công nghệ thông tin</option>
+                </select> 
+              </div> <br>
+              
+              
+              
+
+                    <div class="content">
+                        <div class="container1">
+                            <div id="navbar" class="row">
+                            </div>
+                            
+                            <div class="row">
+                                
+
+                                <div class="col-sm-12 text-center">
+                                    <div class="alert alert-success">
+                                        - Có 1526 thí sinh đã nộp học phí
+                                    </div>
+
+                                    <!-- ------------------------------table-------------------------- -->
+                                    <div class="table-responsive">
+                                    <table class="table table-responsive table-bordered table-striped">
+                                        <tbody><tr id="tbl-first-row">
+                                            <td width="0%">#</td>
+                                            <td width="15%">Fullname</td>
+                                            <td width="10%">CCCD</td>
+                                            <td width="15%">Đã nộp học phí</td>
+                                            <td width="15%">Học phí kỳ I</td>
+                                            <td width="10%">Bảo hiểm thân thể</td>
+                                            <td width="10%">Bảo hiểm y tế</td>
+                                            <td width="5%">Khám sức khỏe</td>
+                                            <td width="5%">Kiểm tra tiếng Anh</td>
+                                            <td width="5%">TM/CK</td>
+                                            <td width="5%">Người thu</td>
+                                            <td width="5%">Thao tác</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>LÊ VĂN HIẾU</td>
+                                            <td>019231293</td>
+                                            <td>7.835.905 VNĐ</td>
+                                            <td>7.465.100</td>
+                                            <td>100.000</td>
+                                            <td>140.805</td>
+                                            <td>80.000</td>
+                                            <td>50.000</td>
+                                            <td>Chuyển khoản</td>
+                                            <td>Thành</td>
+                                            <td><i style="color: #0BCE97; " class="fa-solid fa-pen-to-square fa-2xl"></i></td>
+                                        </tr>
+                                       
+                                      
+                                                                   
+                                    </tbody></table>
+                                </div>
+                                    <!-- ------------------------------end table------------------------- -->
+                                 <div class="pagination-container">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                          <li class="page-item"><a class="page-link" href="#">«</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">»</a></li>
+                                        </ul>
+                                      </nav>
+                                    </div><br>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- end table -->
+
+
+
+                    <div class="small_box_bottom"></div>
+                </div>
+					<!-- end table -->
+
+
+
+					<div class="small_box_bottom"></div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="card widget-flat">
+						</div> <!-- end card-->
+					</div> <!-- end col-->
+				</div>
+			</div>
+			<!-- container -->
+
+		</div>
+		<!-- content -->
+
+        <!-- Footer Start -->
+      	<div th:include="fragments/footer :: footer" class="footer" ></div>
+        <!-- end Footer -->
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+    <!-- END wrapper -->
+    <!-- Right Sidebar -->
+     <div th:include="bar/endbar :: end-bar" class="end-bar" ></div>
+    <!-- /End-bar -->
+  <button id="go-to-top" onclick="scrollToTop()" class="button1 btn-success"  style="display: none;position: fixed; right: 20px;bottom: 20px;padding-left: 10px;
+    margin-right: 60px; margin-top:200px;">
+      Go to Top
+    </button>
+    <!-- bundle -->
+    <script th:src="@{/assets/js/vendor.min.js}"></script>
+    <script th:src="@{/assets/js/app.min.js}"></script>
+    <script th:src="@{/assets/js/scrool.js}""></script>
+
+    <!-- third party js -->
+    <script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+    <script th:src="@{/assets/js/clock.js}"></script>
+    <!-- end demo js-->
+</body>
+
+</html>

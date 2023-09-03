@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Quản lý khu vực</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+    data-rightbar-onstart="true">
+    <!-- Begin page -->
+
+    <div class="wrapper">
+        <!-- ========== Left Sidebar Start ========== -->
+        	<div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+                 <!-- Topbar Start -->
+                <div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+                <!-- end Topbar -->
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    
+                                </div>
+                                <h4 class="page-title">Chỉnh sửa Khu vực</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+            <!-- ------------------------------start content------------------------------ -->
+                    <div class="content">
+                        <div class="container1">
+                        	<div th:if="${message != null && message.status == 'fail'}" class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #FF0000">
+                            	<span th:text="${message.message}"></span>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-12">
+                                    <form id="form" class="w-25 m-auto" th:action="@{/admin/area/update}" th:object="${area}" method="post">
+                                    	<input th:field="*{id}" th:value="${id}" hidden> 
+                                        <label class="form-label" for="">Mã khu vực</label>
+                                        <input class="form-control" th:field="*{idArea}" th:value="${idArea}" type="text" name="" id="" placeholder="Nhập mã khu vực" required>
+                                        <label class="form-label mt-2" for="">Tên khu vực</label>
+                                        <input class="form-control" th:field="*{name}" th:value="${name}" type="text" name="" id="" placeholder="Nhập tên khu vực" required>
+                                        <label class="form-label mt-2" for="">Điểm cộng</label>
+                                        <input oninput="checkValid()" class="form-control" th:field="*{scoreAdd}" th:value="${scoreAdd}"  type="text" name="" id="scoreAdd" placeholder="Nhập điểm cộng" required>
+                                        <div>
+                                        	<i class="d-none text-danger mt-1" id="warning">* Điểm cộng không được quá 1 điểm</i>
+                                        </div>
+                                        <label class="form-label mt-2" for="statuss">Trạng thái</label>
+                                        <select class="form-select" th:field="*{status}" name="" id="statuss" required>
+                                            <option th:selected="${status} == 1" th:value="1" th:text="Hiện"></option>
+                                            <option th:selected="${status} == 0" th:value="0" th:text="Ẩn"></option>
+                                        </select>
+                                        <div class="text-center mt-2">
+                                            <input class="btn btn-success" type="submit" value="Cập nhật">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end container -->
+        </div>
+        <!-- content -->
+
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row1">
+                    <div class="col-md-12">
+                        <span>Copyright © 2017-2023 - Trường Đại học Công nghệ Thông tin & Truyền Thông Việt - Hàn, Đại
+                            học Đà Nẵng</span>
+                    </div>
+                    <div class="col-md-12">
+                        <div><span></span><i class="fa-solid fa-house"></i> Địa chỉ: Khu Đô thị Đại học Đà Nẵng, Đường
+                            Nam Kỳ Khởi Nghĩa, quận Ngũ Hành Sơn, TP. Đà Nẵng <br>
+                            <span></span><i class="fa-solid fa-square-phone"></i></i> Điện thoại: 0236.6.552.688
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-envelope"></i> daotao@vku.udn.vn
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+    <!-- Right Sidebar -->
+    <div class="end-bar">
+
+        <div class="rightbar-title">
+            <a href="javascript:void(0);" class="end-bar-toggle float-end">
+                <i class="dripicons-cross noti-icon"></i>
+            </a>
+            <h5 class="m-0">Settings</h5>
+        </div>
+
+        <div class="rightbar-content h-100" data-simplebar>
+
+            <div class="p-3">
+                <div class="alert alert-warning" role="alert">
+                    <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
+                </div>
+
+                <!-- Settings -->
+                <h5 class="mt-3">Color Scheme</h5>
+                <hr class="mt-1" />
+
+                <div class="form-check form-switch mb-1">
+                    <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="light"
+                        id="light-mode-check" checked>
+                    <label class="form-check-label" for="light-mode-check">Light Mode</label>
+                </div>
+
+                <div class="form-check form-switch mb-1">
+                    <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="dark"
+                        id="dark-mode-check">
+                    <label class="form-check-label" for="dark-mode-check">Dark Mode</label>
+                </div>
+
+
+                <!-- Width -->
+                <h5 class="mt-4">Width</h5>
+                <hr class="mt-1" />
+                <div class="form-check form-switch mb-1">
+                    <input class="form-check-input" type="checkbox" name="width" value="fluid" id="fluid-check" checked>
+                    <label class="form-check-label" for="fluid-check">Fluid</label>
+                </div>
+
+                <div class="form-check form-switch mb-1">
+                    <input class="form-check-input" type="checkbox" name="width" value="boxed" id="boxed-check">
+                    <label class="form-check-label" for="boxed-check">Boxed</label>
+                </div>
+
+
+                <!-- Left Sidebar-->
+                <h5 class="mt-4">Left Sidebar</h5>
+                <hr class="mt-1" />
+                <div class="form-check form-switch mb-1">
+                    <input class="form-check-input" type="checkbox" name="theme" value="default" id="default-check">
+                    <label class="form-check-label" for="default-check">Default</label>
+                </div>
+
+                <div class="form-check form-switch mb-1">
+                    <input class="form-check-input" type="checkbox" name="theme" value="light" id="light-check" checked>
+                    <label class="form-check-label" for="light-check">Light</label>
+                </div>
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" name="theme" value="dark" id="dark-check">
+                    <label class="form-check-label" for="dark-check">Dark</label>
+                </div>
+
+                <div class="form-check form-switch mb-1">
+                    <input class="form-check-input" type="checkbox" name="compact" value="fixed" id="fixed-check"
+                        checked>
+                    <label class="form-check-label" for="fixed-check">Fixed</label>
+                </div>
+
+                <div class="form-check form-switch mb-1">
+                    <input class="form-check-input" type="checkbox" name="compact" value="condensed"
+                        id="condensed-check">
+                    <label class="form-check-label" for="condensed-check">Condensed</label>
+                </div>
+
+                <div class="form-check form-switch mb-1">
+                    <input class="form-check-input" type="checkbox" name="compact" value="scrollable"
+                        id="scrollable-check">
+                    <label class="form-check-label" for="scrollable-check">Scrollable</label>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button class="btn btn-success" id="resetBtn">Reset to Default</button>
+
+                    <a href="https://themes.getbootstrap.com/product/hyper-responsive-admin-dashboard-template/"
+                        class="btn btn-success mt-3" target="_blank"><i class="mdi mdi-basket me-1"></i> Purchase Now</a>
+                </div>
+            </div> <!-- end padding-->
+
+        </div>
+    </div>
+
+    <div class="rightbar-overlay"></div>
+    <!-- /End-bar -->
+
+    <!-- bundle -->
+    <script th:src="@{/assets/js/vendor.min.js}"></script>
+    <script th:src="@{/assets/js/app.min.js}"></script>
+
+    <!-- third party js -->
+    <script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+    <script th:src="@{/assets/js/clock.js}"></script>
+    <!-- end demo js-->
+    
+    <script>
+	    function checkValid(){
+	    	score = document.getElementById('scoreAdd');
+	    	if (parseFloat(score.value) > 1)
+	        {
+	            score.style.border = "1px solid red"
+	            warning = document.getElementById('warning')
+	            warning.classList.remove('d-none');
+	        }
+	        else {
+	            score.style.border = "1px solid #dee2e6"
+	            warning.classList.add('d-none')
+	        }
+	    }
+	 </script>
+</body>
+
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Website Tuyển Sinh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+        
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+    data-rightbar-onstart="true">
+    <!-- Begin page -->
+
+    <div class="wrapper">
+        <!-- ========== Left Sidebar Start ========== --> 
+           <div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <div class="content-page">
+            <div class="content">
+                <!-- Topbar Start -->
+                 <div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+                </div>
+                <!-- end Topbar -->
+                <!-- Start Content-->
+    
+            
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <form class="d-flex">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-light" id="dash-daterange" fdprocessedid="9a29hh">
+                                            <span class="input-group-text bg-success border-success text-white">
+                                                <i class="mdi mdi-calendar-range font-13"></i>
+                                            </span>
+                                        </div>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-2">
+                                            <i class="mdi mdi-autorenew"></i>
+                                        </a>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-1">
+                                            <i class="mdi mdi-filter-variant"></i>
+                                        </a>
+                                    </form>
+                                </div>
+                      <h4 class="page-title">Danh sách nội dung</h4>
+							  <div class="row">
+								
+                                        <div class="col-md-8">
+                                            <div class="search-container">
+                                               <form style="overflow: visible; max-width: 440px; padding-left: 40px;" method="get" action="">
+									    <div class="input-group">
+									        <input type="text" class="form-control dropdown-toggle" placeholder="Search..." id="top-search1" style="padding-left: 40px!important;" name="keyword">
+									        <span class="mdi mdi-magnify search-icon" style="position: absolute; z-index: 4; font-size: 20px; line-height: 38px; left: 10px; top: 0;"></span>
+									        <button class="input-group-text btn-primary" type="submit">Search</button>
+									    </div>
+									</form>
+                                               
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row d-flex flex-row bd-highlight mb-2">
+                                                <div class="col">
+                                                  	<a th:href="@{/admin/khoa/create}">
+				  								<button class="btn btn-success">Add new</button>
+												</a>
+                                                </div>
+                                              
+                                            </div>
+                                        </div>	
+                                    </div>
+                    <!-- end page title -->
+            <!-- ------------------------------start content------------------------------ -->
+                    <div class="content">
+                        <div class="container1">
+                            <div class="row mt-3">
+                                <div class="col-sm-12 text-center">
+                                <!-- Alert -->
+                            <div th:if="${message != null && message.status == 'success'}" class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #0BCE97">
+                            	<span th:text="${message.message}"></span>
+                            </div>
+                            <div th:if="${message != null && message.status == 'fail'}" class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #FF0000">
+                            	<span th:text="${message.message}"></span>
+                            </div>
+                            <!-- End alert -->
+                                    <!-- ------------------------------table-------------------------- -->
+                                     <div class="table-responsive">
+                                     <table class="table table-responsive table-bordered table-striped">
+        <tbody>
+            <tr id="tbl-first-row">
+                <td>#</td>
+                <td>Khoa</td>
+                <td>Năm bắt đầu</td>
+                <td>Năm kết thức</td>
+                <td>Thời gian bắt đầu</td>
+               <td>Thời gian kết thúc</td>
+                <td>Status</td>
+             	<td>Ngày tạo</td>
+             	<td>Ngày update	</td>
+             	<td>Chỉnh sửa</td>
+            </tr>
+             <tr th:each="khoa,index : ${khoas}">
+            <td th:text="${index.index+1}"></td>
+                 <td th:text="${khoa.khoa}"></td>
+            <td th:text="${khoa.namBatDau}"></td>
+            <td th:text="${khoa.namKetThuc}"></td>
+            <td th:text="${khoa.thoiGianBatDau}"></td>
+             <td th:text="${khoa.thoiGianKetThuc}"></td>
+          <td th:text="${khoa.status}"></td>
+            <td th:text="${khoa.createTime}"></td>
+            <td th:text="${khoa.updateTime}"></td>
+             <td>
+              <a th:href="@{/admin/khoa/edit/{id}(id=${khoa.id})}"><i style="color: #0BCE97;" class="fa-solid fa-pen-to-square fa-2xl"></i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+  
+
+                                </div>
+                                    <!-- ------------------------------end table------------------------- -->
+                           <!--    <div>
+        <a th:href="@{?page=0}" th:unless="${currentPage == 0}">First</a>
+        <a th:href="@{?page=${currentPage - 1}}" th:unless="${currentPage == 0}">Previous</a>
+        <span th:text="${currentPage}"></span>
+        <a th:href="@{?page=${currentPage + 1}}" th:unless="${currentPage + 1 >= totalPages}">Next</a>
+        <a th:href="@{?page=${totalPages - 1}}" th:unless="${currentPage + 1 >= totalPages}">Last</a>
+    </div>
+			 --> 					<br>
+									
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                    <!-- end table -->
+
+
+
+                    <div class="small_box_bottom"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card widget-flat">
+                        </div> <!-- end card-->
+                    </div> <!-- end col-->
+                </div> 
+            </div>
+            <!-- container -->
+
+        </div>
+        <!-- content -->
+
+        <!-- Footer Start -->
+      <div th:include="fragments/footer :: footer" class="footer" ></div>
+        <!-- end Footer -->
+</div>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+    </div>
+    <!-- END wrapper -->
+    <!-- Right Sidebar -->
+     <div th:include="bar/endbar :: end-bar" class="end-bar" ></div>
+    <!-- /End-bar -->
+
+    <!-- bundle -->
+    <script th:src="@{/assets/js/vendor.min.js}"></script>
+    <script th:src="@{/assets/js/app.min.js}"></script>
+
+    <!-- third party js -->
+    <script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+    <script th:src="@{/assets/js/clock.js}"></script>
+    <!-- end demo js-->
+</body>
+
+</html>

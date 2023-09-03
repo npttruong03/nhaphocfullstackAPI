@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<title>Quản lý danh mục giấy tờ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" />
+<meta content="Coderthemes" name="author" />
+<!-- App favicon -->
+
+<!-- third party css -->
+<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}"
+	rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{/assets/css/app.min.css}" rel="stylesheet"
+	type="text/css" id="app-style" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">	
+<!------------------------------ news ---------------------------------->
+<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 5000);
+	</script>
+</head>
+
+<body class="loading" data-layout-color="light"
+	data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft"
+			class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+
+		<div class="content-page">
+			<div class="content">
+				<!-- Topbar Start -->
+				<div th:include="fragments/fragmentheader :: header"
+					class="navbar-custom"></div>
+				<!-- end Topbar -->
+
+				<!-- Start Content-->
+				<div class="container-fluid">
+
+					<!-- start page title -->
+					<div class="row">
+						<div class="col-12">
+							<div class="page-title-box">
+								<div class="page-title-right">
+									<form class="d-flex">
+										<div class="input-group">
+											<input type="text" class="form-control form-control-light"
+												id="dash-daterange"> <span
+												class="input-group-text bg-success border-success text-white">
+												<i class="mdi mdi-calendar-range font-13"></i>
+											</span>
+										</div>
+										<a href="javascript: void(0);" class="btn btn-success ms-2">
+											<i class="mdi mdi-autorenew"></i>
+										</a> <a href="javascript: void(0);" class="btn btn-success ms-1">
+											<i class="mdi mdi-filter-variant"></i>
+										</a>
+									</form>
+								</div>
+								<form id="search-form"
+									style="overflow: visible; max-width: 440px; padding-left: 40px;"
+									method="get" action="">
+									<div class="input-group">
+										<!--  <select class="form-select" name="khoaId" id="khoaId" >
+									    	<option name="khoaId" th:value>Khóa</option>
+                                            <option th:each="khoa1 : ${khoas}" name="khoaId" th:value="${khoa1.id}" th:text="${khoa1.khoa}"></option>
+                                        	</select>
+                                        	<select class="form-select" name="majorsId" id="majorsId" >
+                                        	<option name="majorsId" th:value>Ngành</option>
+                                            <option th:each="major : ${majors}" name="majorsId" th:value="${major.id}" th:text="${major.majorsName}"></option>
+                                        	</select>
+                                        	<select class="form-select" name="curriculumId" id="curriculumId" >
+                                        	<option name="curriculumId" th:value>Chương trình học</option>
+                                           	<option th:each="currie : ${curries}" name="curriculumId" th:value="${currie.id}" th:text="${currie.name}"></option>
+                                        	</select>-->
+
+										<h4 class="page-title ">Chọn Danh mục học phí cần nộp</h4>
+										<div class="row">
+
+											<div class="col-md-12">
+												<div class="search-container">
+												<a class="btn btn-lg b2" th:href="@{/admin/tuitionFeeList}">
+    <i class="bi bi-arrow-left-square-fill"></i>
+</a>
+
+													<form id="search-form"
+														style="overflow: visible; max-width: 1000px; padding-left: 40px;"
+														method="get" action="">
+														<div class="input-group">
+															<!--  <select class="form-select" name="khoaId" id="khoaId" >
+									    	<option name="khoaId" th:value>Khóa</option>
+                                            <option th:each="khoa1 : ${khoas}" name="khoaId" th:value="${khoa1.id}" th:text="${khoa1.khoa}"></option>
+                                        	</select>
+                                        	<select class="form-select" name="majorsId" id="majorsId" >
+                                        	<option name="majorsId" th:value>Ngành</option>
+                                            <option th:each="major : ${majors}" name="majorsId" th:value="${major.id}" th:text="${major.majorsName}"></option>
+                                        	</select>
+                                        	<select class="form-select" name="curriculumId" id="curriculumId" >
+                                        	<option name="curriculumId" th:value>Chương trình học</option>
+                                           	<option th:each="currie : ${curries}" name="curriculumId" th:value="${currie.id}" th:text="${currie.name}"></option>
+                                        	</select>-->
+
+															<select class="form-select" name="khoaId" id="khoaId">
+																<option value="">Khóa</option>
+																<option th:each="khoa1 : ${khoas}"
+																	th:value="${khoa1.id}" th:text="${khoa1.khoa}"></option>
+															</select> <select class="form-select" name="majorsId"
+																id="majorsId">
+																<option value="">Ngành</option>
+																<option th:each="major : ${majors}"
+																	th:value="${major.id}" th:text="${major.majorsName}"></option>
+															</select> <select class="form-select" name="curriculumId"
+																id="curriculumId">
+																<option value="">Chương trình học</option>
+																<option th:each="currie : ${curries}"
+																	th:value="${currie.id}" th:text="${currie.name}"></option>
+															</select> <input type="hidden" id="cookieValue"
+																th:value="${cookieValue}">
+														</div>
+													</form>
+
+												</div>
+											</div>
+										</div>
+									</div>
+							</div>
+							<!-- end page title -->
+							<!-- ------------------------------start content------------------------------ -->
+							<div class="content">
+								<div class="container1">
+									<!-- Alert -->
+									<div th:if="${message != null && message.status == 'success'}"
+										class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+										id="message" style="background-color: #0BCE97">
+										<span th:text="${message.message}"></span>
+									</div>
+									<div th:if="${message != null && message.status == 'fail'}"
+										class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+										id="message" style="background-color: #FF0000">
+										<span th:text="${message.message}"></span>
+									</div>
+									<!-- End alert -->
+									<div class="row mt-3">
+										<div class="col-sm-12">
+											<div class="m-auto w-50">
+												<h3 th:text="'Tích chọn các danh mục học phí cần nộp'"></h3>
+												<form th:action="@{'/admin/tuitionFeeList/choose' }"
+													method="post" id="myFormContainer">
+													
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+
+							<!-- end table -->
+
+
+
+							<div class="small_box_bottom"></div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								
+								<!-- end card-->
+							</div>
+							<!-- end col-->
+
+
+
+
+						</div>
+						<!-- end col -->
+
+
+
+					</div>
+					<!-- container -->
+
+				</div>
+				<!-- content -->
+
+				<!-- Footer Start -->
+				<div th:include="fragments/footer :: footer" class="footer"></div>
+				<!-- end Footer -->
+
+			</div>
+
+			<!-- ============================================================== -->
+			<!-- End Page content -->
+			<!-- ============================================================== -->
+
+
+		</div>
+		<!-- END wrapper -->
+
+		<
+		<!-- Right Sidebar -->
+		<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+		<!-- /End-bar -->
+
+		<!-- bundle -->
+		<script th:src="@{/assets/js/vendor.min.js}"></script>
+		<script th:src="@{/assets/js/app.min.js}"></script>
+
+		<!-- third party js -->
+		<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+		<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+		<script
+			th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+		<!-- third party js ends -->
+
+		<!-- demo app -->
+		
+	<script>
+$(document).ready(function() {
+  function updateFormWithCheckboxes(response) {
+    // Tạo form mới
+    var myFormContainer = $('#myFormContainer');
+    myFormContainer.empty();
+
+    var myForm = $('<form>').attr({
+      'method': 'post',
+      'id': 'myForm'
+    });
+
+    var selectAllButton = $('<button>').attr({
+      'class': 'btn b1',
+      'type': 'button'
+    }).text('Chọn tất cả');
+
+    selectAllButton.click(function() {
+      checkAllCheckboxes();
+    });
+
+    myForm.append(selectAllButton);
+
+    // Thêm checkbox và xử lý sự kiện thay đổi
+    response.forEach(function(tuition) {
+      var div = $('<div class="mt-2">');
+      var inputCheckbox = $('<input>').attr({
+        'type': 'checkbox',
+        'value': tuition.id
+      });
+
+      inputCheckbox.change(function() {
+        handleCheckboxSelection();
+      });
+
+      var label = $('<label>').attr({
+        'class': 'form-check-label fs-4',
+        'for': ''
+      }).text(tuition.name + " - " + tuition.khoa.khoa + " - " + tuition.majors.majorsName);
+
+      div.append(inputCheckbox);
+      div.append(label);
+      myForm.append(div);
+    });
+
+    // Thêm input ẩn để lưu trữ giá trị đã chọn
+    var inputSelectedIds = $('<input>').attr({
+      'type': 'hidden',
+      'name': 'ids',
+      'id': 'selectedIds'
+    });
+    myForm.append(inputSelectedIds);
+
+    // Thêm nút xác nhận
+    var submitButton = $('<input>').attr({
+      'class': 'btn btn-success',
+      'type': 'submit',
+      'value': 'Xác nhận'
+    });
+    var submitDiv = $('<div class="text-center mt-4">').append(submitButton);
+    myForm.append(submitDiv);
+
+    // Đặt form vào container
+    myFormContainer.append(myForm);
+  }
+
+  function handleCheckboxSelection() {
+    var selectedIds = $('input[type="checkbox"]:checked').map(function() {
+      return $(this).val();
+    }).get().filter(function(value) {
+      return !isNaN(value);
+    }).join(',');
+
+    $('#selectedIds').val(selectedIds);
+  }
+
+  function checkAllCheckboxes() {
+    var checkboxes = $('input[type="checkbox"]');
+    checkboxes.prop('checked', true);
+    handleCheckboxSelection();
+  }
+
+  function searchDataFromAPI(khoaId, majorsId, curriculumId) {
+    var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKeySttFalse';
+    var queryParams = [];
+
+    if (khoaId) queryParams.push('khoaId=' + khoaId);
+    if (majorsId) queryParams.push('majorsId=' + majorsId);
+    if (curriculumId) queryParams.push('curriculumId=' + curriculumId);
+
+    if (queryParams.length > 0) {
+      apiURL += '?' + queryParams.join('&');
+    }
+
+    $.ajax({
+      type: 'GET',
+      url: apiURL,
+      success: function(response) {
+        updateFormWithCheckboxes(response);
+      },
+      error: function(error) {
+        console.log('Error:', error);
+      }
+    });
+  }
+
+  
+
+  $('#majorsId, #khoaId, #curriculumId').change(function() {
+    var khoaId = $('#khoaId').val();
+    var majorsId = $('#majorsId').val();
+    var curriculumId = $('#curriculumId').val();
+    searchDataFromAPI(khoaId, majorsId, curriculumId);
+  });
+  searchDataFromAPI();
+});
+</script>
+
+
+	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+		<script th:src="@{/assets/js/clock.js}"></script>
+		<!-- end demo js-->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</body>
+
+</html>

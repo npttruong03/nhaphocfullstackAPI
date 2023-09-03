@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Đăng ký nhập học trực tuyến - VKU</title>
+	<link rel="shortcut icon" href="/assets/images/index/iconlogo.png">
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link type="text/css" rel="stylesheet" th:href="@{/assets/css/student/style.css}">
+	<link href="/styleindex.css" rel="stylesheet" type="text/css">
+
+</head>
+<style>
+	@media(max-width:576px) {
+		.b {
+			display: none;
+		}
+	}
+</style>
+
+<body>
+	<div>
+		<!-- header -->
+		<div>
+			<nav class="navbar navbar-expand-lg navbar-light bg-warning p-0">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="container-fluid w-75">
+					<div class="collapse navbar-collapse mx-5 w-50" id="navbarNav">
+						<ul class="navbar-nav d-flex justify-content-between w-100">
+							<li class="nav-item bg-white py-1">
+								<a class="nav-link text-dark fw-bolder fs-5" aria-current="page" href="#">Đăng ký nhập
+									học trực tuyến</a>
+							</li>
+							<li class="nav-item py-1">
+								<a class="nav-link pointer" href="/admission/logout"><i
+										class="fa-solid fa-right-from-bracket fa-2xl text-dark"></i></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<!-- end header -->
+		<!-- body -->
+		<div class="container mt-5 w-100">
+			<!-- step -->
+			<div class="mt-5">
+				<!-- step -->
+				<div class="row w-100 d-flex m-auto position-relative">
+					<div class="line"></div>
+					<div class="col-3 col-md-3 text-center mb-3 mb-md-0">
+						<button class="step-btn rounded-pill bg-warning py-2 mt-4 mt-md-3 mt-lg-2 pr-4 border-0"
+							data-step="1">Bước 1</button>
+						<p>1. Xác nhận và Khai thông tin</p>
+					</div>
+					<div class="col-3 col-md-3 text-center mb-3 mb-md-0">
+						<button class="step-btn rounded-pill bg-light mt-4 mt-md-3 mt-lg-2 pr-4 py-2 border-1"
+							th:disabled="${unlocked<2}" data-step="2">Bước 2</button>
+						<p>2. Khai thông tin hồ sơ</p>
+					</div>
+					<div class="col-3 col-md-3 text-center mb-3 mb-md-0">
+						<button class="step-btn rounded-pill bg-light mt-4 mt-md-3 mt-lg-2 pr-4 py-2 border-1"
+							th:disabled="${unlocked<3}" data-step="3">Bước 3</button>
+						<p>3. Nộp tiền</p>
+					</div>
+					<div class="col-3 col-md-3 text-center">
+						<button class="step-btn rounded-pill bg-light mt-4 mt-md-3 mt-lg-2 pr-4 py-2 border-1"
+							th:disabled="${unlocked<4}" data-step="4">Bước 4</button>
+						<p>4. Xác nhận</p>
+					</div>
+				</div>
+			</div>
+			<!-- end step -->
+			<!-- Alert  -->
+			<div th:if="${message != null }" id="message" class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+				style="background-color: #ff5600">
+				<span th:text="${message.message}"></span>
+			</div>
+
+			<!-- End alert -->
+
+			<!-- info -->
+			<form th:action="@{/admission/page1/{id}(id=${loggedInStudent.id})}" method="post">
+				<div class="d-flex justify-content-around flex-wrap">
+					<div class="col-lg-5 col-xs-12">
+						<div class="border-start border-4 py-1 border-warning bg-grey text-center">
+							<h4 class="text-uppercase fw-bolder">1.1 Thông tin bản thân</h4>
+						</div>
+						<div class="d-xs-block d-lg-flex mt-2 justify-content-between m-2">
+							<div class="col-lg-6 col-xs-12" th:if="${loggedInStudent != null}">
+								<label class="fw-bolder" for="hoten">Họ và tên</label>
+								<br>
+								<p class="text-blue text-uppercase border-0 fs-5 outline-none p-0"
+									th:if="${loggedInStudent.fullName}"><span
+										th:text="${loggedInStudent.fullName}"></span></p>
+
+							</div>
+							<div class="col-lg-3 col-xs-12">
+								<label class="fw-bolder" for="ngaysinh">Ngày sinh</label>
+								<br>
+								<p class="text-blue text-uppercase border-0 fs-5 outline-none p-0">
+									<span th:text="${loggedInStudent.birthday}">01/01/2002 </span>
+								</p>
+
+							</div>
+							<div class="col-lg-auto col-xs-12">
+								<label class="fw-bolder" for="gioitinh">Giới tính</label>
+								<br>
+								<input class="form-check-input" type="radio" name="gender" id="nam"
+									th:checked="${loggedInStudent.gender == 'male'}" th:value="male" required> Nam <br>
+								<input class="form-check-input" type="radio" name="gender" id="nu"
+									th:checked="${loggedInStudent.gender == 'female'}" th:value="female" required> Nữ
+							</div>
+
+
+						</div>
+						<div class="d-xs-block d-sm-flex mt-2 justify-content-between m-2">
+
+							<div class="col-12">
+								<label class="fw-bolder" for="noisinh">Nơi sinh</label>
+								<br>
+								<input class="form-control" type="text" name="birthplace" id="noisinh"
+									th:value="${loggedInStudent.birthplace}" required>
+							</div>
+						</div>
+						<div class="d-xs-block d-sm-flex mt-2 justify-content-between m-2">
+							<div class="col-12">
+								<label class="fw-bolder" for="quequan">Quê quán</label>
+								<br>
+								<input class="form-control" type="text" name="homeTown" id="quequan"
+									th:value="${loggedInStudent.homeTown}" required>
+							</div>
+						</div>
+						<div class="d-xs-block d-sm-flex mt-2 justify-content-between m-2">
+							<div class="col-sm-5 col-xs-12">
+								<label class="fw-bolder" for="tongiao">Tôn giáo</label>
+								<br>
+								<select class="form-select" name="religion" id="tongiao" required>
+									<option value="Không">Không</option>
+									<option th:each="religion : ${religions}" th:value="${religion.tenReligion}"
+										th:text="${religion.tenReligion}"
+										th:selected="${loggedInStudent.religion == religion.tenReligion}"></option>
+								</select>
+							</div>
+							<div class="col-sm-5 col-xs-12">
+								<label class="fw-bolder" for="dantoc">Dân tộc</label>
+								<br>
+								<select class="form-select" name="ethnic" id="dantoc" required>
+									<option th:each="ethnic : ${ethnics}" th:value="${ethnic.name}"
+										th:text="${ethnic.name}" th:selected="${loggedInStudent.ethnic == ethnic.name}">
+
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="d-xs-block d-lg-flex mt-2 justify-content-between m-2">
+							<div class="col-lg-3 col-xs-12">
+								<label class="fw-bolder" for="cccd">CCCD</label>
+								<br>
+								<p class="text-blue text-uppercase border-0 fs-5 outline-none p-0"><span
+										th:text="${loggedInStudent.numberCIC}"></span></p>
+							</div>
+							<div class="col-lg-3 col-xs-12">
+								<label class="fw-bolder" for="ngaycap">Ngày cấp</label>
+								<br>
+								<input class="form-control" type="text" name="dateIssuanceCIC" id="ngaycap"
+									placeholder="dd/mm/yyyy" th:value="${loggedInStudent.dateIssuanceCIC}" required>
+							</div>
+							<div class="col-lg-4 col-xs-12">
+								<label class="fw-bolder" for="noicap">Nơi cấp</label>
+								<br>
+								<th:block>
+
+									<select class="form-select" name="placeIssuanceCIC" id="noicap" required>
+									</select>
+									<input type="hidden" class="form-control" name="placeIssuanceCIC" id="noicap_text"
+										th:value="${loggedInStudent.placeIssuanceCIC}" required>
+								</th:block>
+
+
+							</div>
+						</div>
+						<div class="d-xs-block d-lg-flex mt-2 justify-content-between m-2">
+							<div class="col-lg-3 col-xs-12">
+								<label class="fw-bolder" for="dienthoai">Điện thoại</label>
+								<br>
+								<input class="form-control" type="tel" name="phoneNumber" id="dienthoai"
+									th:value="${loggedInStudent.phoneNumber}" pattern="^(0|\+84)\d{9,10}$"
+									title="Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại Việt Nam hợp lệ."
+									required>
+							</div>
+							<div class="col-lg-5 col-xs-12">
+								<label class="fw-bolder" for="email">Email</label>
+								<br>
+								<input class="form-control" type="email" name="email" id="email"
+									th:value="${loggedInStudent.email}"
+									title="Địa chỉ email không hợp lệ. Vui lòng nhập địa chỉ email hợp lệ." required>
+							</div>
+							<div class="col-lg-3 col-xs-12">
+								<label class="fw-bolder" for="doan">Đoàn, thể</label>
+								<br>
+								<input class="form-check-input" type="radio" name="unionMember" id="doan"
+									th:checked="${loggedInStudent.unionMember}" value="true" required> Đoàn viên <br>
+								<input class="form-check-input" type="radio" name="unionMember" id="doan"
+									th:checked="${!loggedInStudent.unionMember}" value="false" required> Không
+
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-5 col-xs-12">
+						<div class="border-start border-4 py-1 border-warning bg-grey text-center">
+							<h4 class="text-uppercase fw-bolder">1.2 Thông tin thêm</h4>
+						</div>
+						<div>
+							<div class="d-xs-block d-lg-flex justify-content-around mt-2">
+								<div class="col-lg-5 col-xs-12">
+									<label class="fw-bolder" for="dienthoaigiadinh">Điện thoại gia đình</label>
+									<br>
+									<input class="form-control" type="tel" name="phoneNbHome" id="dienthoaigiadinh"
+										placeholder="Điện thoại gia đình" th:value="${loggedInStudent.phoneNbHome}"
+										pattern="^(0|\+84)\d{9,10}$"
+										title="Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại Việt Nam hợp lệ."
+										required>
+								</div>
+								<div class="col-lg-5 col-xs-12">
+									<label class="fw-bolder" for="dienchinhsach">Diện chính sách</label>
+									<br>
+									<input class="form-control" type="text" name="treatmentPolicy" id="dienchinhsach"
+										th:value="${loggedInStudent.treatmentPolicy}"
+										placeholder="Thương binh, diện hộ nghèo, ...">
+								</div>
+							</div>
+							<div class="d-xs-block d-lg-flex justify-content-around mt-2">
+								<div class="col-lg-5 col-xs-12">
+									<label class="fw-bolder" for="hktinh">Cư trú (Thành phố/ Tỉnh)</label>
+									<br>
+									<th:block>
+										<select class="form-select" name="hktinh" id="hktinh" required>
+											<option value="">(Chọn tỉnh thành)</option>
+										</select>
+										<input type="hidden" name="hktinh1" id="cuTruTinh"
+											th:value="${loggedInStudent.cuTruTinh}">
+									</th:block>
+								</div>
+								<div class="col-lg-5 col-xs-12">
+									<label class="fw-bolder" for="hkhuyen">Cư trú (Quận/ Huyện)</label>
+									<br>
+									<th:block>
+										<select class="form-select" name="hkhuyen" id="hkhuyen" required>
+											<option value="">(Chọn quận huyện)</option>
+										</select>
+										<input type="hidden" name="hkhuyen1" id="cuTruHuyen"
+											th:value="${loggedInStudent.cuTruQuanHuyen}">
+									</th:block>
+
+								</div>
+							</div>
+							<div class="d-xs-block d-lg-flex justify-content-around mt-2">
+								<div class="col-lg-5 col-xs-12">
+									<label class="fw-bolder" for="hkxa">Cư trú (Xã/ Phường)</label>
+									<br>
+									<th:block>
+										<select class="form-select" name="hkxa" id="hkxa" required>
+											<option value="">(Chọn xã phường)</option>
+											<input type="hidden" name="hkxa1" id="cuTruXa"
+												th:value="${loggedInStudent.cuTruXaPhuong}">
+										</select>
+									</th:block>
+
+								</div>
+								<div class="col-lg-5 col-xs-12">
+									<label class="fw-bolder" for="hkthon">Cư trú (Tổ/ Thôn)</label>
+									<br>
+									<input class="form-control" type="text" name="hkthon" id="hkthon"
+										placeholder="Nhập hộ khẩu (Tổ/ thôn)" th:value="${loggedInStudent.cuTruToThon}"
+										required>
+								</div>
+							</div>
+
+
+							<div class="d-xs-block d-lg-flex justify-content-around mt-2">
+								<div class="col-lg-5 col-xs-12">
+									<label class="fw-bolder" for="bhyt">Mã số bảo hiểm y tế</label>
+									<br>
+									<input class="form-control" type="text" name="codeBHYT"
+										th:value="${loggedInStudent.codeBHYT}" id="bhyt"
+										placeholder="Nhập BHYT(cả chữ và số)">
+									<i>
+										Không tra được mã bảo hiểm y tế, liên hệ với HOTLINE: 02363667129
+									</i>
+								</div>
+
+								<div class="col-lg-5 col-xs-12">
+									<button class="btn btn-warning px-4 py-3 fs-5 mt-4" type="submit">Hoàn thành bước
+										1</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<!-- end info -->
+		</div>
+		<!-- end body -->
+		<!-- footer -->
+		<div class="bg-warning border-top border-3 border-danger footer">
+			<div class="w-75 m-auto d-flex">
+				<div class="col-md-1 m-auto d-none d-xl-block">
+					<img class="" src="images/logo_icon.png" alt="">
+				</div>
+				<div class="col mx-5 col-12">
+					<span class="fw-bolder">Bản quyền &copy; Trường Đại học Công nghệ Thông tin & Truyền Thông Việt -
+						Hàn, Đại học Đà Nẵng</span> <br>
+					<span>
+						<i class="fa-solid fa-house"></i> Địa chỉ: 470 Trần Đại Nghĩa, quận Ngũ Hành Sơn, Thành phố Đà
+						Nẵng
+					</span>
+					<div class="d-block d-lg-flex">
+						<div class="col-auto">
+							<i class="fa-solid fa-phone"></i> Điện thoại: 0236.6.552.688
+						</div>
+						<div class="col-auto mx-5 mb-3">
+							<i class="fa-solid fa-envelope"></i> Email: tuyensinh@vku.udn.vn
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end footer-->
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script>
+		const Base_URL = "https://provinces.open-api.vn/api";
+
+
+		$(document).ready(function () {
+			// Lấy giá trị của các thẻ input hidden
+			var hktinhValue = $('#cuTruTinh');
+			var hkhuyenValue = $('#cuTruHuyen');
+			var hkxaValue = $('#cuTruXa');
+			var placeCIC = $('#noicap_text').val()
+			console.log(hktinhValue)
+
+			$.ajax({
+				url: Base_URL + "/p",
+				type: "GET",
+				dataType: "json",
+				success: function (data) {
+					// Thực hiện các thao tác với dữ liệu trả về
+					var provinceList = data;
+					var provinceOptions = "<option value='' disable>(Chọn nơi cấp CCCD)</option>";
+					provinceOptions += "<option value='Cục cảnh sát quản lý hành chính về trật tự xã hội' " + ((placeCIC != null && placeCIC.length > 20) ? 'selected' : '') + ">Cục cảnh sát quản lý hành chính về trật tự xã hội</option>";
+					for (var i = 0; i < provinceList.length; i++) {
+						provinceOptions += "<option value='" + provinceList[i].name + "'" + (placeCIC == provinceList[i].name ? "selected" : "") + ">" +
+							provinceList[i].name + "</option>";
+					} $("#noicap").html(provinceOptions);
+				}, error: function (jqXHR, textStatus,
+					errorThrown) {
+					// Xử lý lỗi khi gọi API 
+					console.log("Error: " + errorThrown);
+				}
+			});
+			// lấy dữ liệu các huyện từ tỉnh
+			function loadDistrictByProvinceCode(provinceCode) {
+				if (provinceCode !== "0") {
+					apiURL = Base_URL + "/p/" + provinceCode + "?depth=2"
+					//console.log(apiURL)
+					$.ajax({
+						url: apiURL,
+						type: "GET",
+						dataType: "json",
+						success:
+							function (data) {
+								// Thực hiện các thao tác với dữ liệu trả về 
+								//console.log(data)
+								hktinhValue.val(data["name"]);
+								//alert(hktinhValue.val())
+								var districtList = data['districts'];
+								var districtOptions = "<option value disable>(Chọn quận huyện)</option>";
+								//console.log("huyện: " + hkhuyenValue.val());
+								for (var i = 0; i < districtList.length; i++) {
+									if (hkhuyenValue.val() == districtList[i].name) {
+										loadWardsByDistrictCode(districtList[i].code)
+
+									}
+									districtOptions += "<option value='" + districtList[i].code + "'" + (hkhuyenValue.val() == districtList[i].name ? "selected" : "") + ">" +
+										districtList[i].name + "</option>";
+									//districtOptions += "<option value='" + districtList[i].code + "'>" + districtList[i].name + "</option>";
+								}
+								$("#hkhuyen").html(districtOptions); $("#hkxa").html("<option value disable>(Chọn xã phường)</option>");
+							},
+						error: function (jqXHR, textStatus, errorThrown) {
+							// Xử lý lỗi khi gọi API
+							console.log("Error: " + errorThrown);
+						}
+					});
+				} else {
+					$("#hkhuyen").html("<option value disable>(Chọn quận huyện)</option>");
+					$("#hkxa").html("<option value disable'>(Chọn xã phường)</option>");
+				}
+			}
+
+			//Load danh sách xã theo huyện 
+			function loadWardsByDistrictCode(districtCode) {
+				apiURL = Base_URL + "/d/" + districtCode + "?depth=2"
+				console.log(apiURL)
+				if (districtCode !== "0") {
+					//console.log(" vô" + apiURL)
+
+					$.ajax({
+						url: apiURL,
+						type: "GET",
+						dataType: "json",
+						success: function (data) {
+							// Thực hiện các thao tác với dữ liệu trả về
+							hkhuyenValue.val(data["name"]);
+							var wardList = data['wards'];
+							var wardOptions = "<option value disable>(Chọn xã phường)</option>";
+							if (wardList[0] != null) {
+
+								for (var i = 0; i < wardList.length; i++) {
+									//alert( hkhuyenValue.val()+ "--"+ wardList[i].name +":"+ hkhuyenValue.val() == wardList[i].name)
+									//console.log("hkhuyen" + hkhuyenValue.val() + "--" + wardList[i].name + ":" + hkhuyenValue.val() == wardList[i].name)
+									wardOptions += "<option value='" + wardList[i].code + "'" + (hkxaValue.val() == wardList[i].name ? "selected" : "") + ">" +
+										wardList[i].name + "</option>";
+								}
+							}
+							else {
+								wardOptions += "<option value='trống'" + (hkxaValue.val() == 'Trống' ? "selected" : "") + ">Trống</option>";
+							}
+							$("#hkxa").html(wardOptions);
+						}, error: function (jqXHR, textStatus,
+							errorThrown) {
+							// Xử lý lỗi khi gọi API
+							console.log("Error: " + errorThrown);
+						}
+					});
+				} else {
+					$(" #hkxa").html("<option >(Chọn xã phường)</option>");
+				}
+			}
+
+			// Load danh sách tỉnh thành
+
+			$.ajax({
+				url: Base_URL + "/p",
+				type: "GET",
+				dataType: "json",
+				success: function (data) {
+					// Thực hiện các thao tác với dữ liệu trả về
+					var provinceList = data;
+					var provinceOptions = "<option value disable >(Chọn tỉnh thành)</option>";
+					for (var i = 0; i < provinceList.length; i++) {
+						if (hktinhValue.val() == provinceList[i].name) {
+							loadDistrictByProvinceCode(provinceList[i].code)
+							//console.log("tỉnh:  " + provinceList[i].name + ' - ' + hktinhValue.val() + ' select:' )
+						}
+
+						provinceOptions += "<option value='" + provinceList[i].code + "' " + (hktinhValue.val() == provinceList[i].name ? "selected" : "") + ">" +
+							provinceList[i].name + "</option>";
+					} $("#hktinh").html(provinceOptions);
+				}, error: function (jqXHR, textStatus,
+					errorThrown) {
+					// Xử lý lỗi khi gọi API 
+					console.log("Error: " + errorThrown);
+				}
+			});
+
+			// Load danh sách quận huyện khi chọn tỉnh thành
+			$("#hktinh").change(function () {
+				var provinceCode = $(this).val();
+				loadDistrictByProvinceCode(provinceCode)
+
+			});
+
+			// Load danh sách xã phường khi chọn quận huyện
+			$("#hkhuyen").change(function () {
+				var districtCode = $(this).val();
+				loadWardsByDistrictCode(districtCode)
+				$("#hkxa").change(function () {
+					var selectedOption = $(this).find("option:selected");
+					var cuTruXaValue = selectedOption.text();
+					hkxaValue.val(cuTruXaValue);
+					//alert(hkxaValue.val())
+				});
+			});
+			// Tìm kiếm và hiển thị các option trong select
+
+
+			//$("#hktinh, #hkhuyen, #hkxa").keyup(function () {
+			//	var keyword = $(this).val().toLowerCase();
+			//	console.log("key: " + keyword)
+			//	$(this).children("option").filter(function () {
+			//		$(this).toggle($(this).text().toLowerCase().indexOf(keyword) > -1);
+			//	});
+			//});
+
+		});
+
+
+	</script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			// Bắt sự kiện click vào tất cả các button có class là "step-btn"
+			$('.step-btn').click(function () {
+				// Lấy giá trị của thuộc tính "data-step" của button được click
+				var stepValue = $(this).data('step');
+				// Gửi giá trị qua AJAX
+				$.ajax({
+					url: '/admission',
+					type: 'POST',
+					data: JSON.stringify({'page': stepValue}),
+					contentType: 'application/json; charset=utf-8',
+					success: function (data) {
+						// Xử lý kết quả trả về nếu cần thiết
+						if (data == "OK") {
+							window.location.href = "/"
+						}
+					}
+				});
+			});
+		});
+	</script>
+	<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 5000);
+
+	</script>
+
+</body>
+
+</html>

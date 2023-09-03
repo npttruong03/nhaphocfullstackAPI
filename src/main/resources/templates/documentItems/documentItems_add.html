@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Quản lý danh mục giấy tờ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+    data-rightbar-onstart="true">
+    <!-- Begin page -->
+
+    <div class="wrapper">
+        <!-- ========== Left Sidebar Start ========== -->
+        	<div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+                <!-- Topbar Start -->
+                <div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+                <!-- end Topbar -->
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <form class="d-flex">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-light"
+                                                id="dash-daterange">
+                                            <span class="input-group-text bg-success border-success text-white">
+                                                <i class="mdi mdi-calendar-range font-13"></i>
+                                            </span>
+                                        </div>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-2">
+                                            <i class="mdi mdi-autorenew"></i>
+                                        </a>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-1">
+                                            <i class="mdi mdi-filter-variant"></i>
+                                        </a>
+                                    </form>
+                                </div>
+                                <h4 class="page-title">Thêm Danh mục giấy tờ</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+            <!-- ------------------------------start content------------------------------ -->
+                    <div class="content">
+                        <div class="container1">
+                        	<!-- Alert -->
+                            <div th:if="${message != null && message.status == 'success'}" class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #0BCE97">
+                            	<span th:text="${message.message}"></span>
+                            </div>
+                            <div th:if="${message != null && message.status == 'fail'}" class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #FF0000">
+                            	<span th:text="${message.message}"></span>
+                            </div>
+                            <!-- End alert -->
+                            <div class="row mt-3">
+                                <div class="col-sm-12">
+                                    <form id="form" class="w-25 m-auto" th:action="@{/admin/documentItems/save}" th:object="${document}" method="post">
+                                        <label class="form-label mt-2" for="">Khóa</label>
+                                        <select class="form-select form-long" th:field="*{khoa.id}">
+                                        	<option th:each="khoa : ${khoas}" th:value="${khoa.id}" th:text="${khoa.khoa}"> </option>
+                                        </select>
+                                        <label class="form-label mt-2" for="">Ngành</label>
+                                        <select class="form-select form-long" th:field="*{majors.id}">
+                                        	<option th:each="major : ${majors}" th:value="${major.id}" th:text="${major.MajorsName} + ' - ' + ${major.MajorsID}"> </option>
+                                        </select>
+                                        <label class="form-label mt-2" for="">Phương thức trúng tuyển</label>
+                                        <select class="form-select form-long" th:field="*{method.id}">
+                                        	<option th:each="method : ${methods}" th:value="${method.id}" th:text="${method.ten_phuong_thuc}"> </option>
+                                        </select>
+                                        <label class="form-label mt-2" for="">Loại giấy tờ</label>
+                                        <input class="form-control" th:field="*{documentType}" type="text" name="" id="" placeholder="Nhập tên loại giấy tờ" required>
+                                        <label class="form-label mt-2" for="">Số lượng</label>
+                                        <input class="form-control" th:field="*{soLuong}" type="number" th:value="${soLuong}" min="1" name="" id="" >
+                                       	<label class="form-label mt-2" for="">Ghi chú</label>
+                                        <input class="form-control" th:field="*{note}" type="text" name="" id="" placeholder="Nhập ghi chú">
+                                        <select hidden class="form-select" th:field="*{status}" name="" id="statuss" required>
+                                            <option th:value="0" th:text="Ẩn"></option>
+                                        </select>
+                                        <div class="text-center mt-2">
+                                            <input class="btn btn-success" type="submit" value="Thêm">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- end table -->
+
+
+
+                    <div class="small_box_bottom"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card widget-flat">
+
+
+                        </div> <!-- end card-->
+                    </div> <!-- end col-->
+
+
+
+
+                </div> <!-- end col -->
+
+
+
+            </div>
+            <!-- container -->
+
+        </div>
+        <!-- content -->
+
+         <!-- Footer Start -->
+      	<div th:include="fragments/footer :: footer" class="footer" ></div>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+    <<!-- Right Sidebar -->
+     <div th:include="bar/endbar :: end-bar" class="end-bar" ></div>
+    <!-- /End-bar -->
+
+    <!-- bundle -->
+    <script th:src="@{/assets/js/vendor.min.js}"></script>
+    <script th:src="@{/assets/js/app.min.js}"></script>
+
+    <!-- third party js -->
+    <script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+    <script th:src="@{/assets/js/clock.js}"></script>
+    <!-- end demo js-->
+</body>
+
+</html>

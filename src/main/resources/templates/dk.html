@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Blur login</title>
+   <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+</head>
+<body >
+   <div class="overlay"></div>
+   <div class="login-container">
+      <div>
+         <div class="logo">
+          <!--  <img src="assets/images/index/logoLog.png" width="150px"> -->
+            <span>Việt - Hàn</span>
+         </div>
+         <div class="register">
+            <div>Don't have an account?</div>
+            <p>Register to access all the features of our services. Manage your business in one place. It's free</p>
+            <div class="social">
+               <a data-toggle="tooltip" title="Facebook" href=""><i class="fab fa-facebook-f"></i></a>
+               <a data-toggle="tooltip" title="Google" href=""><i class="fab fa-google"></i></a>
+               <a data-toggle="tooltip" title="Pinterest" href=""><i class="fab fa-pinterest-p"></i></a>
+               <a data-toggle="tooltip" title="Github" href=""><i class="fab fa-github"></i></a>
+            </div>
+         </div>
+      </div>
+
+      <div class="form-login">
+         <form th:action="@{/admin/login/signin}" method="post" class="form" id="form-2">
+            <h3 class="heading">Sign up</h3>      
+            <div class="spacer"></div>
+      
+            <div class="form-group">
+              <label for="username" class="form-label">User Name</label>
+              <input type="text" name="username" id="username" placeholder="VD: email@domain.com" class="form-control" required>
+              <span class="form-message"></span>
+            </div>
+            
+            <div class="form-group">
+              <label for="email" class="form-label">email</label>
+              <input type="text" name="email" id="email" placeholder="VD: email@domain.com" class="form-control" required>
+              <span class="form-message"></span>
+            </div>
+      
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" name="password" id="password" placeholder="Enter password" class="form-control" required>
+              <span class="form-message"></span>
+            </div>
+            
+            <div class="form-group">
+              <label for="role" class="form-label">Role</label>
+              <input type="text" name="role" id="role" placeholder="VD: email@domain.com" class="form-control" required>
+              <span class="form-message"></span>
+            </div>
+
+            <div class="form-group f-term">
+               <input id="agree" name="agree" type="checkbox" class="form-control">
+               <label for="agree" class="form-label">I agree to the all statements in <a href="">Terms of service</a></label>               
+               <span class="form-message"></span>
+             </div>
+      
+            <div class="sign-up">
+               <div>
+                  <button class="form-submit">Sign up</button>
+                  <i class="fas fa-chevron-right"></i>
+               </div>
+               <a href="">Have an account?</a>
+            </div>
+          </form>
+          <div th:if="${error}" style="color: red;">
+	        <p th:text="${error}"></p>
+	    </div>
+      </div>
+   </div>
+
+
+   <script>
+// Đối tượng `Validator`
+function Validator(options) {
+  function getParent(element, selector) {
+      while (element.parentElement) {
+          if (element.parentElement.matches(selector)) {
+              return element.parentElement;
+          }
+          element = element.parentElement;
+      }
+  }
+
+  var selectorRules = {};
+
+  // Hàm thực hiện validate
+  function validate(inputElement, rule) {
+      var errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector);
+      var errorMessage;
+
+      // Lấy ra các rules của selector
+      var rules = selectorRules[rule.selector];
+      
+      // Lặp qua từng rule & kiểm tra
+      // Nếu có lỗi thì dừng việc kiểm
+      for (var i = 0; i < rules.length; ++i) {
+          switch (inputElement.type) {
+              case 'radio':
+              case 'checkbox':
+                  errorMessage = rules[i](
+                      formElement.querySelector(rule.selector + ':checked')
+                  );
+                  break;
+              default:
+                  errorMessage = rules[i](inputElement.value);
+          }
+          if (errorMessage) break;
+      }
+      
+      if (errorMessage) {
+          errorElement.innerText = errorMessage;
+          getParent(inputElement, options.formGroupSelector).classList.add('invalid');
+      } else {
+          errorElement.innerText = '';
+          getParent(inputElement, options.formGroupSelector).classList.remove('invalid');
+      }
+
+      return !errorMessage;
+  }
+
+  // Lấy element của form cần validate
+  var formElement = document.querySelector(options.form);
+  if (formElement) {
+      // Khi submit form
+      formElement.onsubmit = function (e) {
+          e.preventDefault();
+
+          var isFormValid = true;
+
+          // Lặp qua từng rules và validate
+          options.rules.forEach(function (rule) {
+              var inputElement = formElement.querySelector(rule.selector);
+              var isValid = validate(inputElement, rule);
+              if (!isValid) {
+                  isFormValid = false;
+              }
+          });
+
+          if (isFormValid) {
+              // Trường hợp submit với javascript
+              if (typeof options.onSubmit === 'function') {
+                  var enableInputs = formElement.querySelectorAll('[name]');
+                  var formValues = Array.from(enableInputs).reduce(function (values, input) {
+                      
+                      switch(input.type) {
+                          case 'radio':
+                              values[input.name] = formElement.querySelector('input[name="' + input.name + '"]:checked').value;
+                              break;
+                          case 'checkbox':
+                              if (!input.matches(':checked')) {
+                                  values[input.name] = '';
+                                  return values;
+                              }
+                              if (!Array.isArray(values[input.name])) {
+                                  values[input.name] = [];
+                              }
+                              values[input.name].push(input.value);
+                              break;
+                          case 'file':
+                              values[input.name] = input.files;
+                              break;
+                          default:
+                              values[input.name] = input.value;
+                      }
+
+                      return values;
+                  }, {});
+                  options.onSubmit(formValues);
+              }
+              // Trường hợp submit với hành vi mặc định
+              else {
+                  formElement.submit();
+              }
+          }
+      }
+
+      // Lặp qua mỗi rule và xử lý (lắng nghe sự kiện blur, input, ...)
+      options.rules.forEach(function (rule) {
+
+          // Lưu lại các rules cho mỗi input
+          if (Array.isArray(selectorRules[rule.selector])) {
+              selectorRules[rule.selector].push(rule.test);
+          } else {
+              selectorRules[rule.selector] = [rule.test];
+          }
+
+          var inputElements = formElement.querySelectorAll(rule.selector);
+
+          Array.from(inputElements).forEach(function (inputElement) {
+             // Xử lý trường hợp blur khỏi input
+              inputElement.onblur = function () {
+                  validate(inputElement, rule);
+              }
+
+              // Xử lý mỗi khi người dùng nhập vào input
+              inputElement.oninput = function () {
+                  var errorElement = getParent(inputElement, options.formGroupSelector).querySelector(options.errorSelector);
+                  errorElement.innerText = '';
+                  getParent(inputElement, options.formGroupSelector).classList.remove('invalid');
+              } 
+          });
+      });
+  }
+
+}
+
+
+
+// Định nghĩa rules
+// Nguyên tắc của các rules:
+// 1. Khi có lỗi => Trả ra message lỗi
+// 2. Khi hợp lệ => Không trả ra cái gì cả (undefined)
+Validator.isRequired = function (selector, message) {
+  return {
+      selector: selector,
+      test: function (value) {
+          return value ? undefined :  message || 'Vui lòng nhập trường này'
+      }
+  };
+}
+
+Validator.isEmail = function (selector, message) {
+  return {
+      selector: selector,
+      test: function (value) {
+          var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          return regex.test(value) ? undefined :  message || 'Trường này phải là email';
+      }
+  };
+}
+
+Validator.minLength = function (selector, min, message) {
+  return {
+      selector: selector,
+      test: function (value) {
+          return value.length >= min ? undefined :  message || `Vui lòng nhập tối thiểu ${min} kí tự`;
+      }
+  };
+}
+
+Validator.isConfirmed = function (selector, getConfirmValue, message) {
+  return {
+      selector: selector,
+      test: function (value) {
+          return value === getConfirmValue() ? undefined : message || 'Giá trị nhập vào không chính xác';
+      }
+  }
+}
+
+   </script>
+   <script>
+      // Select all elements with data-toggle="tooltips" in the document
+      $('[data-toggle="tooltip"]').tooltip();
+
+      // Select a specified element
+      // $('#myTooltip').tooltip();
+    
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Mong muốn của chúng ta
+      Validator({
+        form: '#form-1',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rules: [
+          Validator.isRequired('#fullname', 'Vui lòng nhập tên đầy đủ của bạn'),
+          Validator.isEmail('#email'),
+          Validator.minLength('#password', 6),
+          Validator.isRequired('#password_confirmation'),
+          Validator.isConfirmed('#password_confirmation', function () {
+            return document.querySelector('#form-1 #password').value;
+          }, 'Mật khẩu nhập lại không chính xác')
+        ],
+        onSubmit: function (data) {
+          // Call API
+          console.log(data);
+        }
+      });
+
+
+      Validator({
+        form: '#form-2',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rules: [
+          Validator.isEmail('#email'),
+          Validator.minLength('#password', 6),
+        ],
+        onSubmit: function (data) {
+          // Call API
+          console.log(data);
+        }
+      });
+    });
+
+  </script>
+</body>
+</html>

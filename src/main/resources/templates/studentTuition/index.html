@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<title>Website Tuyển Sinh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" />
+<meta content="Coderthemes" name="author" />
+<!-- App favicon -->
+
+<!-- third party css -->
+<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}"
+	rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css"
+	id="app-style" />
+
+<!------------------------------ news ---------------------------------->
+<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 5000);
+	</script>
+
+<script th:inline="javascript">
+$(document).ready(function() {
+    // Gọi hàm searchDataFromAPI với các giá trị mặc định ban đầu của select
+    searchDataFromAPI(
+      $('#khoaId').val(),
+      $('#majorsId').val(),
+      $('#curriculumId').val(),
+      $('#top-search1').val()
+    );
+  });
+    $(document).ready(function() {
+	$('#majorsId, #khoaId, #curriculumId,#top-search1').change(function () {
+
+		//var documentItems = JSON.parse('${documentItemsJson}');
+		var khoaId = $('#khoaId').val();
+		var majorsId = $('#majorsId').val();
+		var curriculumId = $('#curriculumId').val();
+		var keyword = $('#top-search1').val();
+		
+	//	 var xhttp = new XMLHttpRequest();
+   //	  var cookie = document.getElementById('cookieValue').value;
+   	//  xhttp.setRequestHeader("Cookie", "nhaphocvku=" + cookie)
+   	      	//	xhttp.withCredentials = true;
+   	      	//	xhttp.send()
+		searchDataFromAPI(
+			      $('#khoaId').val(),
+			      $('#majorsId').val(),
+			      $('#curriculumId').val(),
+			      $('#top-search1').val()
+			    );
+	});
+});
+
+    	function searchDataFromAPI(khoaId, majorsId, curriculumId, keyword) {
+			var idTuitionfeeLisst = $('#idTuitionfeeLisst').val();
+			console.log(idTuitionfeeLisst)
+			var listTuitionFee = new Array();
+
+			async function loadDocuments() {
+				 if( khoaId!=''&&majorsId!='' &&curriculumId!='')
+		        		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKeyStt?khoaId=' + khoaId + '&majorsId=' + majorsId + '&?curriculumId=' + curriculumId;
+		    		 else if(khoaId!=''&&majorsId!='')
+		         		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKeyStt?khoaId=' + khoaId + '&majorsId=' + majorsId ;
+		         	else if (khoaId!=''&&curriculumId!='')
+		         		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKeyStt?khoaId=' + khoaId  + '&curriculumId=' + curriculumId;
+		         	else if(majorsId!=''&&curriculumId!='')
+		         		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKeyStt?majorsId=' + majorsId + '&curriculumId=' + curriculumId;
+		    		 else if(khoaId!='')
+		    	  		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKeyStt?khoaId=' + khoaId ;
+		        	else if(majorsId!='')
+		        		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKeyStt?majorsId=' + majorsId;
+		        	else if(curriculumId!='')
+		        		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKeyStt?curriculumId=' + curriculumId;	
+		        	else if(majorsId==''&&curriculumId==''&&khoaId=='')
+		        		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList';
+
+				
+				try {
+					console.log(apiURL);
+					const response = await $.ajax({
+						type: 'GET',
+						//url: 'http://222.255.130.100:7070/vku/admin/api/document/search?idKhoa=' + khoaId + '&idNganh=' + majorsId + '&idPttt=' + methodId
+						url: apiURL
+						  
+					});
+					
+					response.forEach(function (_tuitionFee, index) {
+						var TuitionFee = {
+							id: _tuitionFee.id,
+							name: _tuitionFee.name
+						};
+						listTuitionFee.push(TuitionFee);
+					});
+					console.log(idTuitionfeeLisst)
+
+				} catch (error) {
+					console.log('Error:', error);
+				}
+			}
+
+//Cần tìm kiếm studentTuition theo khóa, ngành, chương trình học
+			async function loadStudents() {
+				await loadDocuments();
+				let apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition';
+
+				if ( khoaId!=''&&majorsId!='' &&curriculumId!=''&keyword!='') {
+					apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?keyWord=' + keyword  + '&idKhoa=' + khoaId + '&idMajor=' + majorsId
+					+'&?idCurriculum='+curriculumId;
+				}else if(khoaId!=''&&majorsId!='' &&curriculumId!=''){
+					apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?idKhoa=' + khoaId + '&idMajor=' + majorsId
+					+'&?idCurriculum='+curriculumId;}
+				else if(khoaId!=''&&majorsId!=''&&keyword!=''){
+					apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?keyWord=' + keyword  + '&idKhoa=' + khoaId + '&idMajor=' + majorsId;}
+				else if(khoaId!=''&&curriculumId!=''&&keyword!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?keyWord=' + keyword  + '&idKhoa=' + khoaId 
+					+'&idCurriculum='+curriculumId;}
+				else if(majorsId!='' &&curriculumId!=''&&keyword!=''){
+					apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?keyWord=' + keyword +'&idMajor=' + majorsId
+					+'&idCurriculum='+curriculumId;}
+				else if(khoaId!=''&&majorsId!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?idKhoa=' + khoaId + '&idMajor=' + majorsId;}
+				else if(khoaId!=''&&curriculumId!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?idKhoa=' + khoaId +'&idCurriculum='+curriculumId;}
+				else if(khoaId!=''&&keyword!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?keyWord=' + keyword  + '&idKhoa=' + khoaId ;}
+				else if(majorsId!=''&&curriculumId!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?idMajor=' + majorsId + '&idCurriculum='+curriculumId;}
+				else if(majorsId!=''&&keyword!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?keyWord=' + keyword  +  '&idMajor=' + majorsId;}
+				else if(curriculumId!=''&&keyword!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?keyWord=' + keyword  + '&idCurriculum='+curriculumId;}
+				else if(khoaId!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?idKhoa=' + khoaId;}
+				else if(majorsId!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?idMajor=' + majorsId;}
+				else if(curriculumId!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?idCurriculum='+curriculumId;}
+				else if(keyword!=''){apiURL = 'http://222.255.130.100:7070/vku/admin/api/studentTuition/searchOption?keyWord=' + keyword;}
+				
+				try { 	
+					console.log("studenet: "+apiURL);
+					console.log(listTuitionFee );
+					
+					const response = await $.ajax({
+						type: 'GET',
+						url: apiURL,
+						 
+					});
+
+					var showData = $('#showData2');
+					showData.empty(); // Xóa nội dung hiện tại trong #showData
+
+					var summaryRow = '<div class="alert alert-success">' +
+						'- Có <span>' + response.length + '</span> thí sinh đã nộp học phí' +
+						'</div>';
+
+					var tableHTML = '<div class="table-responsive">' +
+						'<table class="table table-bordered table-striped">' +
+						'<tr id="tbl-first-row">' +
+						'<td width="0%">#</td>' +
+						'<td width="20%">Thí sinh</td>' +
+
+						'<td width="20%">Người thu</td>' +
+
+						'<td width="20%">Tổng học phí</td>' +
+
+						'<td width="20%">Minh chứng học phí</td>' +
+						'<!-- Thêm các cột từ tuitionfeeList -->';
+
+					listTuitionFee.forEach(function (tuition) {
+						console.log(tuition.name );
+						
+						tableHTML += '<td width="">' + tuition.name + '</td>';
+					});
+
+					tableHTML += '<td>Status</td>' +
+						'<td>Ngày nộp</td>' +
+						'<td>Hình thức nộp</td>' +
+						'<td>Xem chi tiết</td>' +
+						'<td></td>' +
+						'</tr>';
+
+					response.forEach(function (stFees, index) {
+						var tableRow = '<tr>' +
+							'<td>' + (index + 1) + '</td>' +
+							'<td>' + stFees.idStudent.fullName + '<br>' +
+							'</td>'+
+							'<td>' + stFees.nameCashier + '<br>' +
+							'</td>'+
+							'<td>' + stFees.total + '<br>' +
+							'</td>'+
+							'<td>' +stFees.proofOfTuitionPay + '<br>' +
+							'</td>';
+							
+
+						listTuitionFee.forEach(function (tuition) {
+							var foundTuition = false;
+							if (stFees.tuitionFeeList && stFees.tuitionFeeList !== "") { // Kiểm tra id của docItem phải khác rỗng
+								stFees.tuitionFeeList.split(",").forEach(function (tuitionID) {
+									if (tuitionID == tuition.id) {
+										console.log("tuitionId"+tuitionID+"&& tuition.id"+tuition.id)
+										foundTuition = true;
+										console.log("foundTuition"+foundTuition)
+										return false; // Thoát khỏi vòng lặp nếu tìm thấy docItem
+									}
+								});
+
+								if (foundTuition) {
+									tableRow += '<td><i style="color: #0BCE97;" class="fa-solid fa-circle-check fa-2xl"></i></td>';
+								} else {
+									tableRow += '<td><i style="color: red;" class="fa-solid fa-circle-xmark fa-2xl"></i></td>';
+								}
+							}
+						});
+
+						tableRow +='<td>' + stFees.status + '<br>' +
+						'</td>'
+						+'<td>' + stFees.tuitionDay + '<br>' +
+						'</td>'
+						+'<td>' + stFees.phuongThucThanhToan + '<br>' +
+						'</td>';
+
+						tableRow += '<td><a href="/admin/studentTuition/detail/' + stFees.id + '"><i style="color: #0BCE97;" class="fa fa-eye fa-2x"></i></a></td>' ;
+							
+						tableRow += '<td><a href="/admin/studentTuition/edit/' + stFees.id + '"><i style="color: #0BCE97;" class="fa-solid fa-pen-to-square fa-2xl"></i></a></td>' +
+							'</tr>';
+						tableHTML += tableRow;
+					});
+
+					tableHTML += '</table></div>'; // Kết thúc đoạn mã HTML cho bảng
+					console.log('aaaaa');
+					showData.append(summaryRow); // Thêm phần tổng kết vào #showData
+					showData.append(tableHTML); // Thêm đoạn mã HTML cho bảng vào #showData
+				} catch (error) {
+					console.log('Error:', error);
+				}
+			}
+
+			loadStudents();
+
+		}
+
+    	       
+    </script>
+<style>
+/* Styles for the input with the placeholder animation */
+.form-control-placeholder-animation {
+	position: relative;
+	overflow: hidden;
+}
+
+.form-control-placeholder-animation input {
+	width: 100%;
+	padding-left: 60px !important;
+}
+
+.form-control-placeholder-animation label {
+	position: absolute;
+	top: 0;
+	left: 60px;
+	pointer-events: none;
+	transition: all 0.2s ease;
+	transform-origin: 0 50%;
+}
+
+.form-control-placeholder-animation input:focus+label,
+	.form-control-placeholder-animation input:not(:placeholder-shown)+label
+	{
+	transform: translateY(-100%) scale(0.8);
+	color: #007bff;
+}
+</style>
+</head>
+
+<body class="loading" data-layout-color="light"
+	data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft"
+			class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<!-- Topbar Start -->
+				<div th:include="fragments/fragmentheader :: header"
+					class="navbar-custom"></div>
+			</div>
+			<!-- end Topbar -->
+			<!-- Start Content-->
+
+
+			<!-- start page title -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="page-title-right">
+							<form class="d-flex">
+								<div class="input-group">
+									<input type="text" class="form-control form-control-light"
+										id="dash-daterange" fdprocessedid="9a29hh"> <span
+										class="input-group-text bg-success border-success text-white">
+										<i class="mdi mdi-calendar-range font-13"></i>
+									</span>
+								</div>
+								<a href="javascript: void(0);" class="btn btn-success ms-2">
+									<i class="mdi mdi-autorenew"></i>
+								</a> <a href="javascript: void(0);" class="btn btn-success ms-1">
+									<i class="mdi mdi-filter-variant"></i>
+								</a>
+							</form>
+						</div>
+
+						<h4 class="page-title ml-h4">Danh sách Thí sinh Học Phí</h4>
+						<div class="row">
+
+							<div class="col-md-8">
+								<div class="search-container">
+									<form
+										style="overflow: visible; max-width: 440px; padding-left: 40px;"
+										method="get" action="">
+										<div class="input-group" style="width: 145%;">
+												<input type="text" class="form-control dropdown-toggle col-md-6"
+													placeholder="Search..." id="top-search1"
+													style="padding-left: 30px !important;" name="keyword">
+											<span class="mdi mdi-magnify search-icon"
+												style="position: absolute; z-index: 4; font-size: 20px; line-height: 38px; left: 10px; top: 0;"></span>
+											<select class="form-select" name="majorsId" id="majorsId">
+												<option th:each="major : ${majors}" th:value="${major.id}"
+													th:text="${major.MajorsName} + ' - ' + ${major.MajorsID}"></option>
+											</select> <select class="form-select" name="khoaId" id="khoaId">
+												<option th:each="khoa : ${khoas}" th:value="${khoa.id}"
+													th:text="${khoa.khoa}"></option>
+											</select> <select class="form-select" name="curriculumId"
+												id="curriculumId">
+												<option value="">Chương trình học</option>
+												<option th:each="curry : ${curries}" th:value="${curry.id}"
+													th:text="${curry.name}"></option>
+											</select> <input type="hidden" id="idTuitionfeeLisst"
+												th:value="${TuitionFeeList}" />
+											<!--  <input type="hidden"
+												id="cookieValue" th:value="${cookieValue}">-->
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="col-md-4">
+					    <div class="row d-flex flex-row bd-highlight mb-2">
+					        <div class="mg" style="margin-left: -12px;">
+					            <form method="post" th:action="@{'/admin/studentTuition/editSttFlase'}">
+					                <button class="btn btn-success" type="submit">Update data</button>
+					            </form>
+					        </div> <br>
+					        <div class="mg" style="margin-top: -38px; margin-left: 130px;">
+					            <a class="btn btn-success" th:href="@{'/admin/studentTuition/exportExcel'}">Export Danh sách nộp học phí</a>
+					        </div>
+					    </div>
+					</div>
+						</div>
+					</div>
+				</div>
+				<!-- end page title -->
+				<!-- ------------------------------start content------------------------------ -->
+				<div class="content">
+					<div class="container1">
+						<!-- Alert -->
+						<div th:if="${message != null && message.status == 'success'}"
+						id="message"
+							class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+							style="background-color: #0BCE97">
+							<span th:text="${message.message}"></span>
+						</div>
+						<div th:if="${message != null && message.status == 'fail'}"
+						id="message" 
+							class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+							style="background-color: #FF0000">
+							<span th:text="${message.message}"></span>
+						</div>
+						<!-- End alert -->
+						<div class="row mt-3">
+							<div class="col-sm-12 text-center">
+								<!-- ------------------------------table-------------------------- -->
+								<div class="table-responsive" id="showData2">
+									<table
+										class="table table-responsive table-bordered table-striped">
+										<tbody id="searchResults">
+											<tr id="tbl-first-row">
+												<td>#</td>
+												<td>Thí sinh</td>
+												<td>Người thu</td>
+												<td>Tổng học phí</td>
+												<td>Minh chứng học phí</td>
+												<td th:each="tuition: ${tuitions}" th:text="${tuition.name}"></td>
+												<td>Status</td>
+												<td>Ngày nộp</td>
+												<td>Hình thức nộp</td>
+												<td>Xem chi tiết</td>
+											</tr>
+											<tr th:each="stFee,index : ${stFees}">
+												<td th:text="${index.index + 1}"></td>
+												<td th:text="${stFee.idStudent.fullName}"></td>
+												<td th:text="${stFee.nameCashier}"></td>
+												<td th:text="${stFee.total}"></td>
+												<td th:text="${stFee.proofOfTuitionPay}"></td>
+												<th:block th:each="tuition: ${tuitions}">
+													<td><i
+														th:if="${stFee != null and stFee.tuitionFeeList != null}">
+															<th:block
+																th:if="${#strings.contains(stFee.tuitionFeeList, tuition.id.toString())}">
+																<i style="color: #0BCE97;"
+																	class="fa-solid fa-circle-check fa-2xl"></i>
+															</th:block> <th:block
+																th:if="${not #strings.contains(stFee.tuitionFeeList, tuition.id.toString())}">
+																<i style="color: red;"
+																	class="fa-solid fa-circle-xmark fa-2xl"></i>
+															</th:block>
+													</i> <i
+														th:if="${stFee == null and stFee.tuitionFeeList == null}"
+														style="color: red;"
+														class="fa-solid fa-circle-xmark fa-2xl"></i></td>
+												</th:block>
+												<!-- <td th:text="${stFee.tuitionFeeList}"></td> -->
+												<td th:text="${stFee.status}"></td>
+												<td th:text="${stFee.tuitionDay}"></td>
+												<td th:text="${stFee.phuongThucThanhToan}"></td>
+												<td><a
+													th:href="@{/admin/studentTuition/detail/{id}(id=${stFee.id})}"><i
+														style="color: #0BCE97;" class="fa fa-eye fa-2x"></i></a></td>
+												<td><a
+													th:href="@{/admin/studentTuition/edit/{id}(id=${stFee.id})}"><i
+														style="color: #0BCE97;"
+														class="fa-solid fa-pen-to-square fa-2xl"></i></a></td>
+											</tr>
+										</tbody>
+									</table>
+
+
+								</div>
+								<!-- ------------------------------end table------------------------- -->
+								<!--    <div>
+        <a th:href="@{?page=0}" th:unless="${currentPage == 0}">First</a>
+        <a th:href="@{?page=${currentPage - 1}}" th:unless="${currentPage == 0}">Previous</a>
+        <span th:text="${currentPage}"></span>
+        <a th:href="@{?page=${currentPage + 1}}" th:unless="${currentPage + 1 >= totalPages}">Next</a>
+        <a th:href="@{?page=${totalPages - 1}}" th:unless="${currentPage + 1 >= totalPages}">Last</a>
+    </div>
+			 -->
+								<br>
+
+							</div>
+						</div>
+					</div>
+
+
+					<!-- end table -->
+
+
+
+					<div class="small_box_bottom"></div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="card widget-flat"></div>
+						<!-- end card-->
+					</div>
+					<!-- end col-->
+				</div>
+			</div>
+			<!-- container -->
+
+		</div>
+		<!-- content -->
+
+		<!-- Footer Start -->
+		<div th:include="fragments/footer :: footer" class="footer"></div>
+		<!-- end Footer -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Page content -->
+	<!-- ============================================================== -->
+	</div>
+	<!-- END wrapper -->
+	<!-- Right Sidebar -->
+	<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+	<!-- /End-bar -->
+
+	<!-- bundle -->
+	<script th:src="@{/assets/js/vendor.min.js}"></script>
+	<script th:src="@{/assets/js/app.min.js}"></script>
+
+	<!-- third party js -->
+	<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+	<!-- third party js ends -->
+
+	<!-- demo app -->
+	<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+	<script th:src="@{/assets/js/clock.js}"></script>
+	<!-- end demo js-->
+</body>
+
+</html>

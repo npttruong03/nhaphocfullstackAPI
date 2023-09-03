@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng nhập</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+	integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="shortcut icon" href="/assets/images/index/iconlogo.png">
+<link type="text/css" rel="stylesheet" th:href="@{/assets/css/student/style.css}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="wid">
+	<div class="w-100">
+		<!-- header -->
+		<div>
+			<nav class="navbar navbar-expand-lg navbar-light bg-warning p-0">
+				<button class="navbar-toggler" type="button"
+					data-bs-toggle="collapse" data-bs-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="container-fluid w-75">
+					<div class="collapse navbar-collapse mx-5 w-50" id="navbarNav">
+						<ul class="navbar-nav ">
+							<li class="nav-item bg-white py-1"><a
+								class="nav-link text-dark fw-bolder fs-5" aria-current="page"
+								href="#">Đăng ký nhập học trực tuyến</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<!-- end header -->
+		<!-- body -->
+		<div class="container mt-5">
+			<!-- login + slide -->
+			<div class="d-flex part-1 justify-content-around">
+				<div class="col-lg-4 col-sm-12 rounded-3">
+					<div class="w-100 form-login">
+						<div class="bg-warning w-100 text-center">
+							<h5 class="py-3 px-5">Vui lòng nhập thông tin của bạn</h5>
+							<span class="text-danger fw-bold" th:if="${error} != null"
+								th:text="${error}"></span>
+						</div>
+						<div class="w-75 m-auto">
+							<form th:action="@{/admission/login}" th:object="${student}"
+								method="post">
+								<label class="form-label" for="cccd">Nhập số CCCD</label>
+								<div class="d-flex">
+									<i
+										class="fa-solid fa-user col-auto border-start border-top border-bottom border-1 fa-lg px-2 py-3 rounded-start"></i>
+									<input class="form-control col-auto w-75" type="text"
+										name="cccd" id="cccd" placeholder="Ví dụ: 079215000001"
+										th:field="*{numberCIC}">
+								</div>
+								<label class="form-label mt-2" for="cccd">Nhập ngày sinh<br>(theo
+									cú pháp dd/mm/yyyy)
+								</label>
+								<div class="d-flex">
+									<i
+										class="fa-solid fa-calendar col-auto border-start border-top border-bottom border-1 fa-lg px-2 py-3 rounded-start "></i>
+									<input class="form-control col-auto w-75" type="text"
+										name="cccd" id="cccd" placeholder="Ví dụ: 01/01/2005"
+										th:field="*{birthday}">
+								</div>
+								<div class="d-flex mt-2">
+									<div style="width: 60%;" class="col-auto mx-2">
+										<img style="width: 135%; height: 30%;" id="captchaImg"
+											th:src="@{/captcha-login}" onclick="refreshCaptcha()" /> 
+										<input
+											style="width: 135%;" class="d-flex mt-2 form-control" type="text"
+											name="captchaInput1" id="captchaInput1"
+											placeholder="Nhập mã bảo mật" /> <span
+											style="color: #FF0000" th:text="${errCaptcha?.message}"></span>
+									</div>
+								</div>
+								<div class="d-flex justify-content-center mb-2">
+									<button type="submit"
+										class="btn-success rounded-3 px-3 py-2 d-flex border-0 ">
+										<span class="mx-1 button">Đăng Nhập</span>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-7 d-none d-lg-block">
+					<div id="carouselExampleIndicators" class="carousel slide"
+						data-bs-ride="carousel">
+						<div class="carousel-indicators">
+							<button type="button" data-bs-target="#carouselExampleIndicators"
+								data-bs-slide-to="0" class="active" aria-current="true"
+								aria-label="Slide 1"></button>
+							<button type="button" data-bs-target="#carouselExampleIndicators"
+								data-bs-slide-to="1" aria-label="Slide 2"></button>
+							<button type="button" data-bs-target="#carouselExampleIndicators"
+								data-bs-slide-to="2" aria-label="Slide 3"></button>
+						</div>
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img src="/assets/totnghiep.jpg"  class="d-block w-100" alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="/assets/image1.jpg" class="d-block w-100" alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="/assets/image2.jpg" class="d-block w-100" alt="...">
+
+							</div>
+						</div>
+						<button class="carousel-control-prev" type="button"
+							data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</button>
+						<button class="carousel-control-next" type="button"
+							data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<!-- Modal  -->
+			<div th:if="${alert} != null" class="modal fade" id="myModal" data-bs-backdrop="static"
+				data-bs-keyboard="false" tabindex="-1"
+				aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="staticBackdropLabel">Thông báo</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body text-center" th:text="${alert}"></div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success m-auto"
+								data-bs-dismiss="modal">OK</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End modal -->
+			<!-- end login + slide -->
+			<!-- content -->
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-md-5 mt-5">
+						<div class="">
+							<div
+								class="border-start border-4 py-1 border-warning bg-grey text-center">
+								<h4 class="text-uppercase fw-bolder">1.Hồ sơ bắt buộc</h4>
+							</div>
+							<p class="mt-1">
+								1. Giấy báo trúng tuyển (Thí sinh tải từ hệ thống của Đại học Đà
+								Nẵng: https://ts.udn.vn/ ) <br> 2. Bản chính Giấy chứng
+								nhận kết quả thi tốt nghiệp THPT 2023 (với các thí sinh tốt
+								nghiệp năm 2023); <br> 3. Bản chính Giấy chứng nhận tốt
+								nghiệp THPT tạm thời (với các thí sinh tốt nghiệp năm 2023) hoặc
+								Bản sao Bằng tốt nghiệp THPT (với các thí sinh tốt nghiệp trước
+								năm 2023); <br> 4. Bản sao Học bạ THPT; <br> 5. Bản
+								sao Giấy khai sinh,CMND/CCCD,Giấy xác nhận nơi cư trú(Có xác nhận địa phương); <br> 6. 02 ảnh
+								thẻ 3x4(Ghi rõ họ tên, ngày/tháng/năm sinh phía sau ảnh); <br>
+								 7. Các giấy tờ xác nhận để được hưởng chính sách ưu tiên (nếu có) và có xác nhận địa phương. <br>
+							</p>
+						</div>
+					</div>
+					<div class="col-12 col-md-7 mt-5">
+						<div
+							class="border-start border-4 py-1 border-warning bg-grey text-center">
+							<h4 class="text-uppercase fw-bolder">2. Hồ sơ bắt buộc với
+								đối tượng</h4>
+						</div>
+						<p class="mt-1">
+							THÍ SINH THUỘC CÁC ĐỐI TƯỢNG SAU NỘP BẢN GỐC VÀ BẢN SAO MINH
+							CHỨNG (sẽ hoàn trả bản gốc sau khi kiểm tra đối chiếu), nội dung cụ thể như sau: <br>
+							<b>01. Xét tuyển thẳng theo Đề án của Trường (Mã PTXT: 303)</b> <br>
+							- Nhóm (1), Nhóm (2), Nhóm (6), Nhóm (8b): Giấy chứng nhận/giấy
+							khen/quyết định khen thưởng/giải thưởng liên quan đến các cuộc
+							thi. <br> - Nhóm (3): Chứng chỉ quốc tế SAT, ACT, kết quả
+							học dự bị đại học theo hình thức A-Level. <br> - Nhóm (4):
+							Giấy chứng nhận tham gia cuộc thi Đường lên đỉnh Olympia. <br>
+							- Nhóm (5), Nhóm (7): Học bạ THPT. <br> - Nhóm (8a): Chứng
+							chỉ tiếng Anh quốc tế (IELTS / TOEFL iBT / TOEIC). <br> <b>02.
+								Xét kết quả học tập cấp THPT (học bạ) (Mã PTXT: 200) Học bạ
+								THPT.</b> <br> <b>03. Xét kết quả thi đánh giá năng lực do ĐHQG Tp HCM tổ chức(Mã PTXT: 402)</b> <br>
+							Phiếu điểm thi ĐGNL. <br> <b>04.
+								Xét tuyển thẳng theo Quy chế tuyển sinh của Bộ GDĐT(Mã PTXT:
+								301)</b> Giấy chứng nhận/giấy khen/quyết định khen thưởng/giải
+							thưởng liên quan đến các cuộc thi.
+						</p>
+					</div>
+				</div>
+				<!-- học phí -->
+			</div>
+
+			<!-- end content-->
+		</div>
+		<!-- end body -->
+		<!-- footer -->
+		<div class="bg-warning border-top border-3 border-danger footer mt-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-1 m-auto text-center mb-3 mb-md-0">
+						<img class="img-fluid" src="images/logo_icon.png" alt="">
+					</div>
+					<div class="col mx-3 mx-md-5 col-12">
+						<p class="fw-bolder">Bản quyền &copy; Trường Đại học Công nghệ
+							Thông tin & Truyền Thông Việt - Hàn, Đại học Đà Nẵng</p>
+						<p>
+							<i class="fa-solid fa-house"></i> Địa chỉ: 470 Trần Đại Nghĩa,
+							quận Ngũ Hành Sơn, Thành phố Đà Nẵng
+						</p>
+						<div class="d-flex flex-wrap">
+							<div class="col-6 col-md-4 col-lg-auto mb-3">
+								<i class="fa-solid fa-phone"></i> Điện thoại: 0236.6.552.688
+							</div>
+							<div class="col-6 col-md-4 col-lg-auto mb-3 mx-5">
+								<i class="fa-solid fa-envelope"></i> Email: tuyensinh@vku.udn.vn
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- end footer-->
+		<script>
+			function refreshCaptcha() {
+				document.getElementById("captchaImg").src = "/captcha-login?";
+			}
+
+			document.addEventListener("DOMContentLoaded", function() {
+				console.log("captcha");
+				refreshCaptcha();
+			});
+			
+			$(document).ready(function() {
+			  $('#myModal').modal('show');
+			});
+			$('.carousel-item > img').height($('.form-login').height())
+			
+			const VND = new Intl.NumberFormat('vi-VN', {
+				style: 'currency',
+				currency: 'VND'
+			})
+			prices = document.getElementsByClassName('price')
+			priceshows = document.getElementsByClassName('price-s')
+			for (var i = 0; i < prices.length; i++) {
+				priceshows[i].innerHTML = VND.format(parseInt(prices[i].innerText))
+			}
+		</script>
+		
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+			crossorigin="anonymous"></script>
+
+</body>
+</html>

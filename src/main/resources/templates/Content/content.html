@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Website Tuyển Sinh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function() {
+    	 $('#top-search1').on('input', function() {
+    		    var keyword = $(this).val();
+    		    searchDataFromAPI(keyword);
+    		  });
+    	});
+    function searchOnEnter(event) {
+    	  if (event.keyCode === 13) {
+    	    event.preventDefault(); // Ngăn chặn hành vi mặc định của form (gửi và tải lại trang)
+    	    var keyword = $('#top-search1').val();
+    	    searchDataFromAPI(keyword);
+    	  }
+    	}
+
+    	function searchDataFromAPI(keyword) {
+    	/*	 var xhttp = new XMLHttpRequest();
+       	 var cookie = document.getElementById('cookieValue').value;
+       	xhttp.setRequestHeader("Cookie", "nhaphocvku=" + cookie)
+       	      		xhttp.withCredentials = true;
+       	      		xhttp.send()*/
+    	  var apiURL = 'http://222.255.130.100:7070/vku/admin/api/content/search?keyword='+keyword;
+    	  console.log(keyword);
+    	  $.ajax({
+    		    type: 'GET',
+    		    url: apiURL,
+    		     xhrFields: {
+    		          withCredentials: true // Cho phép gửi cookie thông qua tiêu đề HTTP
+    		        },
+    		        beforeSend: function(xhr) {
+    		           var cookieValue = document.getElementById('cookieValue').value;
+    		          xhr.setRequestHeader("Cookie", "nhaphocvku=" + cookieValue);
+    		        },
+    		    success: function(response) {
+    		    	  var searchResults = $('#searchResults');
+    		          
+    		          // Xóa nội dung hiện tại trong tbody
+    		          searchResults.empty();
+    		          
+    		          // Thêm kết quả tìm kiếm vào tbody
+    		          response.forEach(function(result, index) {
+    		            var row = $('<tr>');
+    		            row.append($('<td>').text(index + 1));
+    		            row.append($('<td>').text(result.title));
+    		            row.append($('<td>').text(result.content));
+    		            row.append($('<td>').text(result.status));
+    		            row.append($('<td>').text(result.createTime));
+    		            row.append($('<td>').text(result.updateTime));
+    		            row.append($('<td>').html(' <a th:href="@{/admin/content/edit/'+result.id+'}"><i style="color: #0BCE97;" class="fa-solid fa-pen-to-square fa-2xl"></i></a>'));
+    		            
+    		            searchResults.append(row);
+    		          });
+    		      },
+    		    	 
+    		    error: function(xhr, status, error) {
+    		      // Xử lý lỗi (nếu có) ở đây
+    		    }
+    		  });
+    	}
+    	   
+    	    
+    </script>
+        
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+    data-rightbar-onstart="true">
+    <!-- Begin page -->
+
+    <div class="wrapper">
+        <!-- ========== Left Sidebar Start ========== --> 
+           <div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <div class="content-page">
+            <div class="content">
+                <!-- Topbar Start -->
+                 <div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+                </div>
+                <!-- end Topbar -->
+                <!-- Start Content-->
+    
+            
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <form class="d-flex">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-light" id="dash-daterange" fdprocessedid="9a29hh">
+                                            <span class="input-group-text bg-success border-success text-white">
+                                                <i class="mdi mdi-calendar-range font-13"></i>
+                                            </span>
+                                        </div>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-2">
+                                            <i class="mdi mdi-autorenew"></i>
+                                        </a>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-1">
+                                            <i class="mdi mdi-filter-variant"></i>
+                                        </a>
+                                    </form>
+                                </div>
+                                    
+                           <h4 class="page-title ml-h4">Danh sách nội dung</h4>
+                              <div class="row">
+								
+                                        <div class="col-md-8">
+                                            <div class="search-container">
+                                               <form style="overflow: visible; max-width: 440px; padding-left: 40px;" method="get" action="">
+									    <div class="input-group">
+									       <input type="hidden" id="cookieValue" th:value="${cookieValue}">
+									        <input type="text" class="form-control dropdown-toggle" placeholder="Search..." id="top-search1" style="padding-left: 40px!important;" name="keyword" onkeydown="searchOnEnter(event)">
+									        <span class="mdi mdi-magnify search-icon" style="position: absolute; z-index: 4; font-size: 20px; line-height: 38px; left: 10px; top: 0;"></span>
+									        <button class="input-group-text btn-success" type="submit">Search</button>
+									    </div>
+									</form>
+                                               
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row d-flex flex-row bd-highlight mb-2">
+                                                <div class="col">
+                                                  	<a th:href="@{/admin/content/create}">
+				  								<button class="btn btn-success mr-2">Add new</button>
+												</a>
+                                                </div>
+                                              
+                                            </div>
+                                        </div>	
+                                    </div>
+                    <!-- end page title -->
+            <!-- ------------------------------start content------------------------------ -->
+                    <div class="content">
+                        <div class="container1">
+                              <!-- Alert -->
+                            <div th:if="${message != null && message.status == 'success'}" class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #0BCE97">
+                            	<span th:text="${message.message}"></span>
+                            </div>
+                            <div th:if="${message != null && message.status == 'fail'}" class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #FF0000">
+                            	<span th:text="${message.message}"></span>
+                            </div>
+                            <!-- End alert -->
+                            <div class="row mt-3">
+                                <div class="col-sm-12 text-center">
+                                    <!-- ------------------------------table-------------------------- -->
+                                     <div class="table-responsive">
+    <table class="table table-responsive table-bordered table-striped">
+        <tbody id="searchResults">
+            <tr id="tbl-first-row">
+                <td>#</td>
+                <td>Tiêu để</td>
+                <td>Nội dung</td>
+                <td>Status</td>
+                <td>Ngày tạo</td>
+                <td>Ngày update</td>
+                <td>Chỉnh sửa</td>
+            </tr>
+            <tr th:each="content1,index : ${contents}">
+                <td th:text="${index.index + 1}"></td>
+                <td th:text="${content1.title}"></td>
+                <td th:text="${content1.content}"></td>
+                <td th:text="${content1.status}"></td>
+                <td th:text="${content1.createTime}"></td>
+                <td th:text="${content1.updateTime}"></td>
+                <td>
+                    <a th:href="@{/admin/content/edit/{id}(id=${content1.id})}">
+                        <i style="color: #0BCE97;" class="fa-solid fa-pen-to-square fa-2xl"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var page = 0;
+    var loading = false;
+
+    function loadMore() {
+        if (loading) return; // Prevent multiple simultaneous requests
+        loading = true;
+
+        // AJAX request to fetch more data
+        $.ajax({
+            url: '/admin/content/load',
+            method: 'GET',
+            data: { page: page },
+            success: function (data) {
+                if (data.length > 0) {
+                    var tableBody = $('#searchResults');
+                    for (var i = 0; i < data.length; i++) {
+                        var content = data[i];
+                        var row = $('<tr/>');
+                        row.append($('<td/>').text(content.index + 1));
+                        row.append($('<td/>').text(content.title));
+                        row.append($('<td/>').text(content.content));
+                        row.append($('<td/>').text(content.status));
+                        row.append($('<td/>').text(content.createTime));
+                        row.append($('<td/>').text(content.updateTime));
+                        var editLink = $('<a/>', {
+                            href: '/admin/content/edit/' + content.id,
+                            html: '<i style="color: #0BCE97;" class="fa-solid fa-pen-to-square fa-2xl"></i>'
+                        });
+                        row.append($('<td/>').append(editLink));
+                        tableBody.append(row);
+                    }
+                    page++;
+                    loading = false;
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+                loading = false;
+            }
+        });
+    }
+
+    // Trigger loadMore() when scrolling near the bottom of the page
+    $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+            loadMore();
+        }
+    });
+
+    // Initial load
+    $(document).ready(function () {
+        loadMore();
+    });
+</script>
+
+                                    <!-- ------------------------------end table------------------------- -->
+                           <!--    <div>
+        <a th:href="@{?page=0}" th:unless="${currentPage == 0}">First</a>
+        <a th:href="@{?page=${currentPage - 1}}" th:unless="${currentPage == 0}">Previous</a>
+        <span th:text="${currentPage}"></span>
+        <a th:href="@{?page=${currentPage + 1}}" th:unless="${currentPage + 1 >= totalPages}">Next</a>
+        <a th:href="@{?page=${totalPages - 1}}" th:unless="${currentPage + 1 >= totalPages}">Last</a>
+    </div>
+			 --> 					<br>
+									
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                    <!-- end table -->
+
+
+
+                    <div class="small_box_bottom"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card widget-flat">
+                        </div> <!-- end card-->
+                    </div> <!-- end col-->
+                </div> 
+            </div>
+            <!-- container -->
+
+        </div>
+        <!-- content -->
+
+        <!-- Footer Start -->
+      <div th:include="fragments/footer :: footer" class="footer" ></div>
+        <!-- end Footer -->
+</div>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+    </div>
+    <!-- END wrapper -->
+    <!-- Right Sidebar -->
+     <div th:include="bar/endbar :: end-bar" class="end-bar" ></div>
+    <!-- /End-bar -->
+
+    <!-- bundle -->
+    <script th:src="@{/assets/js/vendor.min.js}"></script>
+    <script th:src="@{/assets/js/app.min.js}"></script>
+
+    <!-- third party js -->
+    <script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+    <script th:src="@{/assets/js/clock.js}"></script>
+    <!-- end demo js-->
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Website Tuyển Sinh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+    data-rightbar-onstart="true">
+    <!-- Begin page -->
+
+    <div class="wrapper">
+        <!-- ========== Left Sidebar Start ========== -->
+        	<div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+                <!-- Topbar Start -->
+                <div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+                <!-- end Topbar -->
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <form class="d-flex">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-light"
+                                                id="dash-daterange">
+                                            <span class="input-group-text bg-success border-success text-white">
+                                                <i class="mdi mdi-calendar-range font-13"></i>
+                                            </span>
+                                        </div>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-2">
+                                            <i class="mdi mdi-autorenew"></i>
+                                        </a>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-1">
+                                            <i class="mdi mdi-filter-variant"></i>
+                                        </a>
+                                    </form>
+                                </div>
+                                <h4 class="page-title">Danh sách Đối tượng ưu tiên</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+            <!-- ------------------------------start content------------------------------ -->
+                    <div class="content">
+                        <div class="container1">
+                            <div class="row">
+                                <button style="width:fit-content" class="btn btn-success"><a class="text-white" th:href="@{/admin/priorityObject/add}">Thêm đối tượng ưu tiên</a></button>
+                            </div>
+                            <!-- Alert -->
+                            <div th:if="${message != null && message.status == 'success'}" class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #0BCE97">
+                            	<span th:text="${message.message}"></span>
+                            </div>
+                            <div th:if="${message != null && message.status == 'fail'}" class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #FF0000">
+                            	<span th:text="${message.message}"></span>
+                            </div>
+                            <!-- End alert -->
+                            
+                            <div class="row mt-3">
+                                <div class="col-sm-12 text-center">
+                                    <!-- ------------------------------table-------------------------- -->
+                                    <div class="table-responsive">
+                                    <table class="table table-responsive table-bordered table-striped">
+                                        <tr id="tbl-first-row">
+                                            <td>#</td>
+                                            <td>Mã đối tượng</td>
+                                            <td>Tên đối tượng</td>
+                                            <td>Điểm cộng</td>
+                                            <td>Trạng thái</td>
+                                            <td>Chỉnh sửa</td>
+                                        </tr>
+                                        <tr th:each="object, index : ${objects}">
+								            <td th:text="${index.index + 1}"></td>
+								            <td th:text="${object.idObject}"></td>
+								            <td th:text="${object.name}"></td>
+								            <td th:text="${object.scoreAdd}"></td>
+								            <td th:text="${object.status} ? 'Hiện' : 'Ẩn'"></td>
+								            <td><a th:href="@{/admin/priorityObject/edit/{id}(id=${object.id})}"><i style="color: #0BCE97;" class="fa-solid fa-pen-to-square fa-2xl"></i></a></td> 
+								        </tr>                    
+                                    </table>
+                                    <!-- 
+                                    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="alertModalLabel">Cảnh báo</h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                              Xác nhận xóa đối tượng ưu tiên?
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                              <button type="button" class="btn btn-danger">Xác nhận</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                       -->
+                                </div>
+                                    <!-- ------------------------------end table------------------------- -->
+                                 <div class="pagination-container">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                          <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                          <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                                        </ul>
+                                      </nav>
+                                    </div><br>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- end table -->
+
+
+
+                    <div class="small_box_bottom"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card widget-flat">
+
+
+                        </div> <!-- end card-->
+                    </div> <!-- end col-->
+
+
+
+
+                </div> <!-- end col -->
+
+
+
+            </div>
+            <!-- container -->
+
+        </div>
+        <!-- content -->
+
+         <!-- Footer Start -->
+      	<div th:include="fragments/footer :: footer" class="footer" ></div>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+    </div>
+    <!-- END wrapper -->
+
+     <!-- Right Sidebar -->
+     <div th:include="bar/endbar :: end-bar" class="end-bar" ></div>
+    <!-- /End-bar -->
+
+    <!-- bundle -->
+    <script th:src="@{/assets/js/vendor.min.js}"></script>
+    <script th:src="@{/assets/js/app.min.js}"></script>
+
+    <!-- third party js -->
+    <script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+    <script th:src="@{/assets/js/clock.js}"></script>
+    <!-- end demo js-->
+</body>
+
+</html>

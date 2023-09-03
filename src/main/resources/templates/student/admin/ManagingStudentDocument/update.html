@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title> Trường Đại học Công nghệ Thông tin và Truyền thông Việt - Hàn, Đại học Đà Nẵng</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="robots" content="index,follow" />
+	<meta property='og:image' content='http://vku.udn.vn/images/logo_icon.png'>
+	<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+	<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/css/app.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/css/icons.min.css}" />
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/styleindex.css}" />
+	<script type="text/javascript" src="/assets/js/jquery.js"></script>
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+				<!-- Start Content-->
+				<div class="container-fluid">
+
+					<!-- start page title -->
+					<div class="row">
+						<div class="col-12">
+							<div class="page-title-box">
+								<div class="page-title-right">
+									<form class="d-flex">
+										<div class="input-group">
+											<input type="text" class="form-control form-control-light"
+												id="dash-daterange">
+											<span class="input-group-text bg-success border-success text-white">
+												<i class="mdi mdi-calendar-range font-13"></i>
+											</span>
+										</div>
+										<a href="javascript: void(0);" class="btn btn-success ms-2">
+											<i class="mdi mdi-autorenew"></i>
+										</a>
+										<a href="javascript: void(0);" class="btn btn-success ms-1">
+											<i class="mdi mdi-filter-variant"></i>
+										</a>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Alert -->
+					<div th:if="${message != null && message.status == 'success'}" id="message"
+						class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #0BCE97">
+						<span th:text="${message.message}"></span>
+					</div>
+					<div th:if="${message != null && message.status == 'fail'}" id="message"
+						class="m-auto w-50 px-4 py-2 rounded-3 text-white" style="background-color: #FF0000">
+						<span th:text="${message.message}"></span>
+					</div>
+					<!-- End alert -->
+					<div class="container" style="max-width: 950px" ;>
+						<form id="frm" role="form"
+							th:action="@{/admin/managingStudentDocument/edit/{id}(id=${student.id})}" method="post">
+							<div class="setup-content" id="step-1">
+								<div>
+									<div class="col-md-12">
+										<!-- THONG TIN BAN THAN -->
+										<h3 class="sict">Nộp Hồ sơ Thí sinh: <span th:text="${student.fullName + ' - '+ student.majors.majorsID}"
+												style="color: #008000">
+											</span>
+										</h3>
+										<h3 class="sict">Ngành: <span th:text="${student.majors.majorsName}"
+												style="color: #008000">
+											</span>
+										</h3>
+										<h3 class="sict">Phương thức trúng tuyển: <span th:text="${student.method.ten_phuong_thuc}"
+												style="color: #008000">
+											</span>
+										</h3>
+										<script>
+											function checkall() {
+												$(':checkbox').each(function () {
+													this.checked = true;
+												});
+											}
+										</script>
+										<div class="form-group " style="text-align: justify;">
+										<input class="btn btn-success mx-2" type="button" value="Chọn nhanh" onclick="checkall()">
+											<div class="col-md-12 col-sm-12 mt-3" style="padding:0; margin-left:4%">
+												<th:block th:each="docItem : ${documentItems}">
+													<div class="checkbox checkbox-primary"
+														style="margin:0px 0px !important">
+														<input type="checkbox" th:value="${docItem.id}"
+															th:id="${'giayto' + docItem.id}" name="documentItemId">
+														<label th:for="${'giayto' + docItem.id}"
+															th:text="${docItem.soLuong} + ' ' + ${docItem.documentType + ' - ' }"></label>  <span class="fst-italic" th:text="${docItem.note}"></span>
+													</div>
+												</th:block>
+											</div>
+											<br><br>
+											<!-- CMND -->
+										</div>
+										<div class="col-sm-10 m-auto" style="padding:0; margin-left:4%">
+											<label for="">
+												Ghi chú
+											</label>
+											<textarea name="note"
+												style="width:100% ;margin-left: -37px;border-radius: 0.5em;"
+												class="form-control"
+												placeholder="Nhập ghi chú của thí sinh" th:text="${student.noteDocumentItems}"></textarea>
+										</div>
+									</div>
+								</div>
+								<input class="btn btn-success btn-lg" type="submit" value="Cập nhật thu hồ sơ"
+									style="margin: 40px;">
+							</div>
+							<input type="hidden" id="document-items" name="documentItems"
+								th:value="${student.documentItems}" />
+							<input type="hidden" name="update" value="submit">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="fragments/footer :: footer" class="footer"></div>
+	<!-- end Footer -->
+	<!-- ============================================================== -->
+	<!-- End Page content -->
+	<!-- ============================================================== -->
+	<!-- END wrapper -->
+	<!-- Right Sidebar -->
+	<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+	<!-- /End-bar -->
+
+	<!-- bundle -->
+	<script src="/assets/js/vendor.min.js"></script>
+	<script src="/assets/js/app.min.js"></script>
+
+	<!-- third party js -->
+	<script src="/assets/js/vendor/apexcharts.min.js"></script>
+	<script src="/assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+	<script src="/assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+	<!-- third party js ends -->
+
+	<!-- demo app -->
+	<script src="/assets/js/pages/demo.dashboard.js"></script>
+	<script src="/assets/js/clock.js"></script>
+	<!-- end demo js-->
+	<script>
+		var selectedDocumentItems = [];
+		$("input:checkbox[name=documentItemId]:checked").each(function () {
+			selectedDocumentItems.push($(this).val());
+		});
+		var documentItemsString = selectedDocumentItems.join(",");
+
+		console.log('student: [[${student}]]')
+		// Lấy các giá trị từ các trường input và lưu vào đối tượng Student
+		var student = {
+
+			documentItems: document.getElementById('document-items').value
+		};
+
+		// Lấy danh sách các id của documents từ chuỗi documentItems của Student
+		var documentIds = student.documentItems.split(',');
+
+		// Lặp qua từng ô checkbox và kiểm tra xem có nằm trong danh sách id hay không
+		var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+		for (var i = 0; i < checkboxes.length; i++) {
+			var checkbox = checkboxes[i];
+			if (documentIds.includes(checkbox.value)) {
+				checkbox.checked = true;
+			}
+		}
+	</script>
+	<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 3000);
+	</script>
+
+</html>

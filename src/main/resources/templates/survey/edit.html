@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<title>Website Tuyển Sinh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" />
+<meta content="Coderthemes" name="author" />
+<!-- App favicon -->
+
+<!-- third party css -->
+<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}"
+	rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css"
+	id="app-style" />
+
+<!------------------------------ news ---------------------------------->
+<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 5000);
+	</script>
+
+</head>
+
+<body class="loading" data-layout-color="light"
+	data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft"
+			class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<!-- Topbar Start -->
+				<div th:include="fragments/fragmentheader :: header"
+					class="navbar-custom"></div>
+			</div>
+			<!-- end Topbar -->
+			<!-- Start Content-->
+			<div class="container-fluid">
+
+				<!-- start page title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="page-title-box">
+							<div class="page-title-right">
+								<form class="d-flex">
+									<div class="input-group">
+										<input type="text" class="form-control form-control-light"
+											id="dash-daterange"> <span
+											class="input-group-text bg-success border-success text-white">
+											<i class="mdi mdi-calendar-range font-13"></i>
+										</span>
+									</div>
+									<a href="javascript: void(0);" class="btn btn-success ms-2">
+										<i class="mdi mdi-autorenew"></i>
+									</a> <a href="javascript: void(0);" class="btn btn-success ms-1">
+										<i class="mdi mdi-filter-variant"></i>
+									</a>
+								</form>
+							</div>
+							<h4 class="page-title">Sửa khảo sát</h4>
+						</div>
+					</div>
+				</div>
+				<!-- end page title -->
+				<!-- ------------------------------start content------------------------------ -->
+				<div class="content">
+					<div class="container1">
+						<div th:if="${message != null && message.status == 'success'}"
+									class="m-auto w-50 px-4 py-2 rounded-3 text-white" id="message" 
+									style="background-color: #0BCE97">
+									<span th:text="${message.message}"></span>
+								</div>
+								<div th:if="${message != null && message.status == 'fail'}"
+									class="m-auto w-50 px-4 py-2 rounded-3 text-white" id="message" 
+									style="background-color: #FF0000">
+									<span th:text="${message.message}"></span>
+								</div>
+						<div class="row mt-3">
+							<div  class="col-sm-12 margin" th:if = "${Survey.shared!=1}">
+								<form th:object="${Survey}" class="w-25 m-auto"
+									th:action="@{/admin/survey/edit}" method="post">
+									<input type="hidden"
+												id="cookieValue" th:value="${cookieValue}">
+									<input type="text" th:value="${Survey.id}" hidden th:field="*{id}">
+									<label class="form-label" for="majors">Ngành</label> 
+									<select
+										class="form-select" th:field="*{majors.id}" id="majors"
+										>
+										<option th:each="major : ${majors}" th:value="${major.id}" th:selected="${major.id} == ${Survey.majors.id}"
+											id="${major.id}" th:text="${major.majorsName}"></option>
+									</select>
+									 <label class="form-label mt-2" for="">Khóa</label>
+									  <select
+										class="form-select" th:field="*{khoa.id}" id="khoa" 
+									>
+										<option th:each="khoa1 : ${khoas}" th:value="${khoa1.id}" th:selected="${khoa1.id} == ${Survey.khoa.id}"
+											id="${khoa1.khoa}" th:text="${khoa1.khoa}"></option>
+									</select>
+								
+									 <label class="form-label mt-2" for="">Tên khảo sát</label> 
+									 <input
+										class="form-control" type="text" th:field="*{name}" id="" th:value="${Survey.name}" required> 
+										<label
+										class="form-label mt-2" for="">Link khảo sát</label> 
+										<input class="form-control" type="text" th:field="*{url}" id="" th:value="${Survey.url}" required>
+										
+										<label
+										class="form-label mt-2" for="">Mô tả</label> 
+										<input class="form-control" type="text" th:field="*{decription}" id=""th:value="${Survey.decription}" required>
+										<input class="form-control" type="hidden" th:field="*{shared}" id=""th:value="${Survey.shared}">
+										 <label
+										class="form-label mt-2" for="statuss">Trạng thái</label> 
+										<select
+										class="form-select" th:field="*{status}" name="" id="statuss"
+										required>
+										<option value="true" th:selected="${!Survey.status} "th:text="Hiện"></option>
+										<option value="false" th:selected="${!Survey.status} "th:text="Ẩn"></option>
+									</select>
+									<div class="text-center mt-2">
+										<input class="btn btn-success" type="submit" value="Sửa">
+									</div>
+								</form>
+							</div>
+							<div  class="col-sm-12 margin" th:if = "${Survey.shared==1}">
+								<form th:object="${Survey}" class="w-25 m-auto"
+									th:action="@{/admin/survey/edit}" method="post">
+									 <label class="form-label mt-2" for="">Khóa</label>
+									  <select
+										class="form-select" th:field="*{khoa.id}" id="khoa" 
+									>
+										<option th:each="khoa1 : ${khoas}" th:value="${khoa1.id}" th:selected="${khoa1.id} == ${Survey.khoa.id}"
+											id="${khoa1.khoa}" th:text="${khoa1.khoa}"></option>
+									</select>
+								
+									 <label class="form-label mt-2" for="">Tên khảo sát</label> 
+									 <input
+										class="form-control" type="text" th:field="*{name}" id="" th:value="${Survey.name}" required> 
+										<label
+										class="form-label mt-2" for="">Link khảo sát</label> 
+										<input class="form-control" type="text" th:field="*{url}" id="" th:value="${Survey.url}" required>
+										
+										<label
+										class="form-label mt-2" for="">Mô tả</label> 
+										<input class="form-control" type="text" th:field="*{decription}" id=""th:value="${Survey.decription}" required>
+										<input class="form-control" type="hidden" th:field="*{shared}" id=""th:value="${Survey.shared}">
+										 <label
+										class="form-label mt-2" for="statuss">Trạng thái</label> 
+										<select
+										class="form-select" th:field="*{status}" name="" id="statuss"
+										required>
+										<option value="true" th:selected="${!Survey.status} "th:text="Hiện"></option>
+										<option value="false" th:selected="${!Survey.status} "th:text="Ẩn"></option>
+									</select>
+									<div class="text-center mt-2">
+										<input class="btn btn-success" type="submit" value="Sửa">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- end table -->
+
+
+
+				<div class="small_box_bottom"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="card widget-flat"></div>
+					<!-- end card-->
+				</div>
+				<!-- end col-->
+
+
+
+
+			</div>
+			<!-- end col -->
+
+
+
+		</div>
+		<!-- container -->
+
+	</div>
+	<!-- content -->
+<br/>
+	<!-- Footer Start -->
+	<div th:include="fragments/footer :: footer" class="footer"></div>
+	<!-- end Footer -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Page content -->
+	<!-- ============================================================== -->
+	</div>
+	<!-- END wrapper -->
+	<!-- Right Sidebar -->
+	<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+	<!-- /End-bar -->
+
+	<!-- bundle -->
+	<script th:src="@{/assets/js/vendor.min.js}"></script>
+	<script th:src="@{/assets/js/app.min.js}"></script>
+
+	<!-- third party js -->
+	<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+	<!-- third party js ends -->
+
+	<!-- demo app -->
+	<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+	<script th:src="@{/assets/js/clock.js}"></script>
+	<!-- end demo js-->
+</body>
+
+</html>

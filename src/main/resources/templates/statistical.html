@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+	<head>
+		<meta charset="utf-8" />
+		<title>Website Tuyển Sinh</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" />
+		<meta content="Coderthemes" name="author" />
+		<!-- App favicon -->
+		<link th:href="@{/style2.css}" rel="stylesheet" type="text/css">
+
+		<!-- third party css -->
+		<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+		<!-- third party css end -->
+		<!-- App css -->
+		<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+		<link rel="shortcut icon" href="/assets/images/index/iconlogo.png">
+		<!------------------------------ news ---------------------------------->
+		<link rel="shortcut icon" th:src="@{/assets/images/index/iconlogo.png}">
+		<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+		<style>
+			  .hidden {
+    display: none;
+  }
+  
+/* Styling for the main content */
+.container-fluid {
+  padding: 20px;
+}
+
+.content-wrapper {
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  color: #333;
+}
+
+.card-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.nav-item {
+  margin-bottom: 10px;
+}
+		</style>
+	</head>
+
+
+	<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+		data-rightbar-onstart="true">
+		<!-- Begin page -->
+
+		<div class="wrapper ml-5">
+			<!-- ========== Left Sidebar Start ========== -->
+			<div th:include="menu/menuleft :: menu-left" id="menuleft" class="col-lg-2 leftside-menu"></div>
+			<!-- Left Sidebar End -->
+
+			<!-- ============================================================== -->
+			<!-- Start Page Content here -->
+			<!-- ============================================================== -->
+			<div class="content-page">
+				<div>
+					<!-- Topbar Start -->
+					<div th:include="fragments/fragmentheader :: header" class=" navbar-custom"></div>
+				</div>
+				<!-- end Topbar -->
+				<!-- Start Content-->
+				<!-- <div th:include="fragments/container-fluid-tinhthanh :: container-fluid" class="container-fluid" ></div> -->
+
+				<!-- start page title -->
+
+				<!-- end page title -->
+				<!-- ------------------------------start content------------------------------ -->
+				<div class="container-fluid">
+
+					<!-- start page title -->
+					<div class="row justify-content-center">
+						<div class="col-12">
+							<div class="page-title-box">
+								<div class="page-title-right">
+									<form class="d-flex">
+										<div class="input-group">
+											<input type="text" class="form-control form-control-light"
+												id="dash-daterange">
+											<span class="input-group-text bg-success border-success text-white">
+												<i class="mdi mdi-calendar-range font-13"></i>
+											</span>
+
+										</div>
+										<a href="javascript: void(0);" class="btn btn-success ms-2" id="refreshButton">
+											<i class="mdi mdi-autorenew"></i>
+										</a>
+										<script>
+											// Định nghĩa hàm để làm mới trang web khi nút F5 được nhấp
+											function refreshPage() {
+												location.reload(true); // Reload trang và bỏ qua bộ nhớ cache (nếu có)
+											}
+
+											// Gán sự kiện click vào nút F5
+											document.getElementById('refreshButton').addEventListener('click', refreshPage);
+										</script>
+										<a href="javascript: void(0);" class="btn btn-success ms-1">
+											<i class="mdi mdi-filter-variant"></i>
+										</a>
+									</form>
+								</div>
+								<h3 class="page-title">Thống kê</h3>
+							</div>
+						</div>
+					</div>
+
+					<!-- end page title -->
+					<!-- ------------------------------start content------------------------------ -->
+					<div class="horizontal-menu">
+						<nav class="bottom-navbar">
+							<div class="container">
+								<ul class="nav page-navigation">
+									<li class="nav-item">
+										<a class="nav-link myButton">
+											<i class="mdi mdi-finance menu-icon"></i>
+											<span class="menu-title">Thống kê số lượng theo khóa</span>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="#" class="nav-link">
+											<i class="mdi mdi-chart-areaspline menu-icon"></i>
+											<span class="menu-title">Thống kê về số lượng học phí</span>
+											<i class="menu-arrow"></i>
+										</a>
+										<div class="submenu">
+											<ul>
+												<li class="nav-item" ><a class="nav-link myButton">Số lượng nộp</a></li>
+											</ul>
+										</div>
+									</li>
+									<li class="nav-item">
+										<a href="#" class="nav-link">
+											<i class="mdi mdi-codepen menu-icon"></i>
+											<span class="menu-title">Thống kê về học phí</span>
+											<i class="menu-arrow"></i>
+										</a>
+										<div class="submenu">
+											<ul>
+												<li class="nav-item"><a class="nav-link myButton">Khóa</a></li>
+												<li class="nav-item"><a class="nav-link myButton">Ngành</a></li>
+												<li class="nav-item"><a class="nav-link myButton">Ngày</a></li>
+												<li class="nav-item"><a class="nav-link myButton">Người thu</a></li>
+											</ul>
+										</div>
+									</li>
+									<li class="nav-item">
+										<a href="#" class="nav-link">
+											<i class="mdi mdi-cube-outline menu-icon"></i>
+											<span class="menu-title">Thống kê về giấy tờ</span>
+											<i class="menu-arrow"></i>
+										</a>
+										<div class="submenu">
+											<ul>
+												<li class="nav-item"><a class="nav-link myButton">Thống kê số lượng nộp</a>
+												</li>
+												<li class="nav-item"><a class="nav-link myButton">Loại giấy tờ</a></li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</nav>
+					</div>
+					<br>
+					<!-- partial -->
+					<div class="container-fluid page-body-wrapper hidden content"  >
+						<div class="main-panel">
+							<di class="content-wrapper">
+								<div class="row">
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Quản lý tổng giấy tờ theo khóa</h4>
+												
+												<div class="table-responsive">
+													<table class="table">
+														
+														 <div id="khoacontainer1"  style="margin-left: -21px;">
+							                                <p class="dropdown-item notify-item"><strong>Khóa:</strong><span id="khoa1"></span></p>
+							                            </div>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Quản lý giấy tờ CTSV</h4>
+												
+												<div class="table-responsive">
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>User</th>
+																<th>Product</th>
+																<th>Sale</th>
+																<th>Status</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Jacob</td>
+																<td>Photoshop</td>
+																<td class="text-danger"> 28.76% <i
+																		class="mdi mdi-arrow-down"></i></td>
+																<td><label class="badge badge-danger">Pending</label>
+																</td>
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				<br>
+								<div class="container-fluid page-body-wrapper hidden content"  >
+						<div class="main-panel">
+							<di class="content-wrapper">
+								<div class="row">
+									<div class="col-lg-6 stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Số lượng nộp học phí</h4>
+												
+												<div class="table-responsive">
+													<table class="table">
+														
+														 <div id="khoacontainer1"  style="margin-left: -21px;">
+<p><strong style="margin-left: 20px;" >Số lượng nộp:</strong> 
+<span id="soluongnop" th:text="${submittedCount}"></span></p>
+							                            </div>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									 <div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
+              <p id="notSubmittedCount" th:text="${notSubmittedCount}" class="d-none"></p>
+										<p id="submittedCount" th:text="${submittedCount}" class="d-none"></p>
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Biểu đồ</h4>
+                  <canvas id="pieChart"></canvas>
+                </div>
+              </div>
+            </div>
+								</div>
+							</div>
+						</div>
+								<div class="container-fluid page-body-wrapper hidden content">
+						<div class="main-panel">
+							<di class="content-wrapper">
+								<div class="row">
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Tổng học phí khóa</h4>
+												
+												<div class="table-responsive">
+													<table class="table">
+														
+														 <div id="khoacontainer1"  style="margin-left: -21px;">
+													        <ul>
+													            <li  th:each="entry : ${tuitionByType}">
+													                <p class="color" th:text="${entry.key + ': ' + entry.value}"></p>
+													            </li>
+													        </ul>
+
+							                            </div>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Quản lý giấy tờ CTSV</h4>
+												
+												<div class="table-responsive">
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>User</th>
+																<th>Product</th>
+																<th>Sale</th>
+																<th>Status</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Jacob</td>
+																<td>Photoshop</td>
+																<td class="text-danger"> 28.76% <i
+																		class="mdi mdi-arrow-down"></i></td>
+																<td><label class="badge badge-danger">Pending</label>
+																</td>
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="container-fluid page-body-wrapper hidden content" >
+						<div class="main-panel">
+							<di class="content-wrapper">
+								<div class="row">
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Tổng học phí theo ngành</h4>
+												
+												<div class="table-responsive">
+													<table class="table">
+														
+														 <div id="khoacontainer1"  style="margin-left: -21px;">
+														 <ul>
+															             <li th:each="entry : ${tuitionByMajor}">
+	            <p class="color" th:text="${entry.key + ': ' + entry.value+' VND'}"></p>
+	        </li>	
+														            </ul>
+							                            </div>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Quản lý giấy tờ CTSV</h4>
+												
+												<div class="table-responsive">
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>User</th>
+																<th>Product</th>
+																<th>Sale</th>
+																<th>Status</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Jacob</td>
+																<td>Photoshop</td>
+																<td class="text-danger"> 28.76% <i
+																		class="mdi mdi-arrow-down"></i></td>
+																<td><label class="badge badge-danger">Pending</label>
+																</td>
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+								<div class="container-fluid page-body-wrapper hidden content">
+						<div class="main-panel">
+							<di class="content-wrapper">
+								<div class="row">
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Thống kê theo ngày thu</h4>
+												
+												<div class="table-responsive">
+													<table class="table">
+														
+														 <div id="khoacontainer1"  style="margin-left: -21px;">
+													          <ul>
+											                <li th:each="entry : ${tuitionByDay}">
+											                    <p class="color" th:text="${entry.key + ': ' + entry.value}"></p>
+											                </li>
+											            </ul>
+							                            </div>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Quản lý giấy tờ CTSV</h4>
+												
+												<div class="table-responsive">
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>User</th>
+																<th>Product</th>
+																<th>Sale</th>
+																<th>Status</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Jacob</td>
+																<td>Photoshop</td>
+																<td class="text-danger"> 28.76% <i
+																		class="mdi mdi-arrow-down"></i></td>
+																<td><label class="badge badge-danger">Pending</label>
+																</td>
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="container-fluid page-body-wrapper hidden content" >
+						<div class="main-panel">
+							<di class="content-wrapper">
+								<div class="row">
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Tổng học phí theo người thu</h4>
+												
+												<div class="table-responsive">
+													<table class="table">
+														
+														 <div id="khoacontainer1"  style="margin-left: -21px;">
+													  <ul>
+											                <li th:each="entry : ${tuitionByNgayThu}">
+											                    <p class="color" th:text="${entry.key + ': ' + entry.value}"></p>
+											                </li>
+											            </ul>
+							                            </div>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Quản lý giấy tờ CTSV</h4>
+												
+												<div class="table-responsive">
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>User</th>
+																<th>Product</th>
+																<th>Sale</th>
+																<th>Status</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Jacob</td>
+																<td>Photoshop</td>
+																<td class="text-danger"> 28.76% <i
+																		class="mdi mdi-arrow-down"></i></td>
+																<td><label class="badge badge-danger">Pending</label>
+																</td>
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br>
+								<div class="container-fluid page-body-wrapper hidden content" >
+						<div class="main-panel">
+							<di class="content-wrapper">
+								<div class="row">
+									<div class="col-lg-6 stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Thống kê giấy tờ về số lượng nộp</h4>
+												
+												<div class="table-responsive">
+													<table class="table">
+														
+														 <div id="khoacontainer1"  style="margin-left: -21px;">
+														
+															       <p><strong style="margin-left: 20px;" >Số lượng nộp:</strong> 
+<span id="soluongnop" th:text="${totalSubmission}"></span></p>
+															     
+														
+							                            </div>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 grid-margin grid-margin-lg-0 stretch-card">
+              <p id="totalSubmission" th:text="${totalSubmission}" class="d-none"></p>
+										<p id="totalNotSubmitted" th:text="${totalNotSubmitted}" class="d-none"></p>
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Biểu đồ</h4>
+                  <canvas id="pieChart2"></canvas>
+                </div>
+              </div>
+            </div>
+								</div>
+							</div>
+						</div>
+						<div class="container-fluid page-body-wrapper hidden content" >
+						<div class="main-panel">
+							<di class="content-wrapper">
+								<div class="row">
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Thống kê loại giấy tờ</h4>
+												
+												<div class="table-responsive">
+													<table class="table">
+														
+														 <div id="khoacontainer1"  style="margin-left: -21px;">
+															 <ul>
+																	                <li th:each="entry : ${documentCountMap}">
+																	                    <p class="color" th:text="${entry.key + ': ' + entry.value}"></p>
+																	                </li>
+																	            </ul>
+														
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 grid-margin stretch-card">
+										<div class="card">
+											<div class="card-body">
+												<h4 class="card-title">Quản lý giấy tờ CTSV</h4>
+												
+												<div class="table-responsive">
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>User</th>
+																<th>Product</th>
+																<th>Sale</th>
+																<th>Status</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>Jacob</td>
+																<td>Photoshop</td>
+																<td class="text-danger"> 28.76% <i
+																		class="mdi mdi-arrow-down"></i></td>
+																<td><label class="badge badge-danger">Pending</label>
+																</td>
+															</tr>
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+				</div>
+				</div><br>
+				</br>
+				</br>
+				
+				
+				
+						<!-- content -->
+
+						<!-- Footer Start -->
+						<div th:include="fragments/footer :: footer" class="footer"></div>
+						<!-- end Footer -->
+
+						<!-- ============================================================== -->
+						<!-- End Page content -->
+						<!-- ============================================================== -->
+						<!-- END wrapper -->
+						<!-- Right Sidebar -->
+						<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+						<!-- /End-bar -->
+						<button id="go-to-top" onclick="scrollToTop()" class="button1 btn-success"
+							style="display: none; position: fixed; right: 20px; bottom: 20px; padding-left: 10px; margin-right: 60px; margin-top: 200px;">
+							Go to Top</button>
+						<!-- bundle -->
+						<script th:src="@{/assets/js/vendor.min.js}"></script>
+						<script th:src="@{/assets/js/app.min.js}"></script>
+						<script th:src="@{/assets/js/scrool.js}"></script>
+
+						<!-- third party js -->
+						<script th:src="@{/assets/js/Chart.js}"></script>
+						<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+						<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+						<script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+						<!-- third party js ends -->
+						<script th:src="@{/assets/js/khoa.js}"></script>
+
+						<!-- demo app -->
+						<script th:src="@{/assets/js/chartstk.js}"></script>
+						<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+						<script th:src="@{/assets/js/clock.js}"></script>
+						<!-- end demo js-->
+
+
+<script>
+const buttons = document.querySelectorAll(".myButton");
+const contents = document.querySelectorAll(".content");
+
+buttons.forEach((button, index) => {
+  button.addEventListener("click", function() {
+    contents.forEach((content, contentIndex) => {
+      if (index === contentIndex) {
+        content.classList.toggle("hidden");
+      } else {
+        content.classList.add("hidden");
+      }
+    });
+  });
+});
+</script>
+
+
+	</body>
+
+</html>

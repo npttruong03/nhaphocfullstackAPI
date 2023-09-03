@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="utf-8" />
+    <title>Website Tuyển Sinh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+</head>
+<body>
+    <div id="menuleft" class="leftside-menu" th:fragment="menu-left">
+
+            <!-- LOGO -->
+            <a href="index.html" class="logo text-center logo-light">
+                <span class="logo-lg">
+                    <img th:src="@{/assets/images/index/logo.png}" alt="" height="50">
+                </span>
+                <span class="logo-sm">
+                    <img th:src="@{/assets/images/index/logo.png}" alt="" height="16">
+                </span>
+            </a>
+
+            <!-- LOGO -->
+            <a href="index.html" class="logo text-center logo-dark">
+                <span class="logo-lg">
+                    <img th:src="@{/assets/images/index/logo.png}" alt="" height="50">
+                </span>
+                <span class="logo-sm">
+                    <img th:src="@{/assets/images/index/logo.png}" alt="" height="16">
+                </span>
+            </a>
+
+            <div class="h-100" id="leftside-menu-container" data-simplebar>
+
+                <!--- Sidemenu -->
+                <ul class="side-nav">
+
+                    <li class="side-nav-title side-nav-item">Hồ sơ của trường VKU</li>
+
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarDashboards1" aria-expanded="false"
+                            aria-controls="sidebarDashboards1" class="side-nav-link">
+                            <i class="uil-home-alt"></i>
+                            <span class="badge bg-success float-end">9</span>
+                            <span> Trang chủ </span>
+                        </a>
+                       
+                        <div class="collapse" id="sidebarDashboards1">
+                            <ul class="side-nav-second-level">
+								 <li>
+                                    <a th:href="@{/admin/index}">Hồ sơ thí sinh</a>                            
+                                    
+                                </li>
+                                <li>
+                                    <a href="indexQuyen.html">Quản lý quyền</a>                            
+                                    
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/content/index}">Quản lý nội dung</a>
+                                </li>
+                                <li>
+                                    <a href="account.html">Quản lý tài khoản</a>
+                                </li>
+                                <li>
+                                    <a href="hocphi.html">Quản lý khoản học phí</a>
+                                </li>
+                                <li>
+                                    <a href="indexMoney.html">
+                                        Quản lý nộp học phí
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="giayto.html">Quản lý loại giấy tờ</a>
+                                </li>
+                                <li>
+                                    <a href="indexGiayto.html">Quản lý giấy tờ CTSV</a>
+                                </li>
+                                <li>
+                                    <a href="chuongtrinhhoc.html">Quản lý Chương trình học</a>
+                                </li>
+                                <li>
+                                    <a href="indexKe.html">Thống kê</a>
+                                </li>
+                                <li>
+                                    <a href="dashboard-wallet.html">Phân tích </a>
+                                            
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarDashboards2" aria-expanded="false"
+                            aria-controls="sidebarDashboards2" class="side-nav-link">
+                            <i class="uil-smile"></i>
+                            <span class="badge bg-success float-end">4</span>
+                            <span> Sinh viên</span>
+                        </a>
+                       
+                        <div class="collapse" id="sidebarDashboards2">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="xeplop.html">Xếp lớp </a>
+                                            
+                                </li>
+                                <li>
+                                    <a href="dangkichuongtrinh.html">Kết quả đăng ký chương trình global </a>
+                                            
+                                </li>
+                                <li>
+                                    <a href="ketquadangkixe.html">Kết quả đăng ký hỗ trợ xe đón </a>
+                                            
+                                </li>
+                                <li>
+                                    <a href="khoatuyensinh.html">Thiết lập khoá tuyển sinh</a>
+                                            
+                                </li>
+                            </ul>
+                        </div>
+                    </li>  
+
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarDashboards3" aria-expanded="false"
+                            aria-controls="sidebarDashboards3" class="side-nav-link">
+                            <i class="dripicons-folder"></i>
+                            <span class="badge bg-success float-end">8</span>
+                            <span>Dữ liệu</span>
+                        </a>
+                       
+                        <div class="collapse" id="sidebarDashboards3">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="dantoc.html">Dân tộc </a>
+                                            
+                                </li>
+                                <li>
+                                    <a href="dtut.html">Đối tượng ưu tiên</a>
+                                            
+                                </li>
+                                <li>
+                                    <a href="tinhthanh.html">Quê Quán</a>
+                                            
+                                </li>
+
+                                <li>
+                                    <a href="tongiao.html">Tôn giáo </a>
+                                            
+                                </li>
+                                <li>
+                                    <a href="khoa.html">Khóa</a>
+                                            
+                                </li>
+                                <li>
+                                    <a href="nganh.html">Ngành</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- ------------------------------end trang chủ------------------------ -->
+                    <li class="side-nav-title side-nav-item">Apps</li>
+
+                    <li class="side-nav-item">
+                        <a href="apps-calendar.html" class="side-nav-link">
+                            <i class="uil-calender"></i>
+                            <span> Calendar </span>
+                        </a>
+                    </li>
+                    
+
+
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false"
+                            aria-controls="sidebarEmail" class="side-nav-link">
+                            <i class="uil-envelope"></i>
+                            <span> Email </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarEmail">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="apps-email-inbox.html">Inbox</a>
+                                </li>
+                                <li>
+                                    <a href="apps-email-read.html">Read Email</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li> 
+
+                    <li class="side-nav-title side-nav-item">Custom</li>
+
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false"
+                            aria-controls="sidebarLayouts" class="side-nav-link">
+                            <i class="uil-window"></i>
+                            <span> Layouts </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarLayouts">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="layouts-horizontal.html">Horizontal</a>
+                                </li>
+                                <li>
+                                    <a href="layouts-detached.html">Detached</a>
+                                </li>
+                                <li>
+                                    <a href="layouts-full.html">Full</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="side-nav-title side-nav-item mt-1">Components</li>
+
+                    
+
+                    
+
+                    
+
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarIcons" aria-expanded="false"
+                            aria-controls="sidebarIcons" class="side-nav-link">
+                            <i class="uil-streering"></i>
+                            <span> Icons </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarIcons">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="icons-dripicons.html">Dripicons</a>
+                                </li>
+                                <li>
+                                    <a href="icons-mdi.html">Material Design</a>
+                                </li>
+                                <li>
+                                    <a href="icons-unicons.html">Unicons</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarMaps" aria-expanded="false"
+                            aria-controls="sidebarMaps" class="side-nav-link">
+                            <i class="uil-location-point"></i>
+                            <span> Maps </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarMaps">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a href="maps-google.html">Google Maps</a>
+                                </li>
+                                <li>
+                                    <a href="maps-vector.html">Vector Maps</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                </ul>
+                <!-- End Sidebar -->
+
+                <div class="clearfix"></div>
+
+            </div>
+            <!-- Sidebar -left -->
+
+        </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head th:fragment="html_header">
+		<meta charset="utf-8" />
+		<title>Website Tuyển Sinh</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" />
+		<meta content="Coderthemes" name="author" />
+		<!-- App favicon -->
+
+		<!-- third party css -->
+		<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+		<!-- third party css end -->
+		<!-- App css -->
+		<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+		<!------------------------------ news ---------------------------------->
+		<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+		<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+			
+	</head>
+	<body>
+
+		<div th:fragment="header" class="navbar-custom">
+			<ul class="list-unstyled topbar-menu float-end mb-0 d-flex">
+				<h4 class="d-flex justify-content-center align-items-center" id="timer">00:58:34</h4>
+				<li class="dropdown notification-list d-lg-none">
+					<a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
+						aria-haspopup="false" aria-expanded="false">
+						<i class="dripicons-search noti-icon"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-animated dropdown-lg p-0">
+						<form class="p-3">
+							<input type="text" class="form-control" placeholder="Search ..."
+								aria-label="Recipient's username">
+						</form>
+					</div>
+				</li>
+<!--			-----------------settings---------------- -->
+ 					<li class="notification-list">
+                            <a class="nav-link end-bar-toggle background" href="javascript: void(0);">
+                                <i class="dripicons-gear noti-icon"></i>
+                            </a>
+                        </li>
+
+				<li class="dropdown notification-list">
+					<a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#"
+						role="button" aria-haspopup="false" aria-expanded="false">
+						<span class="account-user-avatar">
+							<img th:src="@{/assets/images/index/user.png}" alt="user-image" class="rounded-circle">
+						</span>
+						<span class="admin">
+							<span th:text="${session.username}" class="account-user-name">Le Hieu</span>
+							<span th:if="${session.roles.contains('ROLE_ADMIN')}" th:text="Admin" class="account-position"></span>
+							<span th:if="${session.roles.contains('ROLE_TAIVU')}" th:text="'Tài vụ'" class="account-position"></span>
+							<span th:if="${session.roles.contains('ROLE_DAOTAO')}" th:text="'Đào tạo'" class="account-position"></span>
+							<span th:if="${session.roles.contains('ROLE_CTSV')}" th:text="'Công tác SV'" class="account-position"></span>
+						</span>
+					</a>
+					<div
+						class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
+
+						<!-- item-->
+						<a id="logoutLink"style="cursor: pointer;" class="dropdown-item notify-item">
+							<i class="mdi mdi-logout me-1"></i>
+							<span >Logout</span>
+						</a>
+					</div>
+				</li>
+
+			</ul>
+			<button class="button-menu-mobile open-left" fdprocessedid="ku6yk5">
+				<i class="mdi mdi-menu"></i>
+			</button>
+	
+			<script th:inline="javascript">
+				var logout = document.getElementById("logoutLink");
+				logout.addEventListener("click", function () {
+		            // Fetch data from the server
+		            fetch("/admin/login/logout", {
+			                method: "POST",
+			            })
+			            .then((response) => {
+			            	
+			                // Check if the response status is 200 (OK) for a successful logout
+			                window.location.href = "/admin/login";
+			                sessionStorage.clear();
+			            })
+			            .catch((error) => {
+			                console.error("Logout error:", error);
+			            });
+				})
+
+    		</script>
+		</div>
+		
+		
+
+	</body>
+</html>

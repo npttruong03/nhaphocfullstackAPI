@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Website Tuyển Sinh</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" />
+	<meta content="Coderthemes" name="author" />
+	<!-- App favicon -->
+
+	<!-- third party css -->
+	<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+	<!-- third party css end -->
+	<!-- App css -->
+	<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+	<!------------------------------ news ---------------------------------->
+	<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+	<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+	<style>
+		body {
+			font-family: "Times New Roman", Times, serif;
+		}
+
+		.table>:not(caption)>*>* {
+			padding: 0.5rem 0.95rem;
+
+		}
+	</style>
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<div class="hidden_print">
+		<center>
+
+			<img aligh="left" width="500" src="https://vku.udn.vn/nhaphoc2022//images/banner.png">
+			<br>
+			<h2>XÁC NHẬN HOÀN THÀNH THỦ TỤC NHẬP HỌC.</h2>
+			<hr>
+			<br style="clear:both">
+			<ol style="text-align:left; padding:0px">
+				<b></b>
+				<br>
+				<br>
+				<li>
+					<input type="button" class="btn btn-primary b1" id="print_button"
+						onclick="hidePrintContent() ; window.print()" value="In Xác nhận"> &nbsp;
+					<a class="btn btn-primary b1" th:href="@{/admin/index}">Trở
+						về trang Hồ sơ thí sinh</a>
+				</li>
+
+				<br>
+				<center>
+				</center>
+			</ol>
+		</center>
+	</div>
+	<div align="center">
+
+		<table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0" width="718" style="width:538.4pt;border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 0in 0in 0in;mso-border-insideh:none;mso-border-insidev:
+ none">
+			<tbody th:object="${student}">
+				<tr style="text-align: center; font-weight: bold;">
+
+					<td style="text-align:center; font-weight:bold;">ĐẠI HỌC ĐÀ NẴNG</td>
+					<td style="text-align: center;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT
+						NAM</td>
+				</tr>
+				<tr style="text-align: center; font-weight: bold;">
+					<td style="text-align: center;">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG
+						TIN</td>
+					<td style="text-align: center;"><u>Độc lập - Tự do - Hạnh
+							phúc</u></td>
+				</tr>
+				<tr style="text-align: center; font-weight: bold;">
+					<td style="text-align: center;">VÀ TRUYỀN THÔNG VIỆT -
+						HÀN</td>
+					<td></td>
+				</tr>
+				<tr style="text-align:center; font-weight:bold; ">
+					<td colspan="2">
+						<h2 style="margin-top:20px;">PHIẾU XÁC NHẬN NHẬP HỌC</h2>
+					</td>
+				</tr>
+				<tr>
+					<td>Họ và tên: [[${student.fullName}]]</td>
+					<td>CMND/CCCD: [[${student.numberCIC}]]</td>
+				</tr>
+				<tr>
+					<td>Ngày sinh: [[${student.birthday}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td>Giới tính: [[${student.gender == 'male'} ? 'Nam' : 'Nữ']]</td>
+				</tr>
+				<tr>
+					<!-- Alert  
+					-->
+					<td colspan="2">Phương thức xét tuyển nhập học: [[${student.method != null ?
+						student.method.ten_phuong_thuc : ""}]]</td>
+				</tr>
+				<tr>
+					<td>Ngành/Chuyên ngành: [[${student.majors.majorsName}]]</td>
+					<td>Lớp SV: [[${student.className}]] </td>
+				</tr>
+				<tr>
+					<td>Email: <span style="color:red"> [[${student.emailvku}]] | VKU@2023
+
+						</span> </td>
+					<td>Mã SV: [[${student.idStudent}]] </td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Nội dung nhập học -->
+		<tr">
+		</tr">
+		<tr">
+		</tr">
+		<table class="MsoTableGrid table table-bordered" border="1" cellspacing="0" cellpadding="0" width="814px" style="margin-top:20px; margin-bottom:20px; width:814px;border-collapse:collapse;border:1px;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 0in 0in 0in;mso-border-insideh:none;mso-border-insidev:
+ none">
+			<tbody style="line-height: normal;">
+				<tr style="text-align:center; font-weight:bold;">
+					<td>TT</td>
+					<td>I. Hồ sơ nhập học</td>
+					<td style="width:11%; text-align:center;">Ghi chú</td>
+				</tr>
+				<tr th:if="documentItems != null" th:each="docItem,index: ${documentItems}">
+					<td style="text-align:center;" th:text="${index.index +1}"> </td>
+					<td>
+						<th:block th:if="${docItem.note != '' && docItem.note != 'Không' && docItem.note != 'Ko'}">
+
+							<span th:text="${ docItem.documentType }"></span> <span class="fst-italic" th:text="${' - 0' + docItem.soLuong + ' (' + 
+							docItem.note + ')'}"></span>
+						</th:block>
+
+						<th:block th:unless="${docItem.note != '' && docItem.note != 'Không' && docItem.note != 'Ko' }">
+							<span th:text="${docItem.documentType + ' - 0' + docItem.soLuong}"></span></br>
+						</th:block>
+
+					</td>
+					<td style="width:11%; text-align:center;"
+						th:if="${student != null and student.documentItems != null}">
+						<th:block th:if="${#strings.contains(student.documentItems, docItem.id.toString())}">
+							Đã nộp
+						</th:block>
+						<th:block th:if="${not #strings.contains(student.documentItems, docItem.id.toString()) }">
+							Chưa nộp
+						</th:block>
+					</td>
+					<td style="width:11%; text-align:center;"
+						th:unless="${student != null and student.documentItems != null}">
+						Chưa nộp
+					</td>
+				</tr>
+				<tr style="font-weight:bold;">
+					<td style="width: 2%;"> TT </td>
+					<td style="text-align: center;" >II. Học phí và các khoản thu khi nhập học </td>
+					<td style="width:11%; text-align:center;">Ghi chú </td>
+				</tr>
+				<th:block th:if="${studentTuition != null and studentTuition.status}">
+					<tr th:each="tuitionFee,index: ${tuitionFeeList}">
+						<td style="text-align:center;" th:text="${index.index +1}"> </td>
+						<td>
+							<span th:text="${tuitionFee.name }"></span> <b class="price-s"></b>
+							<span class="price d-none" th:text="${tuitionFee.tuition}"></span>
+						</td>
+						<td style="width:10%; text-align:center;">
+							<th:block
+								th:if="${#strings.contains(studentTuition.tuitionFeeList, tuitionFee.id.toString())}">
+								Đã nộp
+							</th:block>
+							<th:block
+								th:if="${not #strings.contains(studentTuition.tuitionFeeList, tuitionFee.id.toString())}">
+								Chưa nộp
+							</th:block>
+						</td>
+						<td style="width:11%; text-align:center;" th:unless="${studentTuition.tuitionFeeList != null}">
+							Chưa nộp
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">Tổng tiền đã nộp: <span id="totalShow" th:text="${studentTuition.total}"
+								class="fw-bold"></span> </td>
+						<span th:text="${studentTuition.total}" id="total" class="d-none"></span>
+					</tr>
+				</th:block>
+
+			</tbody>
+		</table>
+		<p class="w-75 m-auto" style="text-align:left"><b>Lưu ý</b>: Sinh viên sử dụng <b>Email</b> và <b>Mật khẩu</b>
+			nhà trường cấp để
+			truy cập vào các hệ thống đào tạo của nhà trường để có thể theo dõi quá trình học tập: xem thời khóa biểu,
+			điểm học tập, đăng ký tín chỉ, elearning, bài giảng, giáo trình,... tại trường.<br>
+			Hệ thống Đào tạo: <b>https://daotao.vku.udn.vn</b><br>
+			Hệ thống Elearning: <b>https://elearning2.vku.udn.vn</b>
+		</p>
+		<table style="margin-top:20px;">
+			<tbody>
+				<tr>
+					<td style="width:60%"></td>
+					<td style="text-align:center; font-weight:bold;">Đà Nẵng, ngày &nbsp; &nbsp; tháng &nbsp; &nbsp; năm
+						2023<br>NGƯỜI THU HỒ SƠ</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+
+
+
+
+
+
+	</div>
+
+	<!-- bundle -->
+	<script th:src="@{/assets/js/vendor.min.js}"></script>
+	<script th:src="@{/assets/js/app.min.js}"></script>
+
+	<!-- third party js -->
+	<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+	<!-- third party js ends -->
+
+	<!-- demo app -->
+	<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+	<script th:src="@{/assets/js/clock.js}"></script>
+	<!-- end demo js-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script>
+		function calculate() {
+			const VND = new Intl.NumberFormat('vi-VN', {
+				style: 'currency',
+				currency: 'VND'
+			})
+			prices = document.getElementsByClassName('price')
+			total = document.getElementById('total')
+			priceshows = document.getElementsByClassName('price-s')
+
+			for (var i = 0; i < prices.length; i++) {
+				priceshows[i].innerHTML = VND.format(parseInt(prices[i].innerText))
+
+			}
+
+			document.getElementById("totalShow").innerText = VND.format(total.innerText)
+			//document.getElementById("total").value = sum
+		}
+		calculate();
+
+		function hidePrintContent() {
+			var printContent = document.querySelector('.hidden_print');
+			printContent.style.display = 'none';
+		}
+
+
+		var printButton = document.getElementById('print_button');
+		printButton.addEventListener('click', hidePrintContent);
+
+
+	</script>
+</body>
+
+</html>

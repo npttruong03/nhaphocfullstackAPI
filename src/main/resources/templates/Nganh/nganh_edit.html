@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Website Tuyển Sinh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+        
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+    data-rightbar-onstart="true">
+    <!-- Begin page -->
+
+    <div class="wrapper">
+        <!-- ========== Left Sidebar Start ========== --> 
+           <div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+        <!-- Left Sidebar End -->
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+        <div class="content-page">
+            <div class="content">
+                <!-- Topbar Start -->
+                 <div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+                </div>
+                <!-- end Topbar -->
+                     <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <form class="d-flex">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-light"
+                                                id="dash-daterange">
+                                            <span class="input-group-text bg-success border-success text-white">
+                                                <i class="mdi mdi-calendar-range font-13"></i>
+                                            </span>
+                                        </div>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-2">
+                                            <i class="mdi mdi-autorenew"></i>
+                                        </a>
+                                        <a href="javascript: void(0);" class="btn btn-success ms-1">
+                                            <i class="mdi mdi-filter-variant"></i>
+                                        </a>
+                                    </form>
+                                </div>
+                                <h4 class="page-title">Chỉnh Sửa Ngành</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+            <!-- ------------------------------start content------------------------------ -->
+                    <div class="content">
+                        <div class="container1">
+                      
+                            <div class="row mt-3" style="margin-top: 0px!important;">
+                                <div class="col-sm-12">
+<form class="w-25 m-auto" th:action="@{/admin/majors/edit/{id}(id=${majorses.id})}" method="post">
+    <label class="form-label" for="majorses">Mã ngành</label>
+    <input class="form-control" type="text" name="majorsID" id="majorses" placeholder="Nhập mã ngành" th:value="${majorses.majorsID}" required> 
+
+    <label class="form-label" for="majorsName">Tên ngành</label>
+    <input class="form-control" type="text" name="majorsName" id="majorsName" placeholder="Nhập tên ngành" th:value="${majorses.majorsName}" required>
+
+    <label class="form-label" for="majorsNameStandFor">Chuyên ngành</label>
+    <input class="form-control" type="text" name="majorsNameStandFor" id="majorsNameStandFor" placeholder="Nhập chuyên ngành" th:value="${majorses.majorsNameStandFor}" required>
+  
+    <label class="form-label mt-2" for="status">Trạng thái</label>
+    <select class="form-select" id="" name="status">
+         <option value="true" th:selected="${majorses.status}">Hiện</option>
+        <option value="false" th:selected="${!majorses.status}">Ẩn</option>
+    </select>
+
+    <div class="text-center mt-2">
+        <button class="btn btn-success" type="submit">Cập nhật</button>
+    </div>
+</form>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- end table -->
+
+
+
+                    <div class="small_box_bottom"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card widget-flat">
+
+
+                        </div> <!-- end card-->
+                    </div> <!-- end col-->
+
+
+
+
+                </div> <!-- end col -->
+
+
+
+            </div>
+            <!-- container -->
+
+        </div>
+        <!-- Footer Start -->
+      <div th:include="fragments/footer :: footer" class="footer" ></div>
+        <!-- end Footer -->
+</div>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+    </div>
+    <!-- END wrapper -->
+    <!-- Right Sidebar -->
+     <div th:include="bar/endbar :: end-bar" class="end-bar" ></div>
+    <!-- /End-bar -->
+
+    <!-- bundle -->
+    <script th:src="@{/assets/js/vendor.min.js}"></script>
+    <script th:src="@{/assets/js/app.min.js}"></script>
+
+    <!-- third party js -->
+    <script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- third party js ends -->
+
+    <!-- demo app -->
+    <script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+    <script th:src="@{/assets/js/clock.js}"></script>
+    <script>
+  document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var thoiGianBatDauString = document.getElementById('thoiGianBatDau').value;
+    var thoiGianKetThucString = document.getElementById('thoiGianKetThuc').value;
+
+    var thoiGianBatDau = new Date(thoiGianBatDauString).toISOString();
+    var thoiGianKetThuc = new Date(thoiGianKetThucString).toISOString();
+
+    document.getElementById('hiddenThoiGianBatDau').value = thoiGianBatDau;
+    document.getElementById('hiddenThoiGianKetThuc').value = thoiGianKetThuc;
+
+    this.submit();
+  });
+</script>
+    
+    <!-- end demo js-->
+</body>
+
+</html>

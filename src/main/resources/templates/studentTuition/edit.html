@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<title>Website Tuyển Sinh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" />
+<meta content="Coderthemes" name="author" />
+<!-- App favicon -->
+<style>
+        
+        /* Thay đổi cỡ chữ cho các phần tử có class 'price-s' */
+        .price-s {
+            font-size: 20px; /* Cỡ chữ 24px */
+        }
+    </style>
+<!-- third party css -->
+<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}"
+	rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{/assets/css/app.min.css}" rel="stylesheet"
+	type="text/css" id="app-style" />
+
+<!------------------------------ news ---------------------------------->
+<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 5000);
+	</script>
+</head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<body class="loading" data-layout-color="light"
+	data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft"
+			class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<!-- Topbar Start -->
+				<div th:include="fragments/fragmentheader :: header"
+					class="navbar-custom"></div>
+			</div>
+			<!-- end Topbar -->
+			<!-- Start Content-->
+
+
+			<!-- start page title -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="page-title-right">
+							<form class="d-flex">
+								<div class="input-group">
+									<input type="text" class="form-control form-control-light"
+										id="dash-daterange" fdprocessedid="9a29hh"> <span
+										class="input-group-text bg-success border-success text-white">
+										<i class="mdi mdi-calendar-range font-13"></i>
+									</span>
+								</div>
+								<a href="javascript: void(0);" class="btn btn-success ms-2">
+									<i class="mdi mdi-autorenew"></i>
+								</a> <a href="javascript: void(0);" class="btn btn-success ms-1">
+									<i class="mdi mdi-filter-variant"></i>
+								</a>
+							</form>
+						</div>
+
+						<h4 class="page-title">Chi tiết Thí sinh Học Phí</h4>
+						<div class="row">
+
+							<div class="col-md-10">
+								<div class="search-container">
+									<form
+										style="overflow: visible; max-width: 440px; padding-left: 40px;"
+										method="get" action=""></form>
+									<!-- Start Content-->
+
+									<div th:if="${message != null && message.status == 'fail'}"
+										class="m-auto w-50 px-4 py-2 rounded-3 text-white"
+										id="message" style="background-color: #FF0000">
+										<span th:text="${message.message}"></span>
+									</div>
+									<div class="container">
+
+										<form id="form" class="mt-6 py-4 border form-text"
+											th:action="@{/admin/studentTuition/edit/{id} (id=${stFee.id})}"
+											method="post" th:object="${stFee}"
+											enctype="multipart/form-data">
+											<div class="row setup-content" id="step-1">
+												<div class="col-md-6">
+													<!-- THONG TIN BAN THAN -->
+													<h3 class="sict col-12">
+														<strong>Nộp Học Phí Thí sinh:</strong><span
+															style="color: #008000"
+															th:text="${stFee.idStudent.fullName}"></span> <input
+															type="hidden" th:field="*{idStudent.id}"
+															th:value="${stFee.idStudent.id}">
+													</h3>
+													<span style="font-size: 20px;">Mã ngành: <b
+														style="font-size: 20px;"
+														th:text="${stFee.idStudent.majors.majorsID}"></b></span><br>
+													<span style="font-size: 20px;">Tên ngành: <b
+														style="font-size: 20px;"
+														th:text="${stFee.idStudent.majors.majorsName}"></b>
+													</span><br>
+													<br>
+													<!-- KHÔNG Bao gồm BHTT -->
+													<div class="form-check"
+														th:if="${not #lists.isEmpty(fees) && not #lists.isEmpty(feest)}"
+														th:each="hp : ${fees}">
+														<input type="checkbox" class="check form-check-input"
+															th:value="${hp.id}" th:checked="${feest.contains(hp)}"
+															onchange="calculate()"> <label
+															class="form-check-label fs-4" th:text="${hp.name}"></label>
+														<b class="price-s"></b> <span class="price d-none"
+															th:text=" ${hp.tuition}"></span>
+
+													</div>
+
+
+
+													<script>$(document).ready(function() {
+								        $('input[type="checkbox"]').change(function() {
+								            var selectedIds = $('input[type="checkbox"]:checked').map(function() {
+								                return $(this).val();
+								            }).get().filter(function(value) {
+								                return !isNaN(value);
+								            }).join(',');
+
+								            $('#selectedIds').val(selectedIds);
+								            console.log(selectedIds);
+								        });
+									});</script>
+
+													<div
+														th:if="${not #lists.isEmpty(fees) && #lists.isEmpty(feest)}"
+														th:each="hp : ${fees}">
+														<input type="checkbox" class="check form-check-input"
+															th:value="${hp.id}" onchange="calculate()"> <label
+															class="form-check-label fs-4" th:text="${hp.name}"></label>
+														<b class="price-s"></b> <span class="price d-none"
+															th:text=" ${hp.tuition}"></span>
+
+													</div>
+													<div th:if="${#lists.isEmpty(fees)}">
+														<label>Không có thông tin học phí cho thí sinh
+															này.</label>
+
+													</div>
+			
+													<input type="hidden" id="selectedIds"
+														th:field="*{tuitionFeeList}"> <br> <span
+														style="font-size: 20px; color: blue">Ngày thu
+														trước:</span> <span style="font-size: 20px; color: blue"
+														th:text="${stFee.tuitionDay}" fdprocessedid="tfxo4p"></span>
+													<br> <span style="font-size: 20px"> Ngày cập
+														nhật: </span><input type="text" class="form-control"
+														name="tuitionDay" th:value="${dayupdate}"><br />
+
+
+
+													<h3>Người thu học phí</h3>
+													<div th:if="${stFee.nameCashier == 'Ngô Thị Sơn Lâm'}">
+														<input type="radio" th:field="*{nameCashier}"
+															value="Ngô Thị Sơn Lâm" checked> Ngô Thị Sơn Lâm
+														<br> <input type="radio" th:field="*{nameCashier}"
+															value="Ngô Minh Thành"> Ngô Minh Thành <br>
+														<input type="radio" th:field="*{nameCashier}" value="Bank">
+														Bank <br>
+													</div>
+													<div th:if="${stFee.nameCashier == 'Ngô Minh Thành'}">
+														<input type="radio" th:field="*{nameCashier}"
+															value="Ngô Thị Sơn Lâm"> Ngô Thị Sơn Lâm <br>
+														<input type="radio" th:field="*{nameCashier}"
+															value="Ngô Minh Thành" checked> Ngô Minh Thành <br>
+														<input type="radio" th:field="*{nameCashier}" value="Bank">
+														Bank <br>
+													</div>
+													<div th:if="${stFee.nameCashier=='Bank'}">
+														<input type="radio" th:field="*{nameCashier}"
+															value="Ngô Thị Sơn Lâm"> Ngô Thị Sơn Lâm <br>
+														<input type="radio" th:field="*{nameCashier}"
+															value="Ngô Minh Thành"> Ngô Minh Thành <br>
+														<input type="radio" th:field="*{nameCashier}" value="Bank"
+															checked> Bank <br>
+													</div>
+													<div th:if="${stFee.nameCashier!='Ngô Minh Thành' && stFee.nameCashier!='Ngô Thị Sơn Lâm' &&stFee.nameCashier!='Bank'}">
+														<input type="radio" th:field="*{nameCashier}"
+															value="Ngô Thị Sơn Lâm"> Ngô Thị Sơn Lâm <br>
+														<input type="radio" th:field="*{nameCashier}"
+															value="Ngô Minh Thành"> Ngô Minh Thành <br>
+														<input type="radio" th:field="*{nameCashier}" value="Bank"
+															checked> Bank <br>
+													</div>
+
+													<hr />
+													<h3>Phương thức nộp học phí</h3>
+													<div th:if="${stFee.phuongThucThanhToan == 'Tiền mặt'}">
+														<input type="radio" th:field="*{phuongThucThanhToan}"
+															value="Tiền mặt" checked> Tiền mặt <br> <input
+															type="radio" th:field="*{phuongThucThanhToan}"
+															value="Chuyển khoản"> Chuyển khoản <br>
+													</div>
+													<div th:if="${stFee.phuongThucThanhToan == 'Chuyển khoản'}">
+														<input type="radio" th:field="*{phuongThucThanhToan}"
+															value="Tiền mặt"> Tiền mặt <br> <input
+															type="radio" th:field="*{phuongThucThanhToan}"
+															value="Chuyển khoản" checked> Chuyển khoản <br>
+													</div>
+													<div
+														th:if="${stFee.phuongThucThanhToan != 'Chuyển khoản' &&  stFee.phuongThucThanhToan != 'Tiền mặt'}">
+														<input type="radio" th:field="*{phuongThucThanhToan}"
+															value="Tiền mặt"> Tiền mặt <br> <input
+															type="radio" th:field="*{phuongThucThanhToan}"
+															value="Chuyển khoản"> Chuyển khoản <br>
+													</div>
+													<hr>
+
+													<h3>
+														Tổng tiền cần thanh toán: <span id="total-s">0&nbsp;₫</span>
+													</h3>
+													<input type="hidden" id="total" name="total"
+														th:field="*{total}"> <label
+														class="form-label mt-2" for="statuss">Trạng thái</label> <select
+														style="width: 100%;" class="form-select" name="status"
+														id="statuss" th:field="*{status}" required=""
+														fdprocessedid="ue0cxs">
+														<option th:value="true" 
+															th:text="Hiện"></option>
+													</select> <br>
+													<button class="btn btn-success btn-success1" type="submit"
+														name="submitButton" value="Lưu và trở về"
+														fdprocessedid="zvu6y8">Lưu và In biên lai</button>
+
+												</div>
+												<div class="col-md-6">
+													<label for="URL" class="form-label">Minh chứng:</label> <input
+														type="file" class="form-control" id="URL" name="file"
+														onchange="chooseFile(this)"> <input type="text"
+														class="form-control" hidden
+														th:field="*{proofOfTuitionPay}"
+														th:if="${proofOfTuitionPay == null}"
+														th:value="${stFee.proofOfTuitionPay}" /> <img
+														width="100%"
+														style="padding: 10px -70px !important; padding-top: 20px;"
+														class="proof"
+														th:src="@{/uploads/} + ${stFee.proofOfTuitionPay}">
+												</div>
+										</form>
+									</div>
+
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<!-- end page title -->
+
+					<!-- content -->
+
+					<br /> <br />
+					<!-- Footer Start -->
+					<div th:include="fragments/footer :: footer" class="footer"></div>
+					<!-- end Footer -->
+
+					<!-- ============================================================== -->
+					<!-- End Page content -->
+					<!-- ============================================================== -->
+
+					<!-- END wrapper -->
+					<!-- Right Sidebar -->
+					<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+					<!-- /End-bar -->
+				</div>
+			</div>
+			<!-- bundle -->
+			<script th:src="@{/assets/js/vendor.min.js}"></script>
+			<script th:src="@{/assets/js/app.min.js}"></script>
+
+			<!-- third party js -->
+			<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+			<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+			<script
+				th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+			<!-- third party js ends -->
+
+			<!-- demo app -->
+			<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+			<script th:src="@{/assets/js/clock.js}"></script>
+			<!-- end demo js-->
+			<script>
+								
+						        function chooseFile(fileInput) {
+						            if (fileInput.files && fileInput.files[0]) {
+						              var reader = new FileReader();
+						              reader.onload = function (e) {
+						                document.getElementsByClassName('proof')[0].src = e.target.result
+						              }
+						
+						              reader.readAsDataURL(fileInput.files[0])
+						            }
+						          }
+
+						        function calculate() {
+					
+						            const VND = new  Intl.NumberFormat('vi-VN', {
+						              style: 'currency',
+						              currency: 'VND'
+						            })
+						            checks = document.getElementsByClassName('check')
+						            prices = document.getElementsByClassName('price')
+						            priceshows = document.getElementsByClassName('price-s')
+						            totalshow = document.getElementById('total-s')
+						            sum = 0
+						            for (var i = 0; i < checks.length; i++)
+						            {
+						              priceshows[i].innerText = VND.format(parseInt(prices[i].innerText))
+						              if (checks[i].checked)
+						              {
+						                sum += parseInt(prices[i].innerText)
+						              }
+						            }
+						            
+						            totalshow.innerHTML = VND.format(sum) 
+						            document.getElementById('total').value = sum
+						          }
+						          calculate();
+								
+						
+						  </script>
+
+			</script>
+</body>
+
+</html>

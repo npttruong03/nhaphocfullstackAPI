@@ -1,0 +1,219 @@
+	<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="utf-8" />
+    <title>Website Tuyển Sinh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+</head>
+<body>
+    <div id="menuleft" class="leftside-menu" th:fragment="menu-left">
+
+            <!-- LOGO -->
+            <a th:href="@{/admin/index}" class="logo text-center logo-light">
+                <span class="logo-lg">
+                    <img th:src="@{/assets/images/index/logo.png}" alt="" height="50">
+                </span>
+                <span class="logo-sm">
+                    <img th:src="@{/assets/images/index/logo.png}" alt="" height="16">
+                </span>
+            </a>
+
+            <!-- LOGO -->
+            <a th:href="@{/admin/index}" class="logo text-center logo-dark">
+                <span class="logo-lg">
+                    <img th:src="@{/assets/images/index/logo.png}" alt="" height="50">
+                </span>
+                <span class="logo-sm">
+                    <img th:src="@{/assets/images/index/logo.png}" alt="" height="16">
+                </span>
+            </a>
+
+            <div class="h-100" id="leftside-menu-container" data-simplebar>
+
+                <!--- Sidemenu -->
+                <ul class="side-nav">
+
+                    <li class="side-nav-title side-nav-item">Hồ sơ của trường VKU</li>
+
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarDashboards1" aria-expanded="false"
+                            aria-controls="sidebarDashboards1" class="side-nav-link">
+                            <i class="uil-home-alt"></i>
+                            <span id="span_trangchu" class="badge bg-success float-end"></span>
+                            <span> Trang chủ </span>
+                        </a>
+                       
+                        <div class="collapse" id="sidebarDashboards1">
+                            <ul id="ul_trangchu" class="side-nav-second-level">
+								 <li>
+                                    <a th:href="@{/admin/index}">Hồ sơ thí sinh</a>                            
+                                    
+                                </li>
+                                
+                                <li th:if="${session.roles.contains('ROLE_ADMIN')}">
+                                    <a th:href="@{/admin/account/siginup}">Thêm tài khoản</a>
+                                </li>
+                                <li th:if="${session.roles.contains('ROLE_ADMIN')}">
+                                    <a th:href="@{/admin/survey}">Quản lý khảo sát</a>
+                                </li>
+                                
+                                <li th:if="${session.roles.contains('ROLE_TAIVU')}">
+                                    <a th:href="@{/admin/tuitionFeeList}">Quản lý khoản học phí</a>
+                                </li>
+                                <li th:if="${session.roles.contains('ROLE_TAIVU')}">
+                                    <a th:href="@{/admin/studentTuition}">
+                                        Quản lý nộp học phí
+                                    </a>
+                                </li>
+                                <li th:if="${session.roles.contains('ROLE_CTSV')}">
+                                    <a th:href="@{/admin/documentItems}">Quản lý loại giấy tờ</a>
+                                </li>
+                               
+                                <li th:if="${session.roles.contains('ROLE_CTSV')}">
+                                    <a th:href="@{/admin/managingStudentDocument}">Quản lý giấy tờ CTSV</a>
+                                </li>
+                                <li th:if="${session.roles.contains('ROLE_DAOTAO')}">
+                                    <a th:href="@{/admin/curriculum}">Quản lý Chương trình học</a>
+                                </li>
+                                <li th:if="${session.roles.contains('ROLE_DAOTAO')}">
+                                    <a th:href="@{/admin/statistical}">Thống kê</a>
+                                </li>
+                               
+                                
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarDashboards2" aria-expanded="false"
+                            aria-controls="sidebarDashboards2" class="side-nav-link">
+                            <i class="uil-smile"></i>
+                            <span id="span_sinhvien" class="badge bg-success float-end"></span>
+                            <span> Sinh viên</span>
+                        </a>
+                       
+                        <div class="collapse" id="sidebarDashboards2">
+                            <ul id="ul_sinhvien" class="side-nav-second-level">
+                                <li th:if="${session.roles.contains('ROLE_DAOTAO')}">
+                                    <a th:href="@{/admin/xeplop}">Xếp lớp </a>
+                                            
+                                </li>
+                                  <li th:if="${session.roles.contains('ROLE_DAOTAO')}">
+                                    <a th:href="@{/admin/maSV}">Xếp mã sinh viên </a>
+                                            
+                                </li>
+                          
+                               
+                            </ul>
+                        </div>
+                    </li>  
+
+                    <li th:if="${session.roles.contains('ROLE_ADMIN')}" class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarDashboards3" aria-expanded="false"
+                            aria-controls="sidebarDashboards3" class="side-nav-link">
+                            <i class="dripicons-folder"></i>
+                            <span id="span_dulieu" class="badge bg-success float-end"></span>
+                            <span>Dữ liệu</span>
+                        </a>
+                       
+                        <div class="collapse" id="sidebarDashboards3">
+                            <ul id="ul_dulieu" class="side-nav-second-level">
+                                <li>
+                                    <a th:href="@{/admin/ethnic}">Dân tộc </a>
+                                            
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/city}">Quê Quán</a>
+                                            
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/admin/religion}">Tôn giáo </a>
+                                            
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/khoa}">Khóa</a>
+                                            
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/majors}">Ngành</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/method}">Phương thức trúng tuyển</a>
+                                            
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/area}">Khu vực</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- ------------------------------end trang chủ------------------------ -->
+                    <li class="side-nav-title side-nav-item">Apps</li>
+
+                    <li class="side-nav-item">
+                        <a th:href="@{/admin/calendar}" class="side-nav-link">
+                            <i class="uil-calender"></i>
+                            <span> Calendar </span>
+                        </a>
+                    </li>
+                    
+
+
+                    <li class="side-nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false"
+                            aria-controls="sidebarEmail" class="side-nav-link">
+                            <i class="uil-envelope"></i>
+                            <span> Email </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarEmail">
+                            <ul class="side-nav-second-level">
+                                <li>
+                                    <a th:href="@{/admin/inboxmail}">Inbox</a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/readmail}">Read Email</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li> 
+
+                         
+
+                    
+
+                </ul>
+                <!-- End Sidebar -->
+
+                <div class="clearfix"></div>
+
+            </div>
+            <!-- Sidebar -left -->
+			<script>
+				lengthTrangchu = document.getElementById('ul_trangchu').getElementsByTagName("li").length;
+				document.getElementById('span_trangchu').innerText = lengthTrangchu;
+				
+				lengthSinhvien = document.getElementById('ul_sinhvien').getElementsByTagName("li").length;
+				document.getElementById('span_sinhvien').innerText = lengthSinhvien;
+				
+				lengthDulieu = document.getElementById('ul_dulieu').getElementsByTagName("li").length;
+				document.getElementById('span_dulieu').innerText = lengthDulieu;
+			</script>
+        </div>
+</body>
+</html>

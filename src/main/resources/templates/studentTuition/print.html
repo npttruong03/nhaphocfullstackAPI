@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<title>Website Tuyển Sinh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" />
+<meta content="Coderthemes" name="author" />
+<!-- App favicon -->
+
+<!-- third party css -->
+<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}"
+	rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{/assets/css/app.min.css}" rel="stylesheet"
+	type="text/css" id="app-style" />
+
+<!------------------------------ news ---------------------------------->
+<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+		<script src="https://cdn.jsdelivr.net/npm/vietnamese-money-words@1.0.0/dist/vietnamese-money-words.min.js"></script>
+
+</head>
+
+<body class="loading" data-layout-color="light"
+	data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true"
+	style="font-family: 'Times New Roman', Times, serif;">
+	<div class="hidden_print">
+		<center>
+
+			<img aligh="left" width="500"
+				src="https://vku.udn.vn/nhaphoc2022//images/banner.png"> <br>
+			<h2>XÁC NHẬN NỘP HỌC PHÍ.</h2>
+			<hr>
+			<br style="clear: both">
+			<ol style="text-align: left; padding: 0px">
+				<b></b>
+				<br>
+				<br>
+				<li><input type="button" class="btn b1" id="print_button"
+					onclick="hidePrintContent() ; window.print()" value="In Xác nhận">
+					&nbsp; <a class="btn b1" th:href="@{/admin/studentTuition}">Trở
+						về trang Quản lý nộp học phí</a></li>
+
+				<br>
+				<center></center>
+			</ol>
+		</center>
+	</div>
+	<div align="center">
+
+		<table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0"
+			width="718"
+			style="width: 538.4pt; border-collapse: collapse; border: none; font-family: 'Times New Roman', Times, serif; mso-yfti-tbllook: 1184; mso-padding-alt: 0in 0in 0in 0in; mso-border-insideh: none; mso-border-insidev: none">
+			<tbody th:object="${student}">
+				<tr style="text-align: center; font-weight: bold;">
+					<td style="text-align: center;">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG
+						TIN</td>
+					<td style="text-align: center;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT
+						NAM</td>
+				</tr>
+				<tr style="text-align: center; font-weight: bold;">
+					<td style="text-align: center;">VÀ TRUYỀN THÔNG VIỆT -
+							HÀN</td>
+					<td style="text-align: center;"><u>Độc lập - Tự do - Hạnh
+							phúc</u></td>
+				</tr>
+				<tr style="text-align: center; font-weight: bold;">
+					<td style="text-align: center;">MST: 0402037673</td>
+					<td></td>
+				</tr>
+				<tr style="text-align: center; font-weight: bold;">
+					<td colspan="2">
+						<h2 style="margin-top: 20px;">GIẤY XÁC NHẬN CÁC KHOẢN THU
+							NHẬP HỌC</h2>
+						<h2>
+							Ngày nộp: <span th:text="${stFee.tuitionDay}"></span>
+						</h2>
+					</td>
+				</tr>
+				<tr>
+					<td>Họ và tên người nộp tiền: [[${stFee.idStudent.fullName}]]
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td>Ngày sinh: [[${stFee.idStudent.birthday}]]</td>
+				</tr>
+				<tr>
+					<td>CMND: [[${stFee.idStudent.numberCIC}]]</td>
+				</tr>
+				<tr>
+					<td>Địa chỉ: [[${stFee.idStudent.homeTown}]]</td>
+				</tr>
+				<tr>
+					<td>Ngành/Chuyên ngành:
+						[[${stFee.idStudent.majors.majorsName}]]</td>
+				</tr>
+				<tr>
+					<td>Hình thức nộp:&nbsp;&nbsp;&nbsp; [[${stFee.phuongThucThanhToan}]]</td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<!-- Nội dung nhập học -->
+		<tr">
+		</tr">
+		<tr">
+		</tr">
+		<table class="MsoTableGrid table table-bordered" border="1"
+			cellspacing="0" cellpadding="0" width="718"
+			style="margin-top: 20px; margin-bottom: 20px; width: 538.4pt; border-collapse: collapse; border: 1px; mso-yfti-tbllook: 1184; mso-padding-alt: 0in 0in 0in 0in; mso-border-insideh: none; mso-border-insidev: none">
+			<tbody>
+				<tr style="text-align: center; font-weight: bold;">
+
+					<td>Nội dung</td>
+					<td style="width: 10%; text-align: center;">Số tiền</td>
+				</tr>
+				<tr th:each="fee: ${fees}">
+					<td th:text="${fee.name}"></td>
+					<td class="price" style="width: 10%; text-align: center; font-weight: bold;"><th:block th:text="${fee.tuition}">
+						</th:block></td>
+				</tr>
+
+				<tr>
+					<td>Tổng cộng</td>
+					<td class="price" id="price" style="width: 10%; text-align: center; font-weight: bold;"
+						th:text="${stFee.total}"></td>
+				</tr>
+
+				<tr>
+					<td colspan="2" id="wordsCell" style="font-weight: bold;" ></td>
+				</tr>
+
+
+			</tbody>
+		</table>
+
+		<table>
+			<tbody>
+				<tr>
+
+					<td style="font-weight: bold;"><br>NGƯỜI NỘP TIỀN</td>
+					<td style="width: 23%; font-weight: bold;"><br>NGƯỜI THU
+						TIỀN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="height: 20px;"></td>
+					<!-- Thẻ trống để tạo khoảng cách -->
+					<td style="width: 23%;"></td>
+					<!-- Thẻ trống để tạo khoảng cách -->
+				</tr>
+				<tr>
+					<td style="height: 20px;"></td>
+					<!-- Thẻ trống để tạo khoảng cách -->
+					<td style="width: 23%;"></td>
+					<!-- Thẻ trống để tạo khoảng cách -->
+				</tr>
+				<tr>
+					<td style="font-weight: bold;"><br></td>
+					<td style="width: 23%; font-weight: bold; text-align: center;"
+						th:if="${stFee.nameCashier}=='Bank'"><br></td>
+					<td style="width: 23%; font-weight: bold;"
+						th:if="${stFee.nameCashier}!='Bank'"><br>
+						[[${stFee.nameCashier}]]</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+
+
+
+
+
+
+	</div>
+
+	<!-- bundle -->
+	<script th:src="@{/assets/js/vendor.min.js}"></script>
+	<script th:src="@{/assets/js/app.min.js}"></script>
+
+	<!-- third party js -->
+	<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+	<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+	<script
+		th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+	<!-- third party js ends -->
+
+	<!-- demo app -->
+	<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+	<script th:src="@{/assets/js/clock.js}"></script>
+	<!-- end demo js-->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+						<script>
+    const VND = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var priceElements = document.querySelectorAll('.price');
+        
+        priceElements.forEach(function(element) {
+            var priceValue = element.textContent;
+            var formattedPrice = VND.format(priceValue);
+            element.textContent = formattedPrice;
+        });
+       
+    });
+</script>
+	<script>
+		function hidePrintContent() {
+			var printContent = document.querySelector('.hidden_print');
+			printContent.style.display = 'none';
+		}
+
+		var printButton = document.getElementById('print_button');
+		printButton.addEventListener('click', hidePrintContent);
+	</script>
+	<script>
+	function doc3So(numb) {
+	  var numbName = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín']
+	  var result = numb
+	    .toString()
+	    .split("")
+	    .reverse()
+	    .map((val,index) => {
+	      let level = ["", " mươi", " trăm"];
+	      return numbName[val - 0] + level[index];
+	    })
+	    .reverse()
+	    .join(" ")
+	    .replace("không mươi", "linh")
+	    .replace("một mươi", "mười")
+	    .replace("mươi không", "mươi")
+	    .replace("mười không", "mười")
+	    .replace("mươi năm", "mươi lăm")
+	    .replace("mươi bốn", "mươi tư")
+	    .replace("linh bốn", "linh tư")
+	    .replace(" linh không", "");
+	  return result;
+	}
+	function docNhieuSo(numb) {
+	  return result = numb
+	    .toLocaleString('en')
+	    .split(',')
+	    .reverse()
+	    .map((val, index) => {
+	      let level = ["", " nghìn", " triệu", " tỉ", " nghìn", " triệu"];
+	      if (!(val - 0)) {
+	        if (index === 3) {
+	          return level[index];
+	        }
+	        return "";
+	      }
+	      return doc3So(val) + level[index];
+	    })
+	    .reverse()
+	    .join(" ")
+	    .trim()
+	    .replace("  ", " ");
+	}
+
+	var priceElement = document.getElementById('price');
+	  var priceValue = parseFloat(priceElement.textContent); // Chuyển giá trị thành số (nếu cần)
+	  var words = docNhieuSo(priceValue);
+
+	  // Cập nhật nội dung của phần tử có ID 'wordsCell'
+	  var wordsCell = document.getElementById('wordsCell');
+	  console.log(priceValue);
+	  wordsCell.textContent ="Bằng chữ: "+ words+" đồng."; 
+
+	</script>
+	
+</body>
+
+</html>

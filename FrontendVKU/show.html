@@ -1,0 +1,179 @@
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+
+<head>
+    <meta charset="utf-8" />
+    <title>Website Tuyển Sinh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    
+    <!-- third party css -->
+    <link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}" rel="stylesheet" type="text/css" />
+    <!-- third party css end -->
+    <!-- App css -->
+    <link th:href="@{/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/assets/css/app.min.css}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!------------------------------ news ---------------------------------->
+    <link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+    <link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+        
+</head>
+
+<body>
+	<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+		data-rightbar-onstart="true">
+        <div class="wrapper">
+            <!-- ========== Left Sidebar Start ========== --> 
+               <div th:include="menu/menuleft :: menu-left" id="menuleft" class="leftside-menu"></div>
+            <!-- Left Sidebar End -->
+ <div class="content-page">
+            <div class="content">
+                <!-- Topbar Start -->
+                 <div th:include="fragments/fragmentheader :: header" class="navbar-custom"></div>
+<nav id="top-navigator" class="navbar navbar-default ">
+	<div class="container">
+	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span> 
+		      </button>	
+			<div class="collapse navbar-collapse" id="myNavbar">
+			   <ul class="nav navbar-nav">			
+							<li class="active"><a href="/nhaphoc2022">Đăng ký nhập học trực tuyến</a></li>
+				</ul>
+			</div>
+	</div>
+	</div>
+</nav>
+    <div class="container body-content">
+	<script>
+document.addEventListener('contextmenu', event => event.preventDefault());
+</script>
+<style>
+label {font-size:20px;}
+</style>
+<div class="container">
+        <form id="frm" role="form" action="" method="post">
+    <div class="row setup-content" id="step-1">
+      <div class="row">
+        <div class="col-md-12">
+        <!-- THONG TIN BAN THAN -->
+          <h3 class="sict">Nộp Học Phí Thí sinh: <span style="color: #008000">
+          LÊ BÌNH BẢO KHÁNH</span>
+          </h3>
+          <span>Mã ngành: <b>7480108</b></span><br><span>Tên ngành: <b>Công nghệ kỹ thuật máy tính (kỹ sư)</b></span><br>	
+		  <div class="row">
+          <div class="form-group col-md-6">
+              <div class="col-md-12 col-sm-12" style="padding:0; margin-left:4%">
+
+              <!-- KHÔNG Bao gồm BHTT -->
+              <div class="checkbox checkbox-primary" style="margin:0px 0px !important">
+        					  <input type="hidden" id="h1" value="7465100" />
+                          <label for="hocphi1">
+						                  Học phí học kỳ I năm học 2023-2024:<br>
+							  <b style='color: red'>7.465.100</b>                </label>
+              </div>              
+              </div>
+              
+           <div class="form-group ">
+              <div class="col-md-12 col-sm-12" style="padding:0; margin-left:4%">
+					       <div class="checkbox checkbox-primary" style="margin:0px 0px !important">
+                          <input type="hidden" id="h2" value="100000"/>
+						  <label for="hocphi2">
+                              <b>Bảo hiểm thân thể: 100.000 đồng;</b>
+                          </label>
+                      </div>
+				   <div class="checkbox checkbox-primary" style="margin:0px 0px !important">
+                          <input type="hidden" id="h3" value="140805"/>
+						  
+						  <label for="hocphi3">
+                              Bảo hiểm y tế (3 tháng): 140.805 đồng/năm;
+                          </label>
+                      </div>
+				      <div class="checkbox checkbox-success" style="margin:0px 0px !important">
+                          <input type="hidden" id="h4" value="80000"/>
+						  
+						  <label for="hocphi4">
+                              Lệ phí khám sức khỏe: 80.000 đồng;
+                          </label>
+                      </div>
+              </div>
+			         <div class="form-group ">
+              <div class="col-md-12 col-sm-12" style="padding:0; margin-left:4%">
+                      <div class="checkbox checkbox-primary" style="margin:0px 0px !important">
+                          <label for="hocphi5">
+                              Kiểm tra tiếng Anh đầu vào: 50.000 đồng;
+                          </label>
+                      </div>
+					  <input type="hidden" id="h5" value="50000"/>  
+              </div>
+				 <br/>
+                <div class="radio radio-primary" style="margin:0px 0px !important">   
+                      </div>
+                      <div class="radio radio-primary" style="margin:0px 0px !important">
+                      </div>
+                      <h3>Người thu</h3>
+                      <div class="radio radio-primary" style="margin:0px 0px !important">
+                      </div>     
+          </div>
+          </div>
+<br/><br/>
+<br/>
+<br/>
+<br/>            
+          </div>
+		  <div class="col-md-6 ">
+		  <label style="display: block; margin-top: -67px;">Minh chứng nhập học</label>
+			<img width='35%' style="padding:10px -70px!important;padding-top: 20px;" src='/assets/images/a1.jpg    ' />		  </div>
+         </div>
+        
+		  
+         
+          <!-- CMND -->
+         
+        
+      </div>
+      
+    </div>
+
+      <center>
+          </div>
+<br style="clear:both"/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>      
+          <input type="hidden" name="STT" value="001204044614" />
+          <input type="hidden" name="update" value="submit" />
+        </div>
+      </div>
+    </div>
+  </form>
+  
+</div>   
+<footer class="border" th:fragment="footer">
+  <div class="container-fluid">
+    <div class="row1">
+      <div class="col-md-12">
+        <span>Copyright © 2017-2023 - Trường Đại học Công nghệ Thông tin & Truyền Thông Việt - Hàn, Đại
+          học Đà Nẵng</span>
+      </div>
+      <div class="col-md-12">
+        <div><span></span><i class="fa-solid fa-house"></i> Địa chỉ: Khu Đô thị Đại học Đà Nẵng, Đường
+          Nam Kỳ Khởi Nghĩa, quận Ngũ Hành Sơn, TP. Đà Nẵng <br>
+          <span></span><i class="fa-solid fa-square-phone"></i></i> Điện thoại: 0236.6.552.688
+
+          &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-envelope"></i> daotao@vku.udn.vn
+        </div>
+      </div>
+    </div>
+     <!-- Right Sidebar -->
+     <div th:include="bar/endbar :: end-bar" class="end-bar" ></div>
+    <!-- /End-bar -->
+  </div>
+</footer>
+</html>

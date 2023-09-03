@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8" />
+<title>Website Tuyển Sinh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" />
+<meta content="Coderthemes" name="author" />
+<!-- App favicon -->
+
+<!-- third party css -->
+<link th:href="@{/assets/css/vendor/jquery-jvectormap-1.2.2.css}"
+	rel="stylesheet" type="text/css" />
+<!-- third party css end -->
+<!-- App css -->
+<link th:href="@{/assets/css/icons.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{/assets/css/app.min.css}" rel="stylesheet"
+	type="text/css" id="app-style" />
+
+<!------------------------------ news ---------------------------------->
+<link rel="shortcut icon" th:href="@{/assets/images/index/iconlogo.png}">
+<link th:href="@{/styleindex.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+		// Hide the message element after 5 seconds
+		setTimeout(function () {
+			var messageElement = document.getElementById('message');
+			if (messageElement) {
+				messageElement.style.display = 'none';
+			}
+		}, 5000);
+	</script>
+<script th:inline="javascript">
+    $(document).ready(function() {
+    	/*var xhttp = new XMLHttpRequest();
+     	 var cookie = document.getElementById('cookieValue').value;
+     	xhttp.setRequestHeader("Cookie", "nhaphocvku=" + cookie)
+     	      		xhttp.withCredentials = true;
+     	      		xhttp.send()*/
+    	  $('#majorsId, #khoaId, #curriculumId').change(function() {
+    		    var khoaId = $('#khoaId').val();
+    		    var majorsId = $('#majorsId').val();
+    		    var curriculumId = $('#curriculumId').val();
+    		    
+    	
+    		    searchDataFromAPI(khoaId, majorsId, curriculumId);
+    		  });
+    	});
+
+    	function searchDataFromAPI(khoaId, majorsId, curriculumId) {
+    		 if( khoaId!=''&&majorsId!='' &&curriculumId!='')
+        		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKey?khoaId=' + khoaId + '&majorsId=' + majorsId + '&curriculumId=' + curriculumId;
+    		 else if(khoaId!=''&&majorsId!='')
+         		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKey?khoaId=' + khoaId + '&majorsId=' + majorsId ;
+         	else if (khoaId!=''&&curriculumId!='')
+         		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKey?khoaId=' + khoaId  + '&curriculumId=' + curriculumId;
+         	else if(majorsId!=''&&curriculumId!='')
+         		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKey?majorsId=' + majorsId + '&curriculumId=' + curriculumId;
+    		 else if(khoaId!='')
+    	  		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKey?khoaId=' + khoaId ;
+        	else if(majorsId!='')
+        		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKey?majorsId=' + majorsId;
+        	else if(curriculumId!='')
+        		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList/searchByKey?curriculumId=' + curriculumId;
+        	
+        	else if(majorsId==''&&curriculumId==''&&khoaId=='')
+        		var apiURL = 'http://222.255.130.100:7070/vku/admin/api/tuitionFeeList';
+    	  $.ajax({
+    		    type: 'GET',
+    		    url: apiURL,
+    		    xhrFields: {
+    		          withCredentials: true // Cho phép gửi cookie thông qua tiêu đề HTTP
+    		        },
+    		        beforeSend: function(xhr) {
+    		          // Đặt giá trị cookie vào tiêu đề "Cookie"
+    		          var cookieValue = document.getElementById('cookieValue').value;
+    		          xhr.setRequestHeader("Cookie", "nhaphocvku=" + cookieValue);
+    		        },
+    		    success: function(response) {
+    		    	  var searchResults = $('#searchResults');
+    		          
+    		          // Xóa nội dung hiện tại trong tbody
+    		          searchResults.empty();
+    		          var headerRow = $('<tr id="tbl-first-row">');
+    		          headerRow.append($('<td>#</td>'));
+    		          headerRow.append($('<td>Khóa</td>'));
+    		          headerRow.append($('<td>Ngành</td>'));
+    		          headerRow.append($('<td>Chương trình học</td>'));
+    		          headerRow.append($('<td>Học phí</td>'));
+    		          headerRow.append($('<td>Loại học phí</td>'));
+    		          headerRow.append($('<td>Status</td>'));
+    		          headerRow.append($('<td>Ngày tạo</td>'));
+    		          headerRow.append($('<td>Ngày chỉnh sửa</td>'));
+    		          searchResults.append(headerRow);
+    		          // Thêm kết quả tìm kiếm vào tbody
+    		          response.forEach(function(result, index) {
+    		            var row = $('<tr>');
+    		            row.append($('<td>').text(index + 1));
+    		            row.append($('<td>').text(result.khoa.khoa));
+    		            row.append($('<td>').text(result.majors.majorsName));
+    		            row.append($('<td>').text(result.curriculum.name)); 
+    		            var priceCell = $('<td>').addClass('price').text(result.tuition);
+    		            row.append(priceCell);
+    		            row.append($('<td>').text(result.name));
+    		            row.append($('<td>').text(result.status));
+    		            row.append($('<td>').text(result.createTime));
+    		            row.append($('<td>').text(result.updateTime));
+    		            row.append($('<td>').html('<a href="/admin/tuitionFeeList/edit/' + result.id + '"><i style="color: #0BCE97;" class="fa-solid fa-pen-to-square fa-2xl"></i></a>'));
+    		            
+    		            searchResults.append(row);
+    		          });
+    		       // Định dạng giá tiền
+    		          const VND = new Intl.NumberFormat('vi-VN', {
+    		              style: 'currency',
+    		              currency: 'VND'
+    		          });
+
+    		          // Gọi hàm định dạng sau khi DOM đã tải
+    		          $(document).ready(function() {
+    		              var priceElements = $('.price');
+
+    		              priceElements.each(function() {
+    		                  var priceValue = $(this).text();
+    		                  var formattedPrice = VND.format(priceValue);
+    		                  $(this).text(formattedPrice);
+    		              });
+    		          });
+    		      },
+    		    	 
+    		    error: function(xhr, status, error) {
+    		      // Xử lý lỗi (nếu có) ở đây
+    		    }
+    		  });
+    	}
+    	   
+    	    
+    </script>
+
+</head>
+
+<body class="loading" data-layout-color="light"
+	data-leftbar-theme="dark" data-layout-mode="fluid"
+	data-rightbar-onstart="true">
+	<!-- Begin page -->
+
+	<div class="wrapper">
+		<!-- ========== Left Sidebar Start ========== -->
+		<div th:include="menu/menuleft :: menu-left" id="menuleft"
+			class="leftside-menu"></div>
+		<!-- Left Sidebar End -->
+
+		<!-- ============================================================== -->
+		<!-- Start Page Content here -->
+		<!-- ============================================================== -->
+		<div class="content-page">
+			<div class="content">
+				<!-- Topbar Start -->
+				<div th:include="fragments/fragmentheader :: header"
+					class="navbar-custom"></div>
+			</div>
+			<!-- end Topbar -->
+			<!-- Start Content-->
+
+
+			<!-- start page title -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="page-title-right">
+							<form class="d-flex">
+								<div class="input-group">
+									<input type="text" class="form-control form-control-light"
+										id="dash-daterange" fdprocessedid="9a29hh"> <span
+										class="input-group-text bg-success border-success text-white">
+										<i class="mdi mdi-calendar-range font-13"></i>
+									</span>
+								</div>
+								<a href="javascript: void(0);" class="btn btn-success ms-2">
+									<i class="mdi mdi-autorenew"></i>
+								</a> <a href="javascript: void(0);" class="btn btn-success ms-1">
+									<i class="mdi mdi-filter-variant"></i>
+								</a>
+							</form>
+						</div>
+
+						<h4 class="page-title ml-h4">Danh sách học phí</h4>
+						<div class="row">
+
+							<div class="col-md-6">
+								<div class="search-container">
+									<form id="search-form"
+										style="overflow: visible; max-width: 440px; padding-left: 40px;"
+										method="get" action="">
+										<div class="input-group">
+											<!--  <select class="form-select" name="khoaId" id="khoaId" >
+									    	<option name="khoaId" th:value>Khóa</option>
+                                            <option th:each="khoa1 : ${khoas}" name="khoaId" th:value="${khoa1.id}" th:text="${khoa1.khoa}"></option>
+                                        	</select>
+                                        	<select class="form-select" name="majorsId" id="majorsId" >
+                                        	<option name="majorsId" th:value>Ngành</option>
+                                            <option th:each="major : ${majors}" name="majorsId" th:value="${major.id}" th:text="${major.majorsName}"></option>
+                                        	</select>
+                                        	<select class="form-select" name="curriculumId" id="curriculumId" >
+                                        	<option name="curriculumId" th:value>Chương trình học</option>
+                                           	<option th:each="currie : ${curries}" name="curriculumId" th:value="${currie.id}" th:text="${currie.name}"></option>
+                                        	</select>-->
+
+											<select class="form-select" name="khoaId" id="khoaId">
+												<option value="">Khóa</option>
+												<option th:each="khoa1 : ${khoas}" th:value="${khoa1.id}"
+													th:text="${khoa1.khoa}"></option>
+											</select> <select class="form-select" name="majorsId" id="majorsId">
+												<option value="">Ngành</option>
+												<option th:each="major : ${majors}" th:value="${major.id}"
+													th:text="${major.majorsName}"></option>
+											</select> <select class="form-select" name="curriculumId"
+												id="curriculumId">
+												<option value="">Chương trình học</option>
+												<option th:each="currie : ${curries}"
+													th:value="${currie.id}" th:text="${currie.name}"></option>
+											</select> <input type="hidden" id="cookieValue"
+												th:value="${cookieValue}">
+										</div>
+									</form>
+
+									</form>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="row d-flex flex-row bd-highlight mb-2">
+									<div class="col-md-4"
+										style="margin-left:85px;margin-right: -30px;;">
+										<a th:href="@{/admin/tuitionFeeList/create}">
+											<button class="btn btn-success">Thêm học phí</button>
+										</a>
+
+									</div>
+									<div class="col-md-4"
+										style="margin-left: -9px;margin-right: -51px;">
+										<form method="post"
+											th:action="@{'/admin/tuitionFeeList/editSttFlase'}">
+											<input class="btn btn-success" type="submit"
+												value="Update dữ liệu">
+										</form>
+									</div>
+									<div class="col-md-4" style="margin-left: 5px;">
+										<a th:href="@{/admin/tuitionFeeList/choose}">
+											<button class="btn btn-success">Quản lý học phí cần nộp</button>
+										</a>
+									</div>
+
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-md-6" style="margin-left: 40px;">
+									<!-- Form for importing Excel file -->
+									<form method="post"
+										action="/admin/tuitionFeeList/import/tuitionfee"
+										enctype="multipart/form-data">
+										<div class="d-flex">
+											<div class="mb-3 me-2">
+												<label for="file" class="form-label">Select Excel
+													file:</label> <input type="file" class="form-control" name="file"
+													accept=".xlsx, .xls" required>
+											</div>
+										</div>
+										<!-- Button for importing -->
+										<button class="btn btn-success ml-auto"
+											style="width: 130px; position: relative; margin-top: -113px; margin-left: 334px;"
+											type="submit">Import</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<!-- end page title -->
+						<!-- ------------------------------start content------------------------------ -->
+						<div class="content">
+							<div class="container1">
+								<!-- Alert -->
+								<div th:if="${message != null && message.status == 'success'}"
+									class="m-auto w-50 px-4 py-2 rounded-3 text-white" id="message"
+									style="background-color: #0BCE97">
+									<span th:text="${message.message}"></span>
+								</div>
+								<div th:if="${message != null && message.status == 'fail'}"
+									class="m-auto w-50 px-4 py-2 rounded-3 text-white" id="message"
+									style="background-color: #FF0000">
+									<span th:text="${message.message}"></span>
+								</div>
+								<!-- End alert -->
+								<div class="row mt-3">
+									<div class="col-sm-12 text-center">
+										</div>
+										<!-- ------------------------------table-------------------------- -->
+										<div class="table-responsive">
+											<table
+												class="table table-responsive table-bordered table-striped">
+												<tbody id="searchResults">
+													<tr id="tbl-first-row">
+														<td>#</td>
+														<td>Khóa</td>
+														<td>Ngành</td>
+														<td>Chương trình học</td>
+														<td>Học phí</td>
+														<td>Loại học phí</td>
+														<td>Status</td>
+														<td>Ngày tạo</td>
+														<td>Ngày chỉnh sửa</td>
+													</tr>
+													<tr th:each="tuitionfee,index : ${tuitions}">
+														<td th:text="${index.index + 1}"></td>
+														<td th:text="${tuitionfee.khoa.khoa}"></td>
+														<td th:text="${tuitionfee.majors.majorsName}"></td>
+														<td th:text="${tuitionfee.curriculum.name}"></td>
+														<td class="price" th:text="${tuitionfee.tuition}"></td>
+														<td th:text="${tuitionfee.name}"></td>
+														<td th:text="${tuitionfee.status}"></td>
+														<td th:text="${tuitionfee.createTime}"></td>
+														<td th:text="${tuitionfee.updateTime}"></td>
+														<td><a
+															th:href="@{/admin/tuitionFeeList/edit/{id}(id=${tuitionfee.id})}"><i
+																style="color: #0BCE97;"
+																class="fa-solid fa-pen-to-square fa-2xl"></i></a></td>
+													</tr>
+												</tbody>
+											</table>
+
+
+										</div>
+										<!-- ------------------------------end table------------------------- -->
+										<!--    <div>
+        <a th:href="@{?page=0}" th:unless="${currentPage == 0}">First</a>
+        <a th:href="@{?page=${currentPage - 1}}" th:unless="${currentPage == 0}">Previous</a>
+        <span th:text="${currentPage}"></span>
+        <a th:href="@{?page=${currentPage + 1}}" th:unless="${currentPage + 1 >= totalPages}">Next</a>
+        <a th:href="@{?page=${totalPages - 1}}" th:unless="${currentPage + 1 >= totalPages}">Last</a>
+    </div>
+			 -->
+										<br>
+
+									</div>
+								</div>
+							</div>
+
+
+							<!-- end table -->
+
+
+
+							<div class="small_box_bottom"></div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="card widget-flat"></div>
+								<!-- end card-->
+							</div>
+							<!-- end col-->
+						</div>
+					</div>
+					<!-- container -->
+
+				</div>
+				<!-- content -->
+
+				<!-- Footer Start -->
+				<div th:include="fragments/footer :: footer" class="footer"></div>
+				<!-- end Footer -->
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Page content -->
+			<!-- ============================================================== -->
+		</div>
+		<!-- END wrapper -->
+		<!-- Right Sidebar -->
+		<div th:include="bar/endbar :: end-bar" class="end-bar"></div>
+		<!-- /End-bar -->
+
+		<!-- bundle -->
+		<script th:src="@{/assets/js/vendor.min.js}"></script>
+		<script th:src="@{/assets/js/app.min.js}"></script>
+
+		<!-- third party js -->
+		<script th:src="@{/assets/js/vendor/apexcharts.min.js}"></script>
+		<script th:src="@{/assets/js/vendor/jquery-jvectormap-1.2.2.min.js}"></script>
+		<script
+			th:src="@{/assets/js/vendor/jquery-jvectormap-world-mill-en.js}"></script>
+		<!-- third party js ends -->
+		<script>
+    const VND = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var priceElements = document.querySelectorAll('.price');
+        
+        priceElements.forEach(function(element) {
+            var priceValue = element.textContent;
+            var formattedPrice = VND.format(priceValue);
+            element.textContent = formattedPrice;
+        });
+    });
+</script>
+		<!-- demo app -->
+		<script th:src="@{/assets/js/pages/demo.dashboard.js}"></script>
+		<script th:src="@{/assets/js/clock.js}"></script>
+		<!-- end demo js-->
+</body>
+
+</html>
